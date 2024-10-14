@@ -21,9 +21,9 @@
                         <tr>
                             <th scope="col">#</th>
                             <th scope="col">NOMBRE</th>
-                            {{-- <th scope="col">A. OBLIGATORIA</th>
-                            <th scope="col">S. DE VIDA</th>
-                            <th scope="col">C. VARIABLE</th> --}}
+                            <th scope="col">A. OBLIGATORIA (%)</th>
+                            <th scope="col">S. DE VIDA (%)</th>
+                            <th scope="col">C. VARIABLE (%)</th>
                             <th scope="col">ACCIONES</th>
                         </tr>
                     </thead>
@@ -67,6 +67,15 @@
                     "data": "name",
                 },
                 {
+                    "data": "obligatory_contribution",
+                },
+                {
+                    "data": "life_insurance",
+                },
+                {
+                    "data": "variable_commission",
+                },
+                {
                     "data": null,
                     "render": function(data, type, row, meta) {
                         return (
@@ -81,11 +90,11 @@
 
             columnDefs = [{
                     className: 'text-left text-nowrap',
-                    targets: [0, 1]
+                    targets: [0, 1, 2, 3, 4]
                 },
                 {
                     className: 'text-right',
-                    targets: [2]
+                    targets: [5]
                 },
             ];
 
