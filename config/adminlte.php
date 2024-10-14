@@ -322,7 +322,7 @@ return [
         ],
         ['header' => 'account_settings'],
         [
-            'text' => 'Afp',
+            'text' => 'AFP',
             'route' => 'afps.index',
             'icon' => 'fas fa-fw fa-user',
         ],
@@ -527,5 +527,5 @@ return [
     |
     */
 
-    'livewire' => false,
+    'livewire' => true,
 ];
