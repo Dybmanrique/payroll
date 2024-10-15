@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AfpController;
 use App\Http\Controllers\BudgetaryObjectiveController;
+use App\Http\Controllers\GroupController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -32,6 +33,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/metas-presupuestales/{budgetary_objective}/editar', [BudgetaryObjectiveController::class, 'edit'])->name('budgetary_objectives.edit');
     Route::post('/metas-presupuestales/eliminar', [BudgetaryObjectiveController::class, 'destroy'])->name('budgetary_objectives.destroy');
     
+    Route::get('/grupos', [GroupController::class, 'index'])->name('groups.index');
+    Route::get('/grupos/data', [GroupController::class, 'data'])->name('groups.data');
+    Route::get('/grupos/crear', [GroupController::class, 'create'])->name('groups.create');
+    Route::get('/grupos/{group}/editar', [GroupController::class, 'edit'])->name('groups.edit');
+    Route::post('/grupos/eliminar', [GroupController::class, 'destroy'])->name('groups.destroy');
 });
 
 

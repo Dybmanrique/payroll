@@ -333,6 +333,12 @@ return [
             'icon' => 'fas fa-fw fa-user',
             'active' => ['metas-presupuestales/*'],
         ],
+        [
+            'text' => 'Grupos',
+            'route' => 'groups.index',
+            'icon' => 'fas fa-fw fa-user',
+            'active' => ['grupos/*'],
+        ],
     ],
 
     /*
