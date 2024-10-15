@@ -339,6 +339,12 @@ return [
             'icon' => 'fas fa-fw fa-user',
             'active' => ['grupos/*'],
         ],
+        [
+            'text' => 'Cargos laborales',
+            'route' => 'job_positions.index',
+            'icon' => 'fas fa-fw fa-user',
+            'active' => ['cargos-laborales/*'],
+        ],
     ],
 
     /*

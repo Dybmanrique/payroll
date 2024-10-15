@@ -3,6 +3,7 @@
 use App\Http\Controllers\AfpController;
 use App\Http\Controllers\BudgetaryObjectiveController;
 use App\Http\Controllers\GroupController;
+use App\Http\Controllers\JobPositionController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -38,6 +39,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/grupos/crear', [GroupController::class, 'create'])->name('groups.create');
     Route::get('/grupos/{group}/editar', [GroupController::class, 'edit'])->name('groups.edit');
     Route::post('/grupos/eliminar', [GroupController::class, 'destroy'])->name('groups.destroy');
+    
+    Route::get('/cargos-laborales', [JobPositionController::class, 'index'])->name('job_positions.index');
+    Route::get('/cargos-laborales/data', [JobPositionController::class, 'data'])->name('job_positions.data');
+    Route::get('/cargos-laborales/crear', [JobPositionController::class, 'create'])->name('job_positions.create');
+    Route::get('/cargos-laborales/{job_position}/editar', [JobPositionController::class, 'edit'])->name('job_positions.edit');
+    Route::post('/cargos-laborales/eliminar', [JobPositionController::class, 'destroy'])->name('job_positions.destroy');
 });
 
 
