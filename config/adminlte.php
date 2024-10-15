@@ -325,6 +325,13 @@ return [
             'text' => 'AFP',
             'route' => 'afps.index',
             'icon' => 'fas fa-fw fa-user',
+            'active' => ['afps/*'],
+        ],
+        [
+            'text' => 'Metas Presupuestales',
+            'route' => 'budgetary_objectives.index',
+            'icon' => 'fas fa-fw fa-user',
+            'active' => ['metas-presupuestales/*'],
         ],
     ],
 
@@ -366,67 +373,78 @@ return [
         'Datatables' => [
             'active' => true,
             'files' => [
-                [
-                    'type' => 'js',
-                    'asset' => false,
-                    'location' => '//cdnjs.cloudflare.com/ajax/libs/datatables/1.10.21/js/jquery.dataTables.min.js',
-                ],
-                [
-                    'type' => 'js',
-                    'asset' => false,
-                    'location' => '//cdnjs.cloudflare.com/ajax/libs/datatables/1.10.21/js/dataTables.bootstrap4.min.js',
-                ],
+                //BASIC FILES
                 [
                     'type' => 'css',
                     'asset' => false,
-                    'location' => '//cdnjs.cloudflare.com/ajax/libs/datatables/1.10.21/css/dataTables.bootstrap4.min.css',
+                    'location' => '//cdn.datatables.net/2.0.2/css/dataTables.bootstrap4.min.css',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => false,
+                    'location' => '//cdn.datatables.net/2.0.2/js/dataTables.min.js',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => false,
+                    'location' => '//cdn.datatables.net/2.0.2/js/dataTables.bootstrap4.min.js',
                 ],
                 //RESPONSIVE
                 [
                     'type' => 'css',
                     'asset' => false,
-                    'location' => '//cdn.datatables.net/responsive/2.4.1/css/responsive.dataTables.min.css',
+                    'location' => '//cdn.datatables.net/responsive/3.0.0/css/responsive.dataTables.min.css',
                 ],
                 [
                     'type' => 'js',
                     'asset' => false,
-                    'location' => '//cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js',
+                    'location' => '//cdn.datatables.net/responsive/3.0.0/js/dataTables.responsive.min.js',
                 ],
                 //BUTTONS
                 [
                     'type' => 'css',
                     'asset' => false,
-                    'location' => '//cdn.datatables.net/buttons/2.4.2/css/buttons.bootstrap4.min.css',
+                    'location' => '//cdn.datatables.net/buttons/3.0.1/css/buttons.bootstrap4.min.css',
                 ],
                 [
                     'type' => 'js',
                     'asset' => false,
-                    'location' => '//cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js',
+                    'location' => '//cdn.datatables.net/buttons/3.0.1/js/dataTables.buttons.min.js',
                 ],
                 [
                     'type' => 'js',
                     'asset' => false,
-                    'location' => '//cdn.datatables.net/buttons/2.4.2/js/buttons.bootstrap4.min.js',
+                    'location' => '//cdn.datatables.net/buttons/3.0.1/js/buttons.bootstrap4.min.js',
                 ],
                 [
                     'type' => 'js',
                     'asset' => false,
-                    'location' => '//cdn.datatables.net/buttons/2.4.2/js/buttons.colVis.min.js',
+                    'location' => '//cdn.datatables.net/buttons/3.0.1/js/buttons.colVis.min.js',
                 ],
                 [
                     'type' => 'js',
                     'asset' => false,
-                    'location' => '//cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js',
+                    'location' => '//cdn.datatables.net/buttons/3.0.1/js/buttons.print.min.js',
                 ],
                 [
                     'type' => 'js',
                     'asset' => false,
-                    'location' => '//cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js',
+                    'location' => '//cdn.datatables.net/buttons/3.0.1/js/buttons.html5.min.js',
                 ],
                 [
                     'type' => 'js',
                     'asset' => false,
                     'location' => '//cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => false,
+                    'location' => '//cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.10/pdfmake.min.js',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => false,
+                    'location' => '//cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.10/vfs_fonts.min.js',
                 ],
             ],
         ],
