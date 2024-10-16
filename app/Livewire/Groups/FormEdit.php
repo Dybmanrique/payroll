@@ -18,7 +18,7 @@ class FormEdit extends Component
             $this->group->update([
                 'name' => $this->name,
             ]);
-            $this->dispatch('message', code: '200', content: 'Se ha creado');
+            $this->dispatch('message', code: '200', content: 'Se ha editado');
         } catch (\Exception $ex) {
             $this->dispatch('message', code: '500', content: 'No se pudo crear');
         }
