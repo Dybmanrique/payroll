@@ -4,6 +4,7 @@ use App\Http\Controllers\AfpController;
 use App\Http\Controllers\BudgetaryObjectiveController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\JobPositionController;
+use App\Http\Controllers\LevelController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -45,6 +46,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/cargos-laborales/crear', [JobPositionController::class, 'create'])->name('job_positions.create');
     Route::get('/cargos-laborales/{job_position}/editar', [JobPositionController::class, 'edit'])->name('job_positions.edit');
     Route::post('/cargos-laborales/eliminar', [JobPositionController::class, 'destroy'])->name('job_positions.destroy');
+    
+    Route::get('/niveles', [LevelController::class, 'index'])->name('levels.index');
+    Route::get('/niveles/data', [LevelController::class, 'data'])->name('levels.data');
+    Route::get('/niveles/crear', [LevelController::class, 'create'])->name('levels.create');
+    Route::get('/niveles/{level}/editar', [LevelController::class, 'edit'])->name('levels.edit');
+    Route::post('/niveles/eliminar', [LevelController::class, 'destroy'])->name('levels.destroy');
 });
 
 
