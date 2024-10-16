@@ -1,0 +1,32 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class Employee extends Model
+{
+    use HasFactory;
+
+    protected $fillable = [
+            'dni', 
+            'birthdate', 
+            'airhsp_code',
+            'name',
+            'last_name',
+            'second_last_name',
+            'start_validity',
+            'end_validity',
+            'bank_account',
+            'date_entry',
+            'working_hours',
+            'essalud',
+            'ruc',
+            'gender',
+            'group_id',
+            'job_position_id',
+            'level_id',
+            'onp',
+    ];
+}

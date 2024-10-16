@@ -351,6 +351,12 @@ return [
             'icon' => 'fas fa-fw fa-user',
             'active' => ['niveles/*'],
         ],
+        [
+            'text' => 'Empleados',
+            'route' => 'employees.index',
+            'icon' => 'fas fa-fw fa-user',
+            'active' => ['empleados/*'],
+        ],
     ],
 
     /*

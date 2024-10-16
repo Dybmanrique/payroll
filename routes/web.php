@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AfpController;
 use App\Http\Controllers\BudgetaryObjectiveController;
+use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\JobPositionController;
 use App\Http\Controllers\LevelController;
@@ -52,6 +53,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/niveles/crear', [LevelController::class, 'create'])->name('levels.create');
     Route::get('/niveles/{level}/editar', [LevelController::class, 'edit'])->name('levels.edit');
     Route::post('/niveles/eliminar', [LevelController::class, 'destroy'])->name('levels.destroy');
+    
+    Route::get('/empleados', [EmployeeController::class, 'index'])->name('employees.index');
+    Route::get('/empleados/data', [EmployeeController::class, 'data'])->name('employees.data');
+    Route::get('/empleados/crear', [EmployeeController::class, 'create'])->name('employees.create');
+    Route::get('/empleados/{employee}/editar', [EmployeeController::class, 'edit'])->name('employees.edit');
+    Route::post('/empleados/eliminar', [EmployeeController::class, 'destroy'])->name('employees.destroy');
 });
 
 
