@@ -3,7 +3,7 @@
 @section('title', 'Planillas - UGEL')
 
 @section('content_header')
-    <h1 class="font-weight-bold">Administradoras de Fondos de Pensiones</h1>
+    <h1 class="font-weight-bold">ADMINISTRADORAS DE FONDOS DE PENSIONES</h1>
 @stop
 
 @section('content')

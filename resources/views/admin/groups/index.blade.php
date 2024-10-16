@@ -3,7 +3,7 @@
 @section('title', 'Planillas - UGEL')
 
 @section('content_header')
-    <h1 class="font-weight-bold">Grupos</h1>
+    <h1 class="font-weight-bold">GRUPOS</h1>
 @stop
 
 @section('content')

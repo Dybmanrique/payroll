@@ -3,7 +3,7 @@
 @section('title', 'Planillas - UGEL')
 
 @section('content_header')
-    <h1 class="font-weight-bold">Metas Presupuestales</h1>
+    <h1 class="font-weight-bold">METAS PRESUPUESTALES</h1>
 @stop
 
 @section('content')
