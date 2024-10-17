@@ -13,8 +13,27 @@ class FormCreate extends Component
 {
     public $groups, $job_positions, $levels, $afps;
 
-    public $dni, $birthdate, $airhsp_code, $name, $last_name, $second_last_name, $start_validity, $end_validity,
-        $bank_account, $date_entry, $working_hours, $essalud = 0, $ruc, $gender, $group_id, $job_position_id, $level_id, $pension_system;
+    //EMPLOYEE ATRIBUTTES
+    public 
+    $dni,
+    $birthdate,
+    $airhsp_code,
+    $name, 
+    $last_name, 
+    $second_last_name, 
+    $start_validity, 
+    $end_validity,
+    $bank_account,
+    $date_entry,
+    $working_hours, 
+    $essalud=0,
+    $ruc,
+    $gender,
+    $group_id,
+    $job_position_id,
+    $level_id,
+    $pension_system;
+
     public $afp_code, $afp_fing, $afp_id;
 
     public function save()
