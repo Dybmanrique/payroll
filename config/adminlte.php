@@ -369,6 +369,12 @@ return [
             'icon' => 'fas fa-fw fa-user',
             'active' => ['fuentes-de-financiamiento/*'],
         ],
+        [
+            'text' => 'Planillas',
+            'route' => 'payrolls.index',
+            'icon' => 'fas fa-fw fa-user',
+            'active' => ['planillas/*'],
+        ],
     ],
 
     /*

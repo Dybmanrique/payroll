@@ -7,6 +7,7 @@ use App\Http\Controllers\FundingResourceController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\JobPositionController;
 use App\Http\Controllers\LevelController;
+use App\Http\Controllers\PayrollController;
 use App\Http\Controllers\PayrollTypeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ResourceTypeController;
@@ -74,6 +75,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/fuentes-de-financiamiento/crear', [FundingResourceController::class, 'create'])->name('funding_resources.create');
     Route::get('/fuentes-de-financiamiento/{funding_resource}/editar', [FundingResourceController::class, 'edit'])->name('funding_resources.edit');
     Route::post('/fuentes-de-financiamiento/eliminar', [FundingResourceController::class, 'destroy'])->name('funding_resources.destroy');
+    
+    Route::get('/planillas', [PayrollController::class, 'index'])->name('payrolls.index');
+    Route::get('/planillas/data', [PayrollController::class, 'data'])->name('payrolls.data');
+    Route::get('/planillas/crear', [PayrollController::class, 'create'])->name('payrolls.create');
+    Route::get('/planillas/{payroll}/editar', [PayrollController::class, 'edit'])->name('payrolls.edit');
+    Route::post('/planillas/eliminar', [PayrollController::class, 'destroy'])->name('payrolls.destroy');
 });
 
 
