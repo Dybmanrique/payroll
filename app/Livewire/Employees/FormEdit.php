@@ -20,6 +20,7 @@ class FormEdit extends Component
     $dni,
     $birthdate,
     $airhsp_code,
+    $remuneration,
     $name, 
     $last_name, 
     $second_last_name, 
@@ -45,6 +46,7 @@ class FormEdit extends Component
             'dni' => 'required',
             'birthdate' => 'required',
             'airhsp_code' => 'required',
+            'remuneration' => 'required',
             'name' => 'required',
             'last_name' => 'required',
             'second_last_name' => 'required',
@@ -78,6 +80,7 @@ class FormEdit extends Component
                 'dni' => $this->dni,
                 'birthdate' => $this->birthdate,
                 'airhsp_code' => $this->airhsp_code,
+                'remuneration' => $this->remuneration,
                 'name' => $this->name,
                 'last_name' => $this->last_name,
                 'second_last_name' => $this->second_last_name,
@@ -118,6 +121,7 @@ class FormEdit extends Component
         $this->dni = $this->employee->dni;
         $this->birthdate = $this->employee->birthdate;
         $this->airhsp_code = $this->employee->airhsp_code;
+        $this->remuneration = $this->employee->remuneration;
         $this->name = $this->employee->name;
         $this->last_name = $this->employee->last_name;
         $this->second_last_name = $this->employee->second_last_name;

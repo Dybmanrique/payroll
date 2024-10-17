@@ -86,6 +86,16 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
+                            <label for="remuneration">Remuneración:</label>
+                            <input type="number" wire:model='remuneration' id="remuneration" class="form-control"
+                                placeholder="Ingrese el nombre del grupo" required autocomplete="off">
+                            @error('remuneration')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
                             <label for="date_entry">Fecha de ingreso*:</label>
                             <input type="date" wire:model='date_entry' id="date_entry" class="form-control"
                                 placeholder="Ingrese el nombre del grupo" required autocomplete="off">

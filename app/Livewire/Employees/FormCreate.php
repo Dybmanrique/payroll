@@ -18,6 +18,7 @@ class FormCreate extends Component
     public 
     $dni,
     $birthdate,
+    $remuneration,
     $airhsp_code,
     $name, 
     $last_name, 
@@ -43,6 +44,7 @@ class FormCreate extends Component
         $this->validate([
             'dni' => 'required',
             'birthdate' => 'required',
+            'remuneration' => 'required',
             'airhsp_code' => 'required',
             'name' => 'required',
             'last_name' => 'required',
@@ -74,6 +76,7 @@ class FormCreate extends Component
             $employee = Employee::create([
                 'dni' => $this->dni,
                 'birthdate' => $this->birthdate,
+                'remuneration' => $this->remuneration,
                 'airhsp_code' => $this->airhsp_code,
                 'name' => $this->name,
                 'last_name' => $this->last_name,
@@ -100,6 +103,7 @@ class FormCreate extends Component
             $this->reset('dni',
             'birthdate',
             'airhsp_code',
+            'remuneration',
             'name',
             'last_name',
             'second_last_name',
@@ -108,7 +112,6 @@ class FormCreate extends Component
             'bank_account',
             'date_entry',
             'working_hours',
-            'essalud',
             'ruc',
             'gender',
             'group_id',
@@ -119,6 +122,7 @@ class FormCreate extends Component
             'afp_code',
             'afp_fing',
             'afp_id');
+            $this->essalud = false;
             $this->dispatch('message', code: '200', content: 'Se ha creado');
             $this->dispatch('hide_afp');
         } catch (\Exception $th) {

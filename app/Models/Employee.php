@@ -16,6 +16,7 @@ class Employee extends Model
             'name',
             'last_name',
             'second_last_name',
+            'remuneration',
             'start_validity',
             'end_validity',
             'bank_account',

@@ -13,21 +13,22 @@ return new class extends Migration
     {
         Schema::create('employees', function (Blueprint $table) {
             $table->id();
-            $table->string('dni',8);
+            $table->string('dni', 8);
             $table->date('birthdate');
+            $table->decimal('remuneration', 9, 2);
             $table->string('airhsp_code');
             $table->string('name');
             $table->string('last_name');
             $table->string('second_last_name');
             $table->date('start_validity');
             $table->date('end_validity');
-            $table->enum('pension_system',['afp','onp']);
+            $table->enum('pension_system', ['afp', 'onp']);
             $table->string('bank_account');
             $table->date('date_entry');
             $table->integer('working_hours');
             $table->boolean('essalud');
             $table->string('ruc')->nullable();
-            $table->enum('gender',['Masculino', 'Femenino']);
+            $table->enum('gender', ['Masculino', 'Femenino']);
             $table->foreignId('group_id')->constrained();
             $table->foreignId('job_position_id')->constrained();
             $table->foreignId('level_id')->constrained();
