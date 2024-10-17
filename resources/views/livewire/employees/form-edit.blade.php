@@ -206,47 +206,52 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <span class="d-block w-100 font-weight-bold mb-2">Sistema de pensiones*:</span>
-                            <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                                <label class="btn btn-info active">
-                                    <input type="radio" name="pension_system" wire:model='pension_system'
-                                        id="option_a2" value="afp" autocomplete="off"> AFP
-                                </label>
-                                <label class="btn btn-info">
-                                    <input type="radio" name="pension_system" wire:model='pension_system'
-                                        id="option_a3" value="onp" autocomplete="off"> ONP
-                                </label>
+                            <div class="rounded p-2" style="max-height: 38px; border: 1px solid #ced4da;">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input pension-system" type="radio" wire:model="pension_system" id="afp_radio"
+                                        value="afp">
+                                    <label class="form-check-label" for="afp_radio">AFP</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input pension-system" type="radio" wire:model="pension_system" id="onp_radio"
+                                        value="onp">
+                                    <label class="form-check-label" for="onp_radio">ONP</label>
+                                </div>
                             </div>
-                            @error('name')
+                            @error('pension_system')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
                         </div>
                         <!-- Contenido extra a mostrar -->
-                        <div class="border rounded p-2" id="contenidoExtraAfp" style='{{ ($onp) ? 'display: none;' : '' }}'>
-                            {{-- <div class="form-group">
-                                <label for="name">Tipo AFP*:</label>
-                                <input type="text" wire:model='name' id="name" class="form-control"
-                                    placeholder="Ingrese el nombre del grupo" required autocomplete="off">
-                                @error('name')
+                        <div wire:ignore.self class="border rounded p-2" id="contenidoExtraAfp" style='{{ ($pension_system === 'onp') ? 'display: none;' : '' }}'>
+                            <div class="form-group">
+                                <label for="afp_id">Tipo AFP*:</label>
+                                <select wire:model="afp_id" id="afp_id" class="form-control">
+                                    <option value="">--Seleccione--</option>
+                                    @foreach ($afps as $afp)
+                                        <option value="{{ $afp->id }}">{{ $afp->name }}</option>
+                                    @endforeach
+                                </select>
+                                @error('afp_id')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
                             <div class="form-group">
-                                <label for="name">Código AFP*:</label>
-                                <input type="text" wire:model='name' id="name" class="form-control"
-                                    placeholder="Ingrese el nombre del grupo" required autocomplete="off">
-                                @error('name')
+                                <label for="afp_code">Código AFP*:</label>
+                                <input type="text" wire:model='afp_code' id="afp_code" class="form-control"
+                                    placeholder="Ingrese el nombre del grupo" autocomplete="off">
+                                @error('afp_code')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
                             <div class="form-group">
-                                <label for="name">AFP fing*:</label>
-                                <input type="text" wire:model='name' id="name" class="form-control"
-                                    placeholder="Ingrese el nombre del grupo" required autocomplete="off">
-                                @error('name')
+                                <label for="afp_fing">AFP fing*:</label>
+                                <input type="date" wire:model='afp_fing' id="afp_fing" class="form-control"
+                                    placeholder="Ingrese el nombre del grupo">
+                                @error('afp_fing')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
-                            </div> --}}
-                            xd
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -262,7 +267,7 @@
     <script>
         $(document).ready(function() {
             // Detectar cambio en los radio buttons
-            $('input[type=radio][name=pension_system]').change(function() {
+            $('.pension-system').change(function() {
                 // Ocultar todo el contenido extra al cambiar de selección
                 $('#contenidoExtraAfp').slideUp();
 

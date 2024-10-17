@@ -27,6 +27,14 @@ class Employee extends Model
             'group_id',
             'job_position_id',
             'level_id',
-            'onp',
+            'pension_system',
     ];
+
+    protected $casts = [
+        'essalud' => 'boolean',
+    ];
+
+    public function afps(){
+        return $this->belongsToMany(Afp::class)->withPivot('afp_code','afp_fing');
+    }
 }

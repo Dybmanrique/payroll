@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Employees;
 
+use App\Models\Afp;
 use App\Models\Group;
 use App\Models\JobPosition;
 use App\Models\Level;
@@ -11,13 +12,11 @@ class FormEdit extends Component
 {
     public $employee;
 
-    public $groups, $job_positions, $levels;
+    public $groups, $job_positions, $levels, $afps;
 
     public $dni, $birthdate, $airhsp_code, $name, $last_name, $second_last_name, $start_validity, $end_validity,
-        $bank_account, $date_entry, $working_hours, $essalud, $ruc, $gender, $group_id, $job_position_id, $level_id;
-    public $onp;
-
-    public $pension_system;
+        $bank_account, $date_entry, $working_hours, $essalud, $ruc, $gender, $group_id, $job_position_id, $level_id, $pension_system;
+    public $afp_code, $afp_fing, $afp_id;
 
     public function save()
     {
@@ -33,16 +32,23 @@ class FormEdit extends Component
             'bank_account' => 'required',
             'date_entry' => 'required',
             'working_hours' => 'required',
-            'essalud' => 'required',
+            'essalud' => 'required|boolean',
             'ruc' => 'required',
             'gender' => 'required',
             'group_id' => 'required',
             'job_position_id' => 'required',
             'level_id' => 'required',
+            'pension_system' => 'required',
         ]);
 
-        if ($this->pension_system == 'afp') {
-            $this->onp = false;
+        $has_afp = ($this->pension_system === 'afp');
+
+        if ($has_afp) {
+            $this->validate([
+                'afp_id' => 'required',
+                'afp_code' => 'required',
+                'afp_fing' => 'required',
+            ]);
         }
 
         try {
@@ -64,8 +70,13 @@ class FormEdit extends Component
                 'group_id' => $this->group_id,
                 'job_position_id' => $this->job_position_id,
                 'level_id' => $this->level_id,
-                'onp' => $this->onp,
+                'pension_system' => $this->pension_system,
             ]);
+
+            if ($has_afp) {
+                $this->employee->afps()->detach();
+                $this->employee->afps()->attach($this->afp_id, ['afp_code' => $this->afp_code, 'afp_fing' => $this->afp_fing]);
+            }
 
             $this->dispatch('message', code: '200', content: 'Se ha editado');
         } catch (\Exception $th) {
@@ -78,6 +89,7 @@ class FormEdit extends Component
         $this->groups = Group::all();
         $this->job_positions = JobPosition::all();
         $this->levels = Level::all();
+        $this->afps = Afp::all();
 
         $this->dni = $this->employee->dni;
         $this->birthdate = $this->employee->birthdate;
@@ -96,11 +108,14 @@ class FormEdit extends Component
         $this->group_id = $this->employee->group_id;
         $this->job_position_id = $this->employee->job_position_id;
         $this->level_id = $this->employee->level_id;
-        $this->onp = $this->employee->onp;
-        if($this->employee->onp){
-            $this->pension_system = 'onp';
-        } else {
-            $this->pension_system = 'afp';
+        $this->pension_system = $this->employee->pension_system;
+
+        if ($this->employee->pension_system === 'afp') {
+            if ($afp = $this->employee->afps()->first()) {
+                $this->afp_id = $afp->id;
+                $this->afp_code = $afp->pivot->afp_code;
+                $this->afp_fing = $afp->pivot->afp_fing;
+            }
         }
     }
 

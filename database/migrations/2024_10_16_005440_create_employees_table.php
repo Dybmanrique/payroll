@@ -19,9 +19,9 @@ return new class extends Migration
             $table->string('name');
             $table->string('last_name');
             $table->string('second_last_name');
-            $table->string('start_validity');
-            $table->string('end_validity');
-            $table->boolean('onp');
+            $table->date('start_validity');
+            $table->date('end_validity');
+            $table->enum('pension_system',['afp','onp']);
             $table->string('bank_account');
             $table->date('date_entry');
             $table->integer('working_hours');

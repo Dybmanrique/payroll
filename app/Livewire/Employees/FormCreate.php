@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Employees;
 
+use App\Models\Afp;
 use App\Models\Employee;
 use App\Models\Group;
 use App\Models\JobPosition;
@@ -10,14 +11,11 @@ use Livewire\Component;
 
 class FormCreate extends Component
 {
-    public $groups, $job_positions, $levels;
+    public $groups, $job_positions, $levels, $afps;
 
     public $dni, $birthdate, $airhsp_code, $name, $last_name, $second_last_name, $start_validity, $end_validity,
-        $bank_account, $date_entry, $working_hours, $essalud, $ruc, $gender, $group_id, $job_position_id, $level_id;
-
-    public $onp = true;
-
-    public $pension_system;
+        $bank_account, $date_entry, $working_hours, $essalud = 0, $ruc, $gender, $group_id, $job_position_id, $level_id, $pension_system;
+    public $afp_code, $afp_fing, $afp_id;
 
     public function save()
     {
@@ -39,14 +37,19 @@ class FormCreate extends Component
             'group_id' => 'required',
             'job_position_id' => 'required',
             'level_id' => 'required',
+            'pension_system' => 'required',
         ]);
 
-        if ($this->pension_system == 'afp') {
-            $this->onp = false;
+        if($this->pension_system === 'afp'){
+            $this->validate([
+                'afp_id' => 'required',
+                'afp_code' => 'required',
+                'afp_fing' => 'required',
+            ]);
         }
 
         try {
-            Employee::create([
+            $employee = Employee::create([
                 'dni' => $this->dni,
                 'birthdate' => $this->birthdate,
                 'airhsp_code' => $this->airhsp_code,
@@ -64,8 +67,12 @@ class FormCreate extends Component
                 'group_id' => $this->group_id,
                 'job_position_id' => $this->job_position_id,
                 'level_id' => $this->level_id,
-                'onp' => $this->onp,
+                'pension_system' => $this->pension_system,
             ]);
+
+            if ($this->pension_system==='afp') {
+                $employee->afps()->attach($this->afp_id, ['afp_code' => $this->afp_code, 'afp_fing' => $this->afp_fing]);
+            }
     
             $this->reset('dni',
             'birthdate',
@@ -83,8 +90,13 @@ class FormCreate extends Component
             'gender',
             'group_id',
             'job_position_id',
-            'level_id',);
+            'level_id',
+            'pension_system',
+            'afp_code',
+            'afp_fing',
+            'afp_id');
             $this->dispatch('message', code: '200', content: 'Se ha creado');
+            $this->dispatch('hide_afp');
         } catch (\Exception $th) {
             $this->dispatch('message', code: '500', content: 'Algo salió mal');
         }
@@ -95,6 +107,7 @@ class FormCreate extends Component
         $this->groups = Group::all();
         $this->job_positions = JobPosition::all();
         $this->levels = Level::all();
+        $this->afps = Afp::all();
     }
 
     public function render()
