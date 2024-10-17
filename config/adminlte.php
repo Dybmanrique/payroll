@@ -357,6 +357,12 @@ return [
             'icon' => 'fas fa-fw fa-user',
             'active' => ['empleados/*'],
         ],
+        [
+            'text' => 'Tipos de planillas',
+            'route' => 'payroll_types.index',
+            'icon' => 'fas fa-fw fa-user',
+            'active' => ['tipos-de-planillas/*'],
+        ],
     ],
 
     /*

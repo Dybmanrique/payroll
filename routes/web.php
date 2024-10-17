@@ -6,6 +6,7 @@ use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\JobPositionController;
 use App\Http\Controllers\LevelController;
+use App\Http\Controllers\PayrollTypeController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -59,6 +60,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/empleados/crear', [EmployeeController::class, 'create'])->name('employees.create');
     Route::get('/empleados/{employee}/editar', [EmployeeController::class, 'edit'])->name('employees.edit');
     Route::post('/empleados/eliminar', [EmployeeController::class, 'destroy'])->name('employees.destroy');
+    
+    Route::get('/tipos-de-planillas', [PayrollTypeController::class, 'index'])->name('payroll_types.index');
+    Route::get('/tipos-de-planillas/data', [PayrollTypeController::class, 'data'])->name('payroll_types.data');
+    Route::get('/tipos-de-planillas/crear', [PayrollTypeController::class, 'create'])->name('payroll_types.create');
+    Route::get('/tipos-de-planillas/{payroll_type}/editar', [PayrollTypeController::class, 'edit'])->name('payroll_types.edit');
+    Route::post('/tipos-de-planillas/eliminar', [PayrollTypeController::class, 'destroy'])->name('payroll_types.destroy');
 });
 
 
