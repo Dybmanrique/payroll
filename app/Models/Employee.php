@@ -27,6 +27,7 @@ class Employee extends Model
             'group_id',
             'job_position_id',
             'level_id',
+            'budgetary_objective_id',
             'pension_system',
     ];
 

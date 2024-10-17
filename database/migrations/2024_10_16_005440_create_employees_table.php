@@ -31,6 +31,7 @@ return new class extends Migration
             $table->foreignId('group_id')->constrained();
             $table->foreignId('job_position_id')->constrained();
             $table->foreignId('level_id')->constrained();
+            $table->foreignId('budgetary_objective_id')->constrained();
             $table->timestamps();
         });
     }

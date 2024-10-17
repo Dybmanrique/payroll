@@ -3,6 +3,7 @@
 namespace App\Livewire\Employees;
 
 use App\Models\Afp;
+use App\Models\BudgetaryObjective;
 use App\Models\Group;
 use App\Models\JobPosition;
 use App\Models\Level;
@@ -12,7 +13,7 @@ class FormEdit extends Component
 {
     public $employee;
 
-    public $groups, $job_positions, $levels, $afps;
+    public $groups, $job_positions, $levels, $afps, $budgetary_objectives;
 
     //EMPLOYEE ATRIBUTTES
     public 
@@ -33,7 +34,8 @@ class FormEdit extends Component
     $group_id,
     $job_position_id,
     $level_id,
-    $pension_system;
+    $pension_system,
+    $budgetary_objective_id;
 
     public $afp_code, $afp_fing, $afp_id;
 
@@ -57,6 +59,7 @@ class FormEdit extends Component
             'group_id' => 'required',
             'job_position_id' => 'required',
             'level_id' => 'required',
+            'budgetary_objective_id' => 'required',
             'pension_system' => 'required',
         ]);
 
@@ -89,6 +92,7 @@ class FormEdit extends Component
                 'group_id' => $this->group_id,
                 'job_position_id' => $this->job_position_id,
                 'level_id' => $this->level_id,
+                'budgetary_objective_id' => $this->budgetary_objective_id,
                 'pension_system' => $this->pension_system,
             ]);
 
@@ -109,6 +113,7 @@ class FormEdit extends Component
         $this->job_positions = JobPosition::all();
         $this->levels = Level::all();
         $this->afps = Afp::all();
+        $this->budgetary_objectives = BudgetaryObjective::all();
 
         $this->dni = $this->employee->dni;
         $this->birthdate = $this->employee->birthdate;
@@ -127,6 +132,7 @@ class FormEdit extends Component
         $this->group_id = $this->employee->group_id;
         $this->job_position_id = $this->employee->job_position_id;
         $this->level_id = $this->employee->level_id;
+        $this->budgetary_objective_id = $this->employee->budgetary_objective_id;
         $this->pension_system = $this->employee->pension_system;
 
         if ($this->employee->pension_system === 'afp') {

@@ -206,6 +206,20 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
+                            <label for="budgetary_objective_id">Meta presupuestal*:</label>
+                            <select wire:model="budgetary_objective_id" id="budgetary_objective_id" class="form-control" required>
+                                <option value="">--Seleccione--</option>
+                                @foreach ($budgetary_objectives as $budgetary_objective)
+                                    <option value="{{ $budgetary_objective->id }}">[{{ $budgetary_objective->pneumonic }}] {{ $budgetary_objective->name }}</option>
+                                @endforeach
+                            </select>
+                            @error('budgetary_objective_id')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
                             <span class="d-block w-100 font-weight-bold mb-2">Sistema de pensiones*:</span>
                             <div class="rounded p-2" style="max-height: 38px; border: 1px solid #ced4da;">
                                 <div class="form-check form-check-inline">
