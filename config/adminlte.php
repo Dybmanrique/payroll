@@ -363,6 +363,12 @@ return [
             'icon' => 'fas fa-fw fa-user',
             'active' => ['tipos-de-planillas/*'],
         ],
+        [
+            'text' => 'Fuentes de financiamiento',
+            'route' => 'funding_resources.index',
+            'icon' => 'fas fa-fw fa-user',
+            'active' => ['fuentes-de-financiamiento/*'],
+        ],
     ],
 
     /*

@@ -3,11 +3,13 @@
 use App\Http\Controllers\AfpController;
 use App\Http\Controllers\BudgetaryObjectiveController;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\FundingResourceController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\JobPositionController;
 use App\Http\Controllers\LevelController;
 use App\Http\Controllers\PayrollTypeController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ResourceTypeController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -66,6 +68,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/tipos-de-planillas/crear', [PayrollTypeController::class, 'create'])->name('payroll_types.create');
     Route::get('/tipos-de-planillas/{payroll_type}/editar', [PayrollTypeController::class, 'edit'])->name('payroll_types.edit');
     Route::post('/tipos-de-planillas/eliminar', [PayrollTypeController::class, 'destroy'])->name('payroll_types.destroy');
+    
+    Route::get('/fuentes-de-financiamiento', [FundingResourceController::class, 'index'])->name('funding_resources.index');
+    Route::get('/fuentes-de-financiamiento/data', [FundingResourceController::class, 'data'])->name('funding_resources.data');
+    Route::get('/fuentes-de-financiamiento/crear', [FundingResourceController::class, 'create'])->name('funding_resources.create');
+    Route::get('/fuentes-de-financiamiento/{funding_resource}/editar', [FundingResourceController::class, 'edit'])->name('funding_resources.edit');
+    Route::post('/fuentes-de-financiamiento/eliminar', [FundingResourceController::class, 'destroy'])->name('funding_resources.destroy');
 });
 
 
