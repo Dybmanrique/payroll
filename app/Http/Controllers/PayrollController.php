@@ -41,4 +41,20 @@ class PayrollController extends Controller
             ]);
         }
     }
+    public function view(Request $request)
+    {
+        try {
+            $payroll = Payroll::findOrFail($request->id);
+            $payroll->employees;
+            return response()->json([
+                'content' => $payroll,
+                'code' => '200'
+            ]);
+        } catch (\Exception $ex) {
+            return response()->json([
+                'content' => 'Algo salió mal',
+                'code' => '500'
+            ]);
+        }
+    }
 }

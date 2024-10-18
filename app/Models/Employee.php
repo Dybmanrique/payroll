@@ -39,4 +39,8 @@ class Employee extends Model
     public function afps(){
         return $this->belongsToMany(Afp::class)->withPivot('afp_code','afp_fing');
     }
+
+    public function payrolls(){
+        return $this->belongsToMany(Payroll::class);
+    }
 }
