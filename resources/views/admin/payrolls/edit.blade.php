@@ -5,14 +5,14 @@
 @section('content_header')
     <div class="d-flex flex-row justify-content-between">
         <h1 class="font-weight-bold">EDITAR PLANILLA</h1>
-        <a href="{{ route('groups.index') }}" class="btn btn-secondary mb-4"><i class="fas fa-arrow-left"></i>
+        <a href="{{ route('payrolls.index') }}" class="btn btn-secondary mb-4"><i class="fas fa-arrow-left"></i>
             VOLVER</a>
     </div>
 @stop
 
 @section('content')
 
-    @livewire('groups.form-edit', ['group' => $group])
+    @livewire('payrolls.form-edit', ['payroll' => $payroll])
 
 @stop
 

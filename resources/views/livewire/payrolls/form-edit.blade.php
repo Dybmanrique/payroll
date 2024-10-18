@@ -187,7 +187,6 @@
         </div>
     </form>
 </div>
-
 @push('js')
     <script>
         function deleteEmployee(id) {

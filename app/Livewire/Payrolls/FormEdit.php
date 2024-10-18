@@ -5,12 +5,13 @@ namespace App\Livewire\Payrolls;
 use App\Models\Employee;
 use App\Models\FundingResource;
 use App\Models\Group;
-use App\Models\Payroll;
 use App\Models\PayrollType;
 use Livewire\Component;
 
-class FormCreate extends Component
+class FormEdit extends Component
 {
+    public $payroll;
+
     public $payroll_types, $funding_resources, $employees, $groups;
 
     public $number, $period, $processing_date, $payroll_type_id, $funding_resource_id;
@@ -54,7 +55,7 @@ class FormCreate extends Component
         foreach ($this->employees_list as $key => $employee) {
             if ($employee->id == $employee_id) {
                 unset($this->employees_list[$key]);
-                // Método para re-indexar
+                // Método para re-indexar array
                 $this->employees_list = array_values($this->employees_list);
                 break;
             }
@@ -70,52 +71,28 @@ class FormCreate extends Component
             'payroll_type_id' => 'required|numeric',
             'funding_resource_id' => 'required|numeric',
         ]);
-        
-        if(count($this->employees_list)<1){
+
+        if (count($this->employees_list) < 1) {
             $this->dispatch('message', code: '500', content: 'Agrege al menos un empleado');
             return;
         }
 
         try {
-            $payroll = Payroll::create([
+            $this->payroll->update([
                 'number' => $this->number,
                 'period' => $this->period,
                 'processing_date' => $this->processing_date,
                 'payroll_type_id' => $this->payroll_type_id,
                 'funding_resource_id' => $this->funding_resource_id,
             ]);
-    
+
             $ids_employees = collect($this->employees_list)->pluck('id')->toArray();
-            $payroll->employees()->attach($ids_employees);
-    
-            $this->reset('number', 'payroll_type_id', 'funding_resource_id');
-            $this->employees_list = [];
-            $this->number = $this->generateNewNumber();
-            $this->dispatch('message', code: '200', content: 'Se ha creado');
+            $this->payroll->employees()->sync($ids_employees);
+
+            $this->dispatch('message', code: '200', content: 'Se ha editado');
         } catch (\Exception $ex) {
             $this->dispatch('message', code: '500', content: 'No se pudo crear');
         }
-    }
-
-    private function generateNewNumber(): string
-    {
-        $currentYear = date('Y');
-        $lastDocument = Payroll::whereYear('created_at', $currentYear)
-            ->orderBy('id', 'desc')
-            ->first();
-
-        $number = $lastDocument ? intval(substr($lastDocument->number, 0, 3)) + 1 : 1;
-        $formattedNumber = str_pad($number, 3, '0', STR_PAD_LEFT);
-
-        return "{$formattedNumber}-{$currentYear}";
-    }
-
-    private function generatePeriod(): string
-    {
-        $currentYear = date('Y');
-        $currentMount = date('m');
-
-        return "{$currentYear}{$currentMount}";
     }
 
     public function mount()
@@ -125,13 +102,19 @@ class FormCreate extends Component
         $this->employees = Employee::all();
         $this->groups = Group::where('name', '!=', 'Ninguno')->get();
 
-        $this->processing_date = date('Y-m-d');
-        $this->number = $this->generateNewNumber();
-        $this->period = $this->generatePeriod();
+        $this->number = $this->payroll->number;
+        $this->period=$this->payroll->period;
+        $this->processing_date=$this->payroll->processing_date;
+        $this->payroll_type_id=$this->payroll->payroll_type_id;
+        $this->funding_resource_id=$this->payroll->funding_resource_id;
+
+        foreach ($this->payroll->employees as $employee) {
+            array_push($this->employees_list, $employee);
+        }
     }
 
     public function render()
     {
-        return view('livewire.payrolls.form-create');
+        return view('livewire.payrolls.form-edit');
     }
 }

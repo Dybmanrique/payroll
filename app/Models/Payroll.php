@@ -16,4 +16,8 @@ class Payroll extends Model
         'payroll_type_id',
         'funding_resource_id',
     ];
+
+    public function employees(){
+        return $this->belongsToMany(Employee::class);
+    }
 }
