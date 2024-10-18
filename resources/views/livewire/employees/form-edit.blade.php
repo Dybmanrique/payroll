@@ -1,6 +1,6 @@
-<div>
+<div class="py-3">
     <form wire:submit='save'>
-        <div class="card">
+        <div class="card m-0">
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-6">
