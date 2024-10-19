@@ -20,4 +20,8 @@ class Payroll extends Model
     public function employees(){
         return $this->belongsToMany(Employee::class);
     }
+
+    public function funding_resource(){
+        return $this->belongsTo(FundingResource::class);
+    }
 }

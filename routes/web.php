@@ -82,6 +82,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/planillas/{payroll}/editar', [PayrollController::class, 'edit'])->name('payrolls.edit');
     Route::post('/planillas/eliminar', [PayrollController::class, 'destroy'])->name('payrolls.destroy');
     Route::post('/planillas/ver', [PayrollController::class, 'view'])->name('payrolls.view');
+    Route::get('/planillas/{payroll}/generar-mcpp', [PayrollController::class, 'mcpp'])->name('payrolls.mcpp');
 });
 
 

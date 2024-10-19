@@ -28,46 +28,62 @@
                     </div>
                     <div class="row" id="contentSection">
                         <div class="col-md-4">
-                            <table>
-                                <tbody>
-                                    <tr>
-                                        <th class="font-weight-bold">NÚMERO</th>
-                                        <td>: <span id="modal_number">001-2024</span></td>
-                                    </tr>
-                                    <tr>
-                                        <th class="font-weight-bold">PERIODO</th>
-                                        <td>: <span id="modal_period">202410</span></td>
-                                    </tr>
-                                    <tr>
-                                        <th class="font-weight-bold">FECHA DE PROCESO</th>
-                                        <td>: <span id="modal_processing_date">10-10-2024</span></td>
-                                    </tr>
-                                    <tr>
-                                        <th class="font-weight-bold">TIPO DE PLANILLA</th>
-                                        <td>: <span id="modal_payroll_type">CAS</span></td>
-                                    </tr>
-                                    <tr>
-                                        <th class="font-weight-bold">FUENTE DE FINANCIAMIENTO</th>
-                                        <td>: <span id="modal_funding_resource">[00] FUENTE DE FINANCIAMIENTO X</span></td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                            <div class="card">
+                                <div class="card-body">
+                                    <table>
+                                        <tbody>
+                                            <tr>
+                                                <th class="font-weight-bold">NÚMERO</th>
+                                                <td>: <span id="modal_number">001-2024</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th class="font-weight-bold">PERIODO</th>
+                                                <td>: <span id="modal_period">202410</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th class="font-weight-bold">FECHA DE PROCESO</th>
+                                                <td>: <span id="modal_processing_date">10-10-2024</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th class="font-weight-bold">TIPO DE PLANILLA</th>
+                                                <td>: <span id="modal_payroll_type">CAS</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th class="font-weight-bold">FUENTE DE FINANCIAMIENTO</th>
+                                                <td>: <span id="modal_funding_resource">[00] FUENTE DE FINANCIAMIENTO
+                                                        X</span></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-body">
+                                    <button onclick="abrirNuevaPestana()" class="btn btn-primary w-100"
+                                        type="button">Generar
+                                        MCPP</button>
+                                </div>
+                            </div>
                         </div>
                         <div class="col-md-8">
-                            <span>LISTA DE EMPLEADOS</span>
-                            <div class="table-responsive" style="max-height: 800px">
-                                <table id="table_view" class="table table-sm">
-                                    <thead class="thead-dark">
-                                        <tr>
-                                            <th scope="col">#</th>
-                                            <th scope="col">DNI</th>
-                                            <th scope="col">EMPLEADO</th>
-                                            <th scope="col">REMUNERACIÓN</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                    </tbody>
-                                </table>
+                            <div class="card">
+                                <div class="card-body">
+                                    <span>LISTA DE EMPLEADOS</span>
+                                    <div class="table-responsive" style="max-height: 800px">
+                                        <table id="table_view" class="table table-sm">
+                                            <thead class="thead-dark">
+                                                <tr>
+                                                    <th scope="col">#</th>
+                                                    <th scope="col">DNI</th>
+                                                    <th scope="col">EMPLEADO</th>
+                                                    <th scope="col">REMUNERACIÓN</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -126,8 +142,9 @@
             timer: 3000
         });
 
-        $(document).ready(function() {
+        let idSelected = 0;
 
+        $(document).ready(function() {
             let columnAttributes = [{
                     "data": "id",
                     "render": function(data, type, row, meta) {
@@ -224,6 +241,7 @@
                 $('#loader').show();
                 $('#contentSection').hide();
                 let data = table.row($(this).parents('tr')).data();
+                idSelected = data["id"];
                 $.ajax({
                     url: "{{ route('payrolls.view') }}",
                     type: "POST",
@@ -233,8 +251,6 @@
                         id: data["id"],
                     }
                 }).done(function(response) {
-                    // console.log(response.content);
-
                     if (response.code == '200') {
                         $('#modal_number').text(response.content.number);
                         $('#modal_period').text(response.content.period);
@@ -263,6 +279,12 @@
                     }
                 });
             });
+
         });
+        function abrirNuevaPestana() {
+            route_mcpp = "{{ route('payrolls.mcpp', ':id') }}";
+
+            window.open(route_mcpp.replace(':id', idSelected), '_blank');
+        }
     </script>
 @stop
