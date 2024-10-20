@@ -10,8 +10,11 @@
     <div class="card">
 
         <div class="card-header">
-            <a href="{{ route('afps.create') }}" class="btn btn-primary text-uppercase font-weight-bold">Registrar
-                nuevo</a>
+            <div class="d-flex flex-row justify-content-between">
+                <a href="{{ route('afps.create') }}" class="btn btn-primary text-uppercase font-weight-bold">Registrar
+                    nuevo</a>
+                @livewire('afps.comission-update')
+            </div>
         </div>
 
         <div class="card-body">
@@ -21,9 +24,9 @@
                         <tr>
                             <th scope="col">#</th>
                             <th scope="col">NOMBRE</th>
-                            <th scope="col">A. OBLIGATORIA (%)</th>
-                            <th scope="col">S. DE VIDA (%)</th>
                             <th scope="col">C. VARIABLE (%)</th>
+                            <th scope="col">S. DE VIDA (%)</th>
+                            <th scope="col">A. OBLIGATORIO (%)</th>
                             <th scope="col">ACCIONES</th>
                         </tr>
                     </thead>
@@ -43,10 +46,15 @@
 @stop
 
 @section('css')
-
+    <style>
+        .opacity-20{
+            opacity: 0.2; 
+        }
+    </style>
 @stop
 
 @section('js')
+    <script src="{{ asset('js/admin/message_forms.js') }}"></script>
     <script>
         var Toast = Swal.mixin({
             toast: true,
@@ -67,13 +75,13 @@
                     "data": "name",
                 },
                 {
-                    "data": "obligatory_contribution",
+                    "data": "variable_commission",
                 },
                 {
                     "data": "life_insurance",
                 },
                 {
-                    "data": "variable_commission",
+                    "data": "obligatory_contribution",
                 },
                 {
                     "data": null,
@@ -150,6 +158,9 @@
                     }
                 })
             });
+            Livewire.on('refresh_afps', function(message) {
+                table.ajax.reload();
+            })
         });
     </script>
 @stop
