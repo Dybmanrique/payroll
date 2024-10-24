@@ -10,11 +10,15 @@ use App\Http\Controllers\LevelController;
 use App\Http\Controllers\PayrollController;
 use App\Http\Controllers\PayrollTypeController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\ResourceTypeController;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
+});
+Route::get('/ejemplo-de-boleta', function () {
+    $pdf = Pdf::loadView('boleta', [])->setPaper('a4');
+    return $pdf->stream();
 });
 
 Route::get('/dashboard', function () {
