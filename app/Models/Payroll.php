@@ -17,8 +17,8 @@ class Payroll extends Model
         'funding_resource_id',
     ];
 
-    public function employees(){
-        return $this->belongsToMany(Employee::class);
+    public function periods(){
+        return $this->hasMany(Period::class);
     }
 
     public function funding_resource(){

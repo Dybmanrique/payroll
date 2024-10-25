@@ -1,4 +1,39 @@
-<div class="py-3">
+<div class="pb-3">
+    <!-- Modal Add Period -->
+    <div wire:ignore.self class="modal fade" id="modalPeriod" tabindex="-1" role="dialog"
+        aria-labelledby="modalPeriodLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form wire:submit='addPeriod'>
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalPeriodLabel">AGREGAR PERIODO</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="modal_period_id">Lista de periodos*:</label>
+                            <select wire:model="modal_period_id" id="modal_period_id" class="form-control" required>
+                                <option value="">--Seleccione--</option>
+                                @foreach ($periods as $index => $period)
+                                    <option value="{{ $index }}">{{ $period }}</option>
+                                @endforeach
+                            </select>
+                            @error('modal_period_id')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">CERRAR</button>
+                        <button type="submit" class="btn btn-primary">ACEPTAR</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <!-- Modal Add Employee -->
     <div wire:ignore.self class="modal fade" id="modalEmployee" tabindex="-1" role="dialog"
         aria-labelledby="modalEmployeeLabel" aria-hidden="true">
@@ -71,12 +106,12 @@
         </div>
     </div>
 
-    <form wire:submit='save'>
-        <div class="card m-0">
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="card">
+    <div class="card m-0">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="card">
+                        <form wire:submit='save'>
                             <div class="card-header">
                                 <span class="font-weight-bold">DATOS DE LA PLANILLA</span>
                             </div>
@@ -99,18 +134,21 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="processing_date">Fecha de proceso*:</label>
-                                    <input type="date" wire:model='processing_date' id="processing_date" class="form-control"
-                                        placeholder="Ingrese el número" required autocomplete="off">
+                                    <input type="date" wire:model='processing_date' id="processing_date"
+                                        class="form-control" placeholder="Ingrese el número" required
+                                        autocomplete="off">
                                     @error('processing_date')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
                                 <div class="form-group">
                                     <label for="payroll_type_id">Tipo de planilla*:</label>
-                                    <select wire:model="payroll_type_id" id="payroll_type_id" class="form-control" required>
+                                    <select wire:model="payroll_type_id" id="payroll_type_id" class="form-control"
+                                        required>
                                         <option value="">--Seleccione--</option>
                                         @foreach ($payroll_types as $payroll_type)
-                                            <option value="{{ $payroll_type->id }}">{{ $payroll_type->name }}</option>
+                                            <option value="{{ $payroll_type->id }}">{{ $payroll_type->name }}
+                                            </option>
                                         @endforeach
                                     </select>
                                     @error('payroll_type_id')
@@ -119,11 +157,12 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="funding_resource_id">Fuente de financiamiento*:</label>
-                                    <select wire:model="funding_resource_id" id="funding_resource_id" class="form-control"
-                                        required>
+                                    <select wire:model="funding_resource_id" id="funding_resource_id"
+                                        class="form-control" required>
                                         <option value="">--Seleccione--</option>
                                         @foreach ($funding_resources as $funding_resource)
-                                            <option value="{{ $funding_resource->id }}">[{{ $funding_resource->code }}]
+                                            <option value="{{ $funding_resource->id }}">
+                                                [{{ $funding_resource->code }}]
                                                 {{ $funding_resource->name }}</option>
                                         @endforeach
                                     </select>
@@ -132,67 +171,157 @@
                                     @enderror
                                 </div>
                             </div>
-                        </div>
+                            <div class="card-footer">
+                                <button type="submit"
+                                    class="btn btn-primary float-right font-weight-bold text-uppercase"><i
+                                        class="fas fa-save"></i> Guardar</button>
+                            </div>
+                        </form>
                     </div>
-                    <div class="col-md-8">
-                        <div class="card">
-                            <div class="card-header">
-                                <div class="d-flex flex-row justify-content-between align-items-center">
-                                    <span class="font-weight-bold">LISTA DE EMPLEADOS</span>
-                                    <div>
-                                        <button class="btn btn-secondary btn-sm font-weight-bold" type="button"
-                                            data-toggle="modal" data-target="#modalEmployee">AGREGAR</button>
-                                        <button class="btn btn-dark btn-sm font-weight-bold" type="button"
-                                            data-toggle="modal" data-target="#modalGroup">AGREGAR VARIOS</button>
-                                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="d-flex flex-row justify-content-between align-items-center">
+                                <span class="font-weight-bold">PERIODOS</span>
+                                <div>
+                                    <button class="btn btn-secondary btn-sm font-weight-bold" type="button"
+                                        data-toggle="modal" data-target="#modalPeriod">AGREGAR</button>
                                 </div>
                             </div>
-                            <div class="card-body">
-                                @if ($employees_list)
-                                    <div class="table-responsive">
-                                        <table class="table table-sm">
-                                            <thead class="thead-dark">
-                                                <tr>
-                                                    <th scope="col">#</th>
-                                                    <th scope="col">DNI</th>
-                                                    <th scope="col">EMPLEADO</th>
-                                                    <th scope="col">REMUNERACIÓN</th>
-                                                    <th scope="col" class="text-right">ACCIONES</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @foreach ($employees_list as $index => $employee)
-                                                    <tr>
-                                                        <td>{{ $index + 1 }}</td>
-                                                        <td>{{ $employee->dni }}</td>
-                                                        <td>{{ $employee->last_name }}
-                                                            {{ $employee->second_last_name }} {{ $employee->name }}
-                                                        </td>
-                                                        <td>{{ $employee->remuneration }}</td>
-                                                        <td class="text-right">
-                                                            <button onclick='deleteEmployee({{ $employee->id }})'
-                                                                type="button" class="btn btn-sm btn-danger"><i
-                                                                    class="fas fa-trash"></i></button>
-                                                        </td>
-                                                    </tr>
-                                                @endforeach
-                                            </tbody>
-                                        </table>
+                        </div>
+                        <div class="card-body">
+                            <form wire:submit="searchEmployees">
+                                <div class="form-group">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <button type="submit" class="btn btn-info">BUSCAR</button>
+                                        </div>
+                                        <select id="selected_period" wire:model="selected_period"
+                                            class="form-control" required>
+                                            <option value="">--Seleccione un periodo--</option>
+                                            @foreach ($periods_payroll as $period)
+                                                <option value="{{ $period->id }}">{{ $periods[$period->mounth] }}
+                                                </option>
+                                            @endforeach
+                                        </select>
                                     </div>
-                                @else
-                                    <span>Aún no hay empleados</span>
-                                @endif
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="card d-none opacity-low" wire:loading.class='d-block opacity-full'
+                        wire:target="searchEmployees">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-center justify-items-center">
+                                <div class="spinner-border" role="status">
+                                    <span class="sr-only">Loading...</span>
+                                </div>
+                                <span class="text-md ml-2 font-weight-bold">BUSCANDO...</span>
                             </div>
                         </div>
+                    </div>
+                    <div wire:loading.class='opacity-low' wire:target="searchEmployees"
+                        style="transition-property: opacity; transition-duration: 300ms;">
+                        @if ($payments_list)
+                            <div class="card" wire:loading.remove wire:target="searchEmployees">
+                                <div class="card-header">
+                                    <div class="d-flex flex-row justify-content-between align-items-center">
+                                        <span class="font-weight-bold">LISTA DE EMPLEADOS</span>
+                                        <div>
+                                            <button class="btn btn-secondary btn-sm font-weight-bold" type="button"
+                                                data-toggle="modal" data-target="#modalEmployee">AGREGAR</button>
+                                            <button class="btn btn-dark btn-sm font-weight-bold" type="button"
+                                                data-toggle="modal" data-target="#modalGroup">AGREGAR VARIOS</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    @if (count($payments_list) >= 1)
+                                        <div class="table-responsive">
+                                            <table class="table table-sm">
+                                                <thead class="thead-dark">
+                                                    <tr>
+                                                        <th scope="col">#</th>
+                                                        <th scope="col">DNI</th>
+                                                        <th scope="col">EMPLEADO</th>
+                                                        <th scope="col">REMUNERACIÓN</th>
+                                                        <th scope="col" style="min-width: 90px">DÍAS</th>
+                                                        <th scope="col" style="min-width: 90px">D. DÍAS</th>
+                                                        <th scope="col" style="min-width: 90px">D. HORAS</th>
+                                                        <th scope="col" style="min-width: 90px">D. MIN.</th>
+                                                        <th scope="col" style="min-width: 120px">REINTEGRO</th>
+                                                        <th scope="col" style="min-width: 120px">AGUINALDO</th>
+                                                        <th scope="col" class="text-right">ACCIONES</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach ($payments_list as $index => $payment)
+                                                        <tr>
+                                                            <td>{{ $index + 1 }}</td>
+                                                            <td>{{ $payment->employee->dni }}</td>
+                                                            <td>{{ $payment->employee->last_name }}
+                                                                {{ $payment->employee->second_last_name }}
+                                                                {{ $payment->employee->name }}
+                                                            </td>
+                                                            <td>
+                                                                <input class="form-control" type="number"
+                                                                    onchange="changeValuePayment({{ $payment->id }}, 'basic', this.value)"
+                                                                    value="{{ $payment->basic }}" step="0.01">
+                                                            </td>
+                                                            <td>
+                                                                <input class="form-control" type="number"
+                                                                    onchange="changeValuePayment({{ $payment->id }}, 'days', this.value)"
+                                                                    value="{{ $payment->days }}">
+                                                            </td>
+                                                            <td>
+                                                                <input class="form-control" type="number"
+                                                                    onchange="changeValuePayment({{ $payment->id }}, 'days_discount', this.value)"
+                                                                    value="{{ $payment->days_discount }}">
+                                                            </td>
+                                                            <td>
+                                                                <input class="form-control" type="number"
+                                                                    onchange="changeValuePayment({{ $payment->id }}, 'hours_discount', this.value)"
+                                                                    value="{{ $payment->hours_discount }}">
+                                                            </td>
+                                                            <td>
+                                                                <input class="form-control" type="number"
+                                                                    onchange="changeValuePayment({{ $payment->id }}, 'minutes_discount', this.value)"
+                                                                    value="{{ $payment->minutes_discount }}">
+                                                            </td>
+                                                            <td>
+                                                                <input class="form-control" type="number"
+                                                                    onchange="changeValuePayment({{ $payment->id }}, 'refound', this.value)"
+                                                                    value="{{ $payment->refound }}">
+                                                            </td>
+                                                            <td>
+                                                                <input class="form-control" type="number"
+                                                                     onchange="changeValuePayment({{ $payment->id }}, 'aguinaldo', this.value)"
+                                                                    value="{{ $payment->aguinaldo }}">
+                                                            </td>
+                                                            <td class="text-right">
+                                                                <button onclick='deleteEmployee({{ $payment->id }})'
+                                                                    type="button" class="btn btn-sm btn-danger"><i
+                                                                        class="fas fa-trash"></i></button>
+                                                            </td>
+                                                        </tr>
+                                                    @endforeach
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    @else
+                                        <span>Todavía no hay empleados asignados</span>
+                                    @endif
+                                </div>
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>
-            <div class="card-footer">
-                <button type="submit" class="btn btn-primary float-right font-weight-bold text-uppercase"><i
-                        class="fas fa-save"></i> Guardar</button>
-            </div>
         </div>
-    </form>
+        <div class="card-footer">
+        </div>
+    </div>
 </div>
 @push('js')
     <script>
@@ -211,6 +340,17 @@
                     @this.deleteEmployee(id);
                 }
             })
+        }
+        Livewire.on('closeModalPeriod', function() {
+            $("#modalPeriod").modal('hide');
+        })
+
+        function changeValuePayment(payment_id, field, value) {
+            // alert(`payment_id: ${payment_id}, field: ${field}, value: ${value}`);
+            if(value === ""){
+                value = null;
+            }
+            @this.changeValuePayment(payment_id, field, value);
         }
     </script>
 @endpush

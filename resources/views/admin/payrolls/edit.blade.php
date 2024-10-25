@@ -21,7 +21,14 @@
 @stop
 
 @section('css')
-
+    <style>
+        .opacity-low {
+            opacity: 0.1;
+        }
+        .opacity-full {
+            opacity: 1;
+        }
+    </style>
 @stop
 
 @section('js')

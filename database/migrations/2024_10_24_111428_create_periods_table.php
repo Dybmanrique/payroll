@@ -11,9 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('employee_payroll', function (Blueprint $table) {
-            $table->foreignId('employee_id')->constrained()->onDelete('cascade');
-            $table->foreignId('payroll_id')->constrained()->onDelete('cascade');
+        Schema::create('periods', function (Blueprint $table) {
+            $table->id();
+            $table->integer('mounth');
+            $table->foreignId('payroll_id')->constrained();
+            $table->timestamps();
         });
     }
 
@@ -22,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('employee_payroll');
+        Schema::dropIfExists('periods');
     }
 };

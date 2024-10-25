@@ -15,52 +15,6 @@ class FormCreate extends Component
 
     public $number, $period, $processing_date, $payroll_type_id, $funding_resource_id;
 
-    public $modal_employee_id, $modal_group_id;
-
-    public $employees_list = [];
-
-    public function addGroup()
-    {
-        $employees_group = Employee::where('group_id', $this->modal_group_id)->get();
-
-        foreach ($employees_group as $employee) {
-            if (!$this->theEmployeeIsIncluded($employee->id)) {
-                array_push($this->employees_list, $employee);
-            }
-        }
-    }
-    public function addEmployee()
-    {
-        if ($this->theEmployeeIsIncluded($this->modal_employee_id)) {
-            $this->dispatch('message', code: '500', content: 'Ya está incluido');
-            return;
-        }
-        $employee = Employee::find($this->modal_employee_id);
-        array_push($this->employees_list, $employee);
-    }
-
-    private function theEmployeeIsIncluded($employee_id)
-    {
-        foreach ($this->employees_list as $employee) {
-            if ($employee->id == intval($employee_id)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public function deleteEmployee($employee_id)
-    {
-        foreach ($this->employees_list as $key => $employee) {
-            if ($employee->id == $employee_id) {
-                unset($this->employees_list[$key]);
-                // Método para re-indexar
-                $this->employees_list = array_values($this->employees_list);
-                break;
-            }
-        }
-    }
-
     public function save()
     {
         $this->validate([
@@ -70,11 +24,6 @@ class FormCreate extends Component
             'payroll_type_id' => 'required|numeric',
             'funding_resource_id' => 'required|numeric',
         ]);
-        
-        if(count($this->employees_list)<1){
-            $this->dispatch('message', code: '500', content: 'Agrege al menos un empleado');
-            return;
-        }
 
         try {
             $payroll = Payroll::create([
@@ -84,14 +33,9 @@ class FormCreate extends Component
                 'payroll_type_id' => $this->payroll_type_id,
                 'funding_resource_id' => $this->funding_resource_id,
             ]);
-    
-            $ids_employees = collect($this->employees_list)->pluck('id')->toArray();
-            $payroll->employees()->attach($ids_employees);
-    
-            $this->reset('number', 'payroll_type_id', 'funding_resource_id');
-            $this->employees_list = [];
-            $this->number = $this->generateNewNumber();
-            $this->dispatch('message', code: '200', content: 'Se ha creado');
+
+            $this->dispatch('message', code: '200', content: 'Se ha creado, redireccionando...');
+            return redirect()->route('payrolls.edit', $payroll);
         } catch (\Exception $ex) {
             $this->dispatch('message', code: '500', content: 'No se pudo crear');
         }
