@@ -257,7 +257,7 @@
                                                 </thead>
                                                 <tbody>
                                                     @foreach ($payments_list as $index => $payment)
-                                                        <tr>
+                                                        <tr wire:key='{{ $payment->id }}'>
                                                             <td>{{ $index + 1 }}</td>
                                                             <td>{{ $payment->employee->dni }}</td>
                                                             <td>{{ $payment->employee->last_name }}

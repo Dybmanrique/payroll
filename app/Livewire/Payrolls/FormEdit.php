@@ -42,6 +42,7 @@ class FormEdit extends Component
 
     public function searchEmployees()
     {
+        $this->payments_list = [];
         if (!Period::find($this->selected_period)) {
             $this->payments_list = [];
             return;
@@ -51,12 +52,21 @@ class FormEdit extends Component
 
     public function addGroup()
     {
-        $employees_group = Employee::where('group_id', $this->modal_group_id)->get();
+        try {
+            $employees_group = Employee::where('group_id', $this->modal_group_id)->get();
 
-        foreach ($employees_group as $employee) {
-            if (!$this->theEmployeeIsIncluded($employee->id)) {
-                array_push($this->payments_list, $employee);
+            foreach ($employees_group as $employee) {
+                if (!$this->theEmployeeIsIncluded($employee->id)) {
+                    Payment::create([
+                        'basic' => $employee->remuneration,
+                        'employee_id' => $employee->id,
+                        'period_id' => $this->selected_period,
+                    ]);
+                }
             }
+            $this->payments_list = Payment::where('period_id', $this->selected_period)->get();
+        } catch (\Exception $th) {
+            $this->dispatch('message', code: '500', content: 'Algo salió mal');
         }
     }
     public function addEmployee()
