@@ -245,13 +245,14 @@
                                                         <th scope="col">#</th>
                                                         <th scope="col">DNI</th>
                                                         <th scope="col">EMPLEADO</th>
-                                                        <th scope="col">REMUNERACIÓN</th>
+                                                        <th scope="col" style="min-width: 120px">BÁSICO</th>
                                                         <th scope="col" style="min-width: 90px">DÍAS</th>
                                                         <th scope="col" style="min-width: 90px">D. DÍAS</th>
                                                         <th scope="col" style="min-width: 90px">D. HORAS</th>
                                                         <th scope="col" style="min-width: 90px">D. MIN.</th>
                                                         <th scope="col" style="min-width: 120px">REINTEGRO</th>
                                                         <th scope="col" style="min-width: 120px">AGUINALDO</th>
+                                                        <th scope="col" style="min-width: 120px">PAGO NETO</th>
                                                         <th scope="col" class="text-right">ACCIONES</th>
                                                     </tr>
                                                 </thead>
@@ -296,8 +297,13 @@
                                                             </td>
                                                             <td>
                                                                 <input class="form-control" type="number"
-                                                                     onchange="changeValuePayment({{ $payment->id }}, 'aguinaldo', this.value)"
+                                                                    onchange="changeValuePayment({{ $payment->id }}, 'aguinaldo', this.value)"
                                                                     value="{{ $payment->aguinaldo }}">
+                                                            </td>
+                                                            <td>
+                                                                <input class="form-control"
+                                                                    type="number"value="{{ $payment->net_pay }}"
+                                                                    disabled>
                                                             </td>
                                                             <td class="text-right">
                                                                 <button onclick='deleteEmployee({{ $payment->id }})'
@@ -308,6 +314,26 @@
                                                     @endforeach
                                                 </tbody>
                                             </table>
+                                        </div>
+                                        <div class="card mt-2">
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col">
+                                                        <button wire:target="calculate" wire:loading.class='disabled' type="button" class="font-weight-bold btn btn-info w-100"
+                                                            onclick='calculate()'>
+                                                            <div wire:target="calculate" wire:loading.class='d-inline-block' class="d-none spinner-border spinner-border-sm"
+                                                                role="status">
+                                                                <span class="sr-only">Loading...</span>
+                                                            </div>
+                                                            <i class="fas fa-calculator"></i> REALIZAR CALCULOS
+                                                        </button>
+                                                    </div>
+                                                    <div class="col">
+                                                        <button type="button" class="font-weight-bold btn btn-info w-100"
+                                                            wire:click='mcpp()'>INTERFAZ MCPP</button>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     @else
                                         <span>Todavía no hay empleados asignados</span>
@@ -346,11 +372,27 @@
         })
 
         function changeValuePayment(payment_id, field, value) {
-            // alert(`payment_id: ${payment_id}, field: ${field}, value: ${value}`);
-            if(value === ""){
+            if (value === "") {
                 value = null;
             }
             @this.changeValuePayment(payment_id, field, value);
+        }
+
+        function calculate() {
+            Swal.fire({
+                title: '¿Estas seguro?',
+                text: "Se realizaran los cálculos con los datos actuales",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si, Calcular!',
+                cancelButtonText: 'No'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    @this.calculate();
+                }
+            })
         }
     </script>
 @endpush

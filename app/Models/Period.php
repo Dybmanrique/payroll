@@ -17,4 +17,12 @@ class Period extends Model
     public function employees(){
         return $this->belongsToMany(Employee::class, 'payments');
     }
+
+    public function payroll(){
+        return $this->belongsTo(Payroll::class);
+    }
+
+    public function payments(){
+        return $this->hasMany(Payment::class);
+    }
 }
