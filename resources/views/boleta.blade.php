@@ -30,7 +30,7 @@
     }
 
     .corner {
-        width: 200px;
+        width: 180px;
     }
 
     .text-bold {
@@ -71,7 +71,14 @@
     <table class="w-full">
         <tr>
             <td class="corner"><img src="{{ public_path('img/asuncion.jpg') }}" alt=""></td>
-            <td class="text-bold text-center text-lg">BOLETA DE PAGO</td>
+            <td class="text-bold text-center">
+                <ul style="list-style-type: none; margin: 0px;">
+                    <li class="text-lg">BOLETA DE PAGO</li>
+                    <li>Contrato de Administrativo por Servicio</li>
+                    <li>D.L. 1057</li>
+                </ul>
+                
+            </td>
             <td class="text-right corner">RUC: 20571443784</td>
         </tr>
     </table>
