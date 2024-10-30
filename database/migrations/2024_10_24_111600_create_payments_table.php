@@ -28,8 +28,8 @@ return new class extends Migration
             $table->integer('days_discount')->nullable();
             $table->integer('hours_discount')->nullable();
             $table->integer('minutes_discount')->nullable();
-            $table->integer('refound')->nullable();
-            $table->integer('aguinaldo')->nullable();
+            $table->decimal('refound', 9, 2)->nullable();
+            $table->decimal('aguinaldo', 9, 2)->nullable();
             $table->foreignId('employee_id')->constrained()->onDelete('cascade');
             $table->foreignId('period_id')->constrained()->onDelete('cascade');
             $table->timestamps();
