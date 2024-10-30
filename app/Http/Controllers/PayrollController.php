@@ -70,85 +70,99 @@ class PayrollController extends Controller
 
         define("CONTRATO_ADMINISTRATIVO_DE_SERVICIOS", 4);
 
-        $prefix = "PLL";
-        $executing_unit = "001479";
-        $year_process = "2024";
-        $mounth_process = "10";
-        $payroll_type = "01";
-        $payroll_class = "03";
-        $correlative = "0001";
-        $extension = ".txt";
+        define("ONP_COMISSION", 0.13);
+        define("ESSALUD", 0.09);
+        define("WORKING_HOURS", 8);
+        define("WORKING_MINUTES", 480);
 
-        $name = "{$prefix}{$executing_unit}{$year_process}{$mounth_process}{$payroll_type}{$payroll_class}{$correlative}{$extension}";
-
-        $body = "";
-        foreach ($period->employees as $key => $employee) {
-            $identity_document_type = "2";
-            $identity_document_number = $employee->dni;
-            $funding_resource = $period->payroll->funding_resource->code;
-
-            //HONORARIOS
-            $airhsp_concept = INGRESOS;
-            $airhsp_concept_code = "0131";
-            $description = "HONORARIOS";
-            $amount = $employee->remuneration;
-            $airhsp_record_type = CONTRATO_ADMINISTRATIVO_DE_SERVICIOS;
-            $airhsp_code_employee = $employee->airhsp_code;
-            $body .= "{$identity_document_type}|{$identity_document_number}|{$funding_resource}|{$airhsp_concept}|{$airhsp_concept_code}|{$description}|{$amount}|{$airhsp_record_type}|{$airhsp_code_employee}\n";
-
-            //ONP
-            if ($employee->pension_system === 'onp') {
-                $airhsp_concept = DESCUENTOS;
-                $airhsp_concept_code = "0000";
-                $description = "ONP";
-                $amount = ($employee->remuneration) * 0.13;
+        try {
+            $prefix = "PLL";
+            $executing_unit = "001479";
+            $year_process = "2024";
+            $mounth_process = "10";
+            $payroll_type = "01";
+            $payroll_class = "03";
+            $correlative = "0001";
+            $extension = ".txt";
+    
+            $name = "{$prefix}{$executing_unit}{$year_process}{$mounth_process}{$payroll_type}{$payroll_class}{$correlative}{$extension}";
+    
+            $total_income = 0;
+            $total_discounts = 0;
+            $total_contributions = 0;
+    
+            $body = "";
+            foreach ($period->payments as $key => $payment) {
+                $identity_document_type = "2";
+                $identity_document_number = $payment->employee->dni;
+                $funding_resource = $period->payroll->funding_resource->code;
+    
+                //HONORARIOS
+                $airhsp_concept = INGRESOS;
+                $airhsp_concept_code = "0077";
+                $description = "HONORARIOS";
+                $amount = $payment->total_remuneration;
+                $airhsp_record_type = CONTRATO_ADMINISTRATIVO_DE_SERVICIOS;
+                $airhsp_code_employee = $payment->employee->airhsp_code;
                 $body .= "{$identity_document_type}|{$identity_document_number}|{$funding_resource}|{$airhsp_concept}|{$airhsp_concept_code}|{$description}|{$amount}|{$airhsp_record_type}|{$airhsp_code_employee}\n";
-            }
-
-            //AFP
-            if ($employee->pension_system === 'afp') {
-                $airhsp_concept = DESCUENTOS;
-                $airhsp_concept_code = "0000";
-                if($employee->afps){
-                    //AFP AP OBLIG
-                    $description = "AFP AP OBLIG";
-                    $amount = ($employee->remuneration) * ($employee->afps()->first()->obligatory_contribution);
-                    $body .= "{$identity_document_type}|{$identity_document_number}|{$funding_resource}|{$airhsp_concept}|{$airhsp_concept_code}|{$description}|{$amount}|{$airhsp_record_type}|{$airhsp_code_employee}\n";
-
-                    //AFP SEGURO
-                    $description = "AFP SEGURO";
-                    $amount = ($employee->remuneration) * ($employee->afps()->first()->life_insurance);
-                    $body .= "{$identity_document_type}|{$identity_document_number}|{$funding_resource}|{$airhsp_concept}|{$airhsp_concept_code}|{$description}|{$amount}|{$airhsp_record_type}|{$airhsp_code_employee}\n";
-
-                    //AFP COM VAR
-                    $description = "AFP COM VAR";
-                    $amount = ($employee->remuneration) * ($employee->afps()->first()->variable_commission);
+    
+                //ONP
+                if ($payment->onp_discount !== null) {
+                    $airhsp_concept = DESCUENTOS;
+                    $airhsp_concept_code = "0001";
+                    $description = "S.N.P. 19990 - SUNAT";
+                    $amount = $payment->onp_discount;
                     $body .= "{$identity_document_type}|{$identity_document_number}|{$funding_resource}|{$airhsp_concept}|{$airhsp_concept_code}|{$description}|{$amount}|{$airhsp_record_type}|{$airhsp_code_employee}\n";
                 }
+    
+                //AFP
+                if ($payment->afp_discount !== null) {
+                    $airhsp_concept = DESCUENTOS;
+    
+                    //AFP AP OBLIG
+                    $airhsp_concept_code = "0002";
+                    $description = "SISTEMA PRIVADO DE P";
+                    $amount = $payment->obligatory_afp;
+                    $body .= "{$identity_document_type}|{$identity_document_number}|{$funding_resource}|{$airhsp_concept}|{$airhsp_concept_code}|{$description}|{$amount}|{$airhsp_record_type}|{$airhsp_code_employee}\n";
+    
+                    //AFP SEGURO
+                    $airhsp_concept_code = "0004";
+                    $description = "SEGURO - AFP";
+                    $amount = $payment->life_insurance_afp;
+                    $body .= "{$identity_document_type}|{$identity_document_number}|{$funding_resource}|{$airhsp_concept}|{$airhsp_concept_code}|{$description}|{$amount}|{$airhsp_record_type}|{$airhsp_code_employee}\n";
+    
+                    //AFP COM VAR
+                    $airhsp_concept_code = "0005";
+                    $description = "COM.VARIABLE-AFP";
+                    $amount = $payment->variable_afp;
+                    $body .= "{$identity_document_type}|{$identity_document_number}|{$funding_resource}|{$airhsp_concept}|{$airhsp_concept_code}|{$description}|{$amount}|{$airhsp_record_type}|{$airhsp_code_employee}\n";
+                }
+    
+                //ESSALUD
+                if ($payment->essalud !== null) {
+                    $airhsp_concept_code = "0007";
+                    $description = "ESSALUD";
+                    $amount = $payment->essalud;
+                    $body .= "{$identity_document_type}|{$identity_document_number}|{$funding_resource}|{$airhsp_concept}|{$airhsp_concept_code}|{$description}|{$amount}|{$airhsp_record_type}|{$airhsp_code_employee}\n";
+                }
+                $total_income += $payment->total_remuneration;
+                $total_discounts += $payment->total_discount;
+                $total_contributions += $payment->essalud;
             }
-
-            //ESSALUD
-            if($employee->essalud === true){
-                $description = "ESSALUD";
-                $amount = ($employee->remuneration) * (0.09);
-                $body .= "{$identity_document_type}|{$identity_document_number}|{$funding_resource}|{$airhsp_concept}|{$airhsp_concept_code}|{$description}|{$amount}|{$airhsp_record_type}|{$airhsp_code_employee}\n";
-            }
-        }
-
-        $count_rows = substr_count($body, "\n");
-        $total_income = "1000.00";
-        $total_discounts = "5000.00";
-        $total_contributions = "500.00";
-
-        //FIRST ROW
-        $header = "{$executing_unit}|{$year_process}|{$mounth_process}|{$payroll_type}|{$payroll_class}|{$correlative}|{$count_rows}|{$total_income}|{$total_discounts}|{$total_contributions}";
-        $content = "{$header}\n{$body}";
-
-        // Crear y devolver el archivo como descarga
-        return response($content)
-            ->header('Content-Type', 'text/plain')
-            ->header('Content-Disposition', 'attachment; filename="' . $name . '"');
-        try {
+    
+            $count_rows = substr_count($body, "\n");
+            $total_income = number_format($total_income, 2, '.', '');
+            $total_discounts += number_format($total_discounts, 2, '.', '');
+            $total_contributions = number_format($total_contributions, 2, '.', '');
+    
+            //FIRST ROW
+            $header = "{$executing_unit}|{$year_process}|{$mounth_process}|{$payroll_type}|{$payroll_class}|{$correlative}|{$count_rows}|{$total_income}|{$total_discounts}|{$total_contributions}";
+            $content = "{$header}\n{$body}";
+    
+            // Crear y devolver el archivo como descarga
+            return response($content)
+                ->header('Content-Type', 'text/plain')
+                ->header('Content-Disposition', 'attachment; filename="' . $name . '"');
         } catch (\Exception $ex) {
             dd('algo salió mal');
         }
