@@ -111,7 +111,7 @@ class FormEdit extends Component
                     $field => $value,
                 ]);
             }
-            $this->dispatch('message', code: '200', content: 'Se actualizó el valor');
+            $this->dispatch('message_toastr', code: '200', content: 'Se actualizó el valor');
         } catch (\Exception $th) {
             $this->dispatch('message', code: '500', content: 'Ocurrió un error inesperado');
         }
