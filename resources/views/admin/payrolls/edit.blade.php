@@ -21,6 +21,7 @@
 @stop
 
 @section('css')
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
     <style>
         .opacity-low {
             opacity: 0.1;
@@ -43,5 +44,7 @@
 @stop
 
 @section('js')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
     <script src="{{ asset('js/admin/message_forms.js') }}"></script>
+    <script src="{{ asset('js/admin/message_toastr.js') }}"></script>
 @stop
