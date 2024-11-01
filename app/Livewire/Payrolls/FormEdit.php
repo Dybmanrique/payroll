@@ -98,8 +98,13 @@ class FormEdit extends Component
 
     public function deleteEmployee($employee_id)
     {
-        Payment::find($employee_id)->delete();
-        $this->payments_list = Payment::where('period_id', $this->selected_period)->get();
+        try {
+            Payment::find($employee_id)->delete();
+            $this->payments_list = Payment::where('period_id', $this->selected_period)->get();
+            $this->dispatch('message', code: '200', content: 'Se eliminó correctamente');
+        } catch (\Exception $th) {
+            $this->dispatch('message', code: '500', content: 'Algo salió mal');
+        }
     }
 
     public function changeValuePayment($payment_id, $field, $value)
@@ -149,7 +154,7 @@ class FormEdit extends Component
 
     public function mcpp()
     {
-        if(!$this->has_employees()){
+        if (!$this->has_employees()) {
             return;
         }
         return redirect()->route('payrolls.mcpp', Period::find($this->selected_period));
@@ -157,7 +162,7 @@ class FormEdit extends Component
 
     public function calculate()
     {
-        if(!$this->has_employees()){
+        if (!$this->has_employees()) {
             return;
         }
         define("ONP_COMISSION", 0.13);
