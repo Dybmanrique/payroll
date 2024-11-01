@@ -342,6 +342,12 @@
                                                             class="font-weight-bold btn btn-info w-100"
                                                             wire:click='mcpp()'>INTERFAZ MCPP</button>
                                                     </div>
+                                                    <div class="col">
+                                                        <a href="{{ route('payrolls.generate_payment_slips_period', $selected_period) }}"
+                                                            class="font-weight-bold btn btn-secondary w-100" target="_blank">
+                                                            <i class="fas fa-file-alt"></i> IMPRIMIR BOLETAS
+                                                        </a>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>

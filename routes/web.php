@@ -87,6 +87,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/planillas/eliminar', [PayrollController::class, 'destroy'])->name('payrolls.destroy');
     Route::get('/planillas/{period}/generar-mcpp', [PayrollController::class, 'mcpp'])->name('payrolls.mcpp');
     Route::get('/planillas/{payment}/boleta-de-pago', [PayrollController::class, 'generate_payment_slip'])->name('payrolls.generate_payment_slip');
+    Route::get('/planillas/{period}/boletas-de-pago', [PayrollController::class, 'generate_payment_slips_period'])->name('payrolls.generate_payment_slips_period');
 });
 
 
