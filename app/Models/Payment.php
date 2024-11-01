@@ -34,4 +34,8 @@ class Payment extends Model
     public function employee(){
         return $this->belongsTo(Employee::class);
     }
+
+    public function period(){
+        return $this->belongsTo(Period::class);
+    }
 }

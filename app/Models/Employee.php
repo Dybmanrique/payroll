@@ -40,6 +40,10 @@ class Employee extends Model
         return $this->belongsToMany(Afp::class)->withPivot('afp_code','afp_fing');
     }
 
+    public function job_position(){
+        return $this->belongsTo(JobPosition::class);
+    }
+
     public function payrolls(){
         return $this->belongsToMany(Payroll::class);
     }

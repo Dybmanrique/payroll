@@ -7,13 +7,12 @@ use App\Models\Payment;
 use App\Models\Payroll;
 use App\Models\Period;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class PayrollController extends Controller
 {
     public function index()
     {
-        // $employee = Employee::find(1);
-        // dd($employee->afps()->first()->obligatory_contribution);
         return view('admin.payrolls.index');
     }
     public function data()
@@ -84,19 +83,19 @@ class PayrollController extends Controller
             $payroll_class = "03";
             $correlative = "0001";
             $extension = ".txt";
-    
+
             $name = "{$prefix}{$executing_unit}{$year_process}{$mounth_process}{$payroll_type}{$payroll_class}{$correlative}{$extension}";
-    
+
             $total_income = 0;
             $total_discounts = 0;
             $total_contributions = 0;
-    
+
             $body = "";
             foreach ($period->payments as $key => $payment) {
                 $identity_document_type = "2";
                 $identity_document_number = $payment->employee->dni;
                 $funding_resource = $period->payroll->funding_resource->code;
-    
+
                 //HONORARIOS
                 $airhsp_concept = INGRESOS;
                 $airhsp_concept_code = "0077";
@@ -105,7 +104,7 @@ class PayrollController extends Controller
                 $airhsp_record_type = CONTRATO_ADMINISTRATIVO_DE_SERVICIOS;
                 $airhsp_code_employee = $payment->employee->airhsp_code;
                 $body .= "{$identity_document_type}|{$identity_document_number}|{$funding_resource}|{$airhsp_concept}|{$airhsp_concept_code}|{$description}|{$amount}|{$airhsp_record_type}|{$airhsp_code_employee}\n";
-    
+
                 //ONP
                 if ($payment->onp_discount !== null) {
                     $airhsp_concept = DESCUENTOS;
@@ -114,30 +113,30 @@ class PayrollController extends Controller
                     $amount = $payment->onp_discount;
                     $body .= "{$identity_document_type}|{$identity_document_number}|{$funding_resource}|{$airhsp_concept}|{$airhsp_concept_code}|{$description}|{$amount}|{$airhsp_record_type}|{$airhsp_code_employee}\n";
                 }
-    
+
                 //AFP
                 if ($payment->afp_discount !== null) {
                     $airhsp_concept = DESCUENTOS;
-    
+
                     //AFP AP OBLIG
                     $airhsp_concept_code = "0002";
                     $description = "SISTEMA PRIVADO DE P";
                     $amount = $payment->obligatory_afp;
                     $body .= "{$identity_document_type}|{$identity_document_number}|{$funding_resource}|{$airhsp_concept}|{$airhsp_concept_code}|{$description}|{$amount}|{$airhsp_record_type}|{$airhsp_code_employee}\n";
-    
+
                     //AFP SEGURO
                     $airhsp_concept_code = "0004";
                     $description = "SEGURO - AFP";
                     $amount = $payment->life_insurance_afp;
                     $body .= "{$identity_document_type}|{$identity_document_number}|{$funding_resource}|{$airhsp_concept}|{$airhsp_concept_code}|{$description}|{$amount}|{$airhsp_record_type}|{$airhsp_code_employee}\n";
-    
+
                     //AFP COM VAR
                     $airhsp_concept_code = "0005";
                     $description = "COM.VARIABLE-AFP";
                     $amount = $payment->variable_afp;
                     $body .= "{$identity_document_type}|{$identity_document_number}|{$funding_resource}|{$airhsp_concept}|{$airhsp_concept_code}|{$description}|{$amount}|{$airhsp_record_type}|{$airhsp_code_employee}\n";
                 }
-    
+
                 //ESSALUD
                 if ($payment->essalud !== null) {
                     $airhsp_concept_code = "0007";
@@ -149,16 +148,16 @@ class PayrollController extends Controller
                 $total_discounts += $payment->total_discount;
                 $total_contributions += $payment->essalud;
             }
-    
+
             $count_rows = substr_count($body, "\n");
             $total_income = number_format($total_income, 2, '.', '');
             $total_discounts += number_format($total_discounts, 2, '.', '');
             $total_contributions = number_format($total_contributions, 2, '.', '');
-    
+
             //FIRST ROW
             $header = "{$executing_unit}|{$year_process}|{$mounth_process}|{$payroll_type}|{$payroll_class}|{$correlative}|{$count_rows}|{$total_income}|{$total_discounts}|{$total_contributions}";
             $content = "{$header}\n{$body}";
-    
+
             // Crear y devolver el archivo como descarga
             return response($content)
                 ->header('Content-Type', 'text/plain')
@@ -166,5 +165,12 @@ class PayrollController extends Controller
         } catch (\Exception $ex) {
             dd('algo salió mal');
         }
+    }
+
+    public function generate_payment_slip(Payment $payment)
+    {
+        $periods = [1 => 'ENERO', 2 => 'FEBRERO', 3 => 'MARZO', 4 => 'ABRIL', 5 => 'MAYO', 6 => 'JUNIO', 7 => 'JULIO', 8 => 'AGOSTO', 9 => 'SETIEMBRE', 10 => 'OCTUBRE', 11 => 'NOVIEMBRE', 12 => 'DICIEMBRE'];
+        $pdf = Pdf::loadView('admin.reports-templates.boleta', ['payment' => $payment, 'periods' => $periods])->setPaper('a4');
+        return $pdf->stream();
     }
 }

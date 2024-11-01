@@ -305,10 +305,15 @@
                                                                     type="number"value="{{ $payment->net_pay }}"
                                                                     disabled>
                                                             </td>
-                                                            <td class="text-right">
+                                                            <td class="text-right text-nowrap">
+                                                                <a href="{{ route('payrolls.generate_payment_slip', $payment->id) }}"
+                                                                    class="btn btn-sm btn-secondary" target="_blank">
+                                                                    <i class="fas fa-file-alt"></i> BOLETA
+                                                                </a>
                                                                 <button onclick='deleteEmployee({{ $payment->id }})'
                                                                     type="button" class="btn btn-sm btn-danger"><i
-                                                                        class="fas fa-trash"></i></button>
+                                                                        class="fas fa-trash"></i> ELIMINAR
+                                                                </button>
                                                             </td>
                                                         </tr>
                                                     @endforeach
@@ -319,9 +324,13 @@
                                             <div class="card-body">
                                                 <div class="row">
                                                     <div class="col">
-                                                        <button wire:target="calculate" wire:loading.class='disabled' type="button" class="font-weight-bold btn btn-info w-100"
+                                                        <button id="btnCalculate" wire:target="calculate"
+                                                            wire:loading.class='disabled' type="button"
+                                                            class="font-weight-bold btn btn-info w-100"
                                                             onclick='calculate()'>
-                                                            <div wire:target="calculate" wire:loading.class='d-inline-block' class="d-none spinner-border spinner-border-sm"
+                                                            <div wire:target="calculate"
+                                                                wire:loading.class='d-inline-block'
+                                                                class="d-none spinner-border spinner-border-sm"
                                                                 role="status">
                                                                 <span class="sr-only">Loading...</span>
                                                             </div>
@@ -329,7 +338,8 @@
                                                         </button>
                                                     </div>
                                                     <div class="col">
-                                                        <button type="button" class="font-weight-bold btn btn-info w-100"
+                                                        <button type="button"
+                                                            class="font-weight-bold btn btn-info w-100"
                                                             wire:click='mcpp()'>INTERFAZ MCPP</button>
                                                     </div>
                                                 </div>
