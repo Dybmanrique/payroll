@@ -167,6 +167,7 @@ class FormEdit extends Component
         }
         define("ONP_COMISSION", 0.13);
         define("ESSALUD", 0.09);
+        define("CUARTA", 0.08);
         define("WORKING_HOURS", 8);
         define("WORKING_MINUTES", 480);
 
@@ -188,6 +189,9 @@ class FormEdit extends Component
                 }
                 if ($employee->essalud) {
                     $payment->essalud = ($payment->basic + $payment->refound) * ESSALUD;
+                }
+                if ($employee->cuarta) {
+                    $payment->cuarta = ($payment->basic + $payment->refound) * CUARTA;
                 }
                 $days_discount = ($payment->basic / $payment->days) * $payment->days_discount;
                 $hours_discount = ($payment->basic / $payment->days / WORKING_HOURS) * $payment->hours_discount;

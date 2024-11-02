@@ -190,6 +190,12 @@
                                         <td class="text-right">{{ $payment->fines_discount }}</td>
                                     </tr>
                                 @endif
+                                @if ($payment->cuarta)
+                                    <tr>
+                                        <td>Desc. 4ta Categoría: </td>
+                                        <td class="text-right">{{ $payment->cuarta }}</td>
+                                    </tr>
+                                @endif
                             </table>
                         </div>
                     </td>

@@ -154,6 +154,15 @@ class PayrollController extends Controller
                     $amount = $payment->essalud;
                     $body .= "{$identity_document_type}|{$identity_document_number}|{$funding_resource}|{$airhsp_concept}|{$airhsp_concept_code}|{$description}|{$amount}|{$airhsp_record_type}|{$airhsp_code_employee}\n";
                 }
+
+                //CUARTA CATEGORÍA
+                if ($payment->cuarta !== null) {
+                    $airhsp_concept_code = "0007";
+                    $description = "CUARTA CATEGORIA";
+                    $amount = $payment->cuarta;
+                    $body .= "{$identity_document_type}|{$identity_document_number}|{$funding_resource}|{$airhsp_concept}|{$airhsp_concept_code}|{$description}|{$amount}|{$airhsp_record_type}|{$airhsp_code_employee}\n";
+                }
+
                 $total_income += $payment->total_remuneration;
                 $total_discounts += $payment->total_discount;
                 $total_contributions += $payment->essalud;

@@ -21,6 +21,7 @@ return new class extends Migration
             $table->decimal('total_discount',9,2)->default(0);
             $table->decimal('net_pay',9,2)->default(0);
             $table->decimal('essalud',9,2)->nullable();
+            $table->decimal('cuarta',9,2)->nullable();
             $table->decimal('obligatory_afp',9,2)->nullable();
             $table->decimal('life_insurance_afp',9,2)->nullable();
             $table->decimal('variable_afp',9,2)->nullable();
