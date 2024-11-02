@@ -169,39 +169,44 @@ class FormEdit extends Component
         define("ESSALUD", 0.09);
         define("WORKING_HOURS", 8);
         define("WORKING_MINUTES", 480);
-        $period = Period::find($this->selected_period);
-        foreach ($period->payments as $key => $payment) {
-            $employee = $payment->employee;
-            $payment->onp_discount = $payment->afp_discount = $payment->essalud = null;
 
-            if ($employee->pension_system === 'afp') {
-                $payment->obligatory_afp = ($payment->basic + $payment->refound) * ($employee->afps()->first()->obligatory_contribution / 100);
-                $payment->life_insurance_afp = ($payment->basic + $payment->refound) * ($employee->afps()->first()->life_insurance / 100);
-                $payment->variable_afp = ($payment->basic + $payment->refound) * ($employee->afps()->first()->variable_commission / 100);
+        try {
+            $period = Period::find($this->selected_period);
+            foreach ($period->payments as $key => $payment) {
+                $employee = $payment->employee;
+                $payment->onp_discount = $payment->afp_discount = $payment->essalud = null;
 
-                $payment->afp_discount = $payment->obligatory_afp + $payment->life_insurance_afp + $payment->variable_afp;
+                if ($employee->pension_system === 'afp') {
+                    $payment->obligatory_afp = ($payment->basic + $payment->refound) * ($employee->afp->obligatory_contribution / 100);
+                    $payment->life_insurance_afp = ($payment->basic + $payment->refound) * ($employee->afp->life_insurance / 100);
+                    $payment->variable_afp = ($payment->basic + $payment->refound) * ($employee->afp->variable_commission / 100);
+
+                    $payment->afp_discount = $payment->obligatory_afp + $payment->life_insurance_afp + $payment->variable_afp;
+                }
+                if ($employee->pension_system === 'onp') {
+                    $payment->onp_discount = ($payment->basic + $payment->refound) * ONP_COMISSION;
+                }
+                if ($employee->essalud) {
+                    $payment->essalud = ($payment->basic + $payment->refound) * ESSALUD;
+                }
+                $days_discount = ($payment->basic / $payment->days) * $payment->days_discount;
+                $hours_discount = ($payment->basic / $payment->days / WORKING_HOURS) * $payment->hours_discount;
+                $minutes_discount = ($payment->basic / $payment->days / WORKING_MINUTES) * $payment->minutes_discount;
+                $payment->fines_discount = $days_discount + $hours_discount + $minutes_discount;
+                if ($payment->fines_discount === 0.00) $payment->fines_discount = null;
+
+                $payment->total_remuneration = $payment->basic + $payment->refound + $payment->aguinaldo;
+                $payment->total_discount = $payment->afp_discount + $payment->onp_discount + $payment->fines_discount;
+
+                $payment->net_pay = $payment->total_remuneration - $payment->total_discount;
+                $payment->save();
             }
-            if ($employee->pension_system === 'onp') {
-                $payment->onp_discount = ($payment->basic + $payment->refound) * ONP_COMISSION;
-            }
-            if ($employee->essalud) {
-                $payment->essalud = ($payment->basic + $payment->refound) * ESSALUD;
-            }
-            $days_discount = ($payment->basic / $payment->days) * $payment->days_discount;
-            $hours_discount = ($payment->basic / $payment->days / WORKING_HOURS) * $payment->hours_discount;
-            $minutes_discount = ($payment->basic / $payment->days / WORKING_MINUTES) * $payment->minutes_discount;
-            $payment->fines_discount = $days_discount + $hours_discount + $minutes_discount;
-            if ($payment->fines_discount === 0.00) $payment->fines_discount = null;
 
-            $payment->total_remuneration = $payment->basic + $payment->refound + $payment->aguinaldo;
-            $payment->total_discount = $payment->afp_discount + $payment->onp_discount + $payment->fines_discount;
-
-            $payment->net_pay = $payment->total_remuneration - $payment->total_discount;
-            $payment->save();
+            $this->payments_list = Payment::where('period_id', $this->selected_period)->get();
+            $this->dispatch('message', code: '200', content: 'Se realizaron los calculos');
+        } catch (\Exception $th) {
+            $this->dispatch('message', code: '500', content: 'Algo salió mal');
         }
-
-        $this->payments_list = Payment::where('period_id', $this->selected_period)->get();
-        $this->dispatch('message', code: '200', content: 'Se realizaron los calculos');
     }
 
     public function mount()
