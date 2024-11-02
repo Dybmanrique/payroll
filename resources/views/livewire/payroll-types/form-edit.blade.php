@@ -13,6 +13,16 @@
                             @enderror
                         </div>
                     </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="description">Descripción*:</label>
+                            <input type="text" wire:model='description' id="description" class="form-control"
+                                placeholder="Ingrese una descripción" required autocomplete="off">
+                            @error('description')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="card-footer">

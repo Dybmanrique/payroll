@@ -11,5 +11,6 @@ class PayrollType extends Model
 
     protected $fillable = [
         'name',
+        'description',
     ];
 }

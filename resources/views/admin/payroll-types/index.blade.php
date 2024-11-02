@@ -64,6 +64,9 @@
                     "data": "name",
                 },
                 {
+                    "data": "description",
+                },
+                {
                     "data": null,
                     "render": function(data, type, row, meta) {
                         return (
@@ -78,11 +81,11 @@
 
             columnDefs = [{
                     className: 'text-left text-nowrap',
-                    targets: [0, 1]
+                    targets: [0, 1, 2]
                 },
                 {
                     className: 'text-right',
-                    targets: [2]
+                    targets: [3]
                 },
             ];
 
