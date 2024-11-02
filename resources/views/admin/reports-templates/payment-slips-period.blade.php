@@ -184,16 +184,16 @@
                                         <td class="text-right">{{ $payment->life_insurance_afp }}</td>
                                     </tr>
                                 @endif
-                                @if ($payment->fines_discount)
-                                    <tr>
-                                        <td>Multas: </td>
-                                        <td class="text-right">{{ $payment->fines_discount }}</td>
-                                    </tr>
-                                @endif
                                 @if ($payment->cuarta)
                                     <tr>
                                         <td>Desc. 4ta Categoría: </td>
                                         <td class="text-right">{{ $payment->cuarta }}</td>
+                                    </tr>
+                                @endif
+                                @if ($payment->fines_discount)
+                                    <tr>
+                                        <td>Multas: </td>
+                                        <td class="text-right">{{ $payment->fines_discount }}</td>
                                     </tr>
                                 @endif
                             </table>
