@@ -92,7 +92,7 @@ class FormEdit extends Component
                 'date_entry' => $this->date_entry,
                 'working_hours' => $this->working_hours,
                 'essalud' => $this->essalud,
-                'cuarta' => $this->essalud,
+                'cuarta' => $this->cuarta,
                 'ruc' => $this->ruc,
                 'gender' => $this->gender,
                 'group_id' => $this->group_id,
