@@ -182,6 +182,12 @@
                                 <td class="text-right">{{ $payment->life_insurance_afp }}</td>
                             </tr>
                         @endif
+                        @if ($payment->fines_discount)
+                            <tr>
+                                <td>Multas: </td>
+                                <td class="text-right">{{ $payment->fines_discount }}</td>
+                            </tr>
+                        @endif
                     </table>
                 </div>
             </td>
@@ -220,7 +226,8 @@
                         </tr>
                         <tr>
                             <td>NETO A PAGAR: </td>
-                            <td class="text-right" style="border-top: 1px solid; border-bottom: 4px double;">{{ $payment->net_pay }}</td>
+                            <td class="text-right" style="border-top: 1px solid; border-bottom: 4px double;">
+                                {{ $payment->net_pay }}</td>
                         </tr>
                     </table>
                 </div>
