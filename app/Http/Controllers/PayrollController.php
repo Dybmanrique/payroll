@@ -61,6 +61,7 @@ class PayrollController extends Controller
             ]);
         }
     }
+
     public function mcpp(Period $period)
     {
         define("INGRESOS", 1);
@@ -78,7 +79,7 @@ class PayrollController extends Controller
             $prefix = "PLL";
             $executing_unit = "001479";
             $year_process = "2024";
-            $mounth_process = "10";
+            $mounth_process = $period->mounth;
             $payroll_type = "01";
             $payroll_class = "03";
             $correlative = "0001";
@@ -134,6 +135,15 @@ class PayrollController extends Controller
                     $airhsp_concept_code = "0005";
                     $description = "COM.VARIABLE-AFP";
                     $amount = $payment->variable_afp;
+                    $body .= "{$identity_document_type}|{$identity_document_number}|{$funding_resource}|{$airhsp_concept}|{$airhsp_concept_code}|{$description}|{$amount}|{$airhsp_record_type}|{$airhsp_code_employee}\n";
+                }
+
+                //FALTAS Y TARDANZAS
+                if ($payment->fines_discount !== null) {
+                    $airhsp_concept = DESCUENTOS;
+                    $airhsp_concept_code = "0009";
+                    $description = "FALTAS Y TARDANZAS";
+                    $amount = $payment->fines_discount;
                     $body .= "{$identity_document_type}|{$identity_document_number}|{$funding_resource}|{$airhsp_concept}|{$airhsp_concept_code}|{$description}|{$amount}|{$airhsp_record_type}|{$airhsp_code_employee}\n";
                 }
 
