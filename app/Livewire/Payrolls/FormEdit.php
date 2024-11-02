@@ -16,7 +16,7 @@ class FormEdit extends Component
 
     public $payroll_types, $funding_resources, $employees, $groups;
 
-    public $number, $period, $processing_date, $payroll_type_id, $funding_resource_id;
+    public $number, $year, $payroll_type_id, $funding_resource_id;
 
     public $modal_employee_id, $modal_group_id, $modal_period_id;
 
@@ -130,9 +130,8 @@ class FormEdit extends Component
     public function save()
     {
         $this->validate([
-            'number' => 'required|string|max:255',
-            'period' => 'required|string|max:255',
-            'processing_date' => 'required|date',
+            'number' => 'required|numeric|digits:4',
+            'year' => 'required|numeric|digits:4',
             'payroll_type_id' => 'required|numeric',
             'funding_resource_id' => 'required|numeric',
         ]);
@@ -140,8 +139,7 @@ class FormEdit extends Component
         try {
             $this->payroll->update([
                 'number' => $this->number,
-                'period' => $this->period,
-                'processing_date' => $this->processing_date,
+                'year' => $this->year,
                 'payroll_type_id' => $this->payroll_type_id,
                 'funding_resource_id' => $this->funding_resource_id,
             ]);
@@ -172,8 +170,8 @@ class FormEdit extends Component
         define("WORKING_MINUTES", 480);
 
         try {
-            $period = Period::find($this->selected_period);
-            foreach ($period->payments as $key => $payment) {
+            $year = Period::find($this->selected_period);
+            foreach ($year->payments as $key => $payment) {
                 $employee = $payment->employee;
                 $payment->onp_discount = $payment->afp_discount = $payment->essalud = null;
 
@@ -222,14 +220,9 @@ class FormEdit extends Component
         $this->periods_payroll = Period::where('payroll_id', $this->payroll->id)->orderBy('mounth')->get();
 
         $this->number = $this->payroll->number;
-        $this->period = $this->payroll->period;
-        $this->processing_date = $this->payroll->processing_date;
+        $this->year = $this->payroll->year;
         $this->payroll_type_id = $this->payroll->payroll_type_id;
         $this->funding_resource_id = $this->payroll->funding_resource_id;
-
-        // foreach ($this->payroll->employees as $employee) {
-        //     array_push($this->payments_list, $employee);
-        // }
     }
 
     public function render()

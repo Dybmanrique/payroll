@@ -125,19 +125,10 @@
                                     @enderror
                                 </div>
                                 <div class="form-group">
-                                    <label for="period">Periodo*:</label>
-                                    <input type="text" wire:model='period' id="period" class="form-control"
+                                    <label for="year">Año*:</label>
+                                    <input type="text" wire:model='year' id="year" class="form-control"
                                         placeholder="Ingrese el número" required autocomplete="off">
-                                    @error('period')
-                                        <span class="text-danger">{{ $message }}</span>
-                                    @enderror
-                                </div>
-                                <div class="form-group">
-                                    <label for="processing_date">Fecha de proceso*:</label>
-                                    <input type="date" wire:model='processing_date' id="processing_date"
-                                        class="form-control" placeholder="Ingrese el número" required
-                                        autocomplete="off">
-                                    @error('processing_date')
+                                    @error('year')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>

@@ -11,8 +11,7 @@ class Payroll extends Model
 
     protected $fillable = [
         'number',
-        'period',
-        'processing_date',
+        'year',
         'payroll_type_id',
         'funding_resource_id',
     ];
@@ -23,5 +22,9 @@ class Payroll extends Model
 
     public function funding_resource(){
         return $this->belongsTo(FundingResource::class);
+    }
+
+    public function payroll_type(){
+        return $this->belongsTo(PayrollType::class);
     }
 }

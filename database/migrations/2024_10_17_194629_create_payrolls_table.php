@@ -14,8 +14,7 @@ return new class extends Migration
         Schema::create('payrolls', function (Blueprint $table) {
             $table->id();
             $table->string('number');
-            $table->string('period');
-            $table->date('processing_date');
+            $table->integer('year');
             $table->foreignId('payroll_type_id')->constrained();
             $table->foreignId('funding_resource_id')->constrained();
             $table->timestamps();

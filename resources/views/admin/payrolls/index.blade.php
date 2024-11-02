@@ -19,8 +19,8 @@
                         <tr>
                             <th scope="col">#</th>
                             <th scope="col">NÚMERO</th>
-                            <th scope="col">PERIODO</th>
-                            <th scope="col">FECHA PROCESO</th>
+                            <th scope="col">AÑO</th>
+                            <th scope="col">TIPO</th>
                             <th scope="col">ACCIONES</th>
                         </tr>
                     </thead>
@@ -63,10 +63,10 @@
                     "data": "number",
                 },
                 {
-                    "data": "period",
+                    "data": "year",
                 },
                 {
-                    "data": "processing_date",
+                    "data": "payroll_type.name",
                 },
                 {
                     "data": null,

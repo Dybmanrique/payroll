@@ -17,7 +17,7 @@ class PayrollController extends Controller
     }
     public function data()
     {
-        return Payroll::all();
+        return Payroll::with('payroll_type')->orderByDesc('id')->get();
     }
 
     public function create()
