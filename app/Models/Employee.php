@@ -31,6 +31,9 @@ class Employee extends Model
             'level_id',
             'budgetary_objective_id',
             'pension_system',
+            'afp_id',
+            'afp_code',
+            'afp_fing',
     ];
 
     protected $casts = [
@@ -38,8 +41,8 @@ class Employee extends Model
         'cuarta' => 'boolean',
     ];
 
-    public function afps(){
-        return $this->belongsToMany(Afp::class)->withPivot('afp_code','afp_fing');
+    public function afp(){
+        return $this->belongsTo(Afp::class);
     }
 
     public function job_position(){

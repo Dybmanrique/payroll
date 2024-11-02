@@ -100,7 +100,11 @@ class FormCreate extends Component
             ]);
     
             if ($this->pension_system==='afp') {
-                $employee->afps()->attach($this->afp_id, ['afp_code' => $this->afp_code, 'afp_fing' => $this->afp_fing]);
+                $employee->update([
+                    'afp_id'=>$this->afp_id,
+                    'afp_code'=>$this->afp_code,
+                    'afp_fing'=>$this->afp_fing,
+                ]);
             }
     
             $this->reset('dni',

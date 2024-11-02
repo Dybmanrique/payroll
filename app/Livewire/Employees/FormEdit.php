@@ -16,28 +16,28 @@ class FormEdit extends Component
     public $groups, $job_positions, $levels, $afps, $budgetary_objectives;
 
     //EMPLOYEE ATRIBUTTES
-    public 
-    $dni,
-    $birthdate,
-    $airhsp_code,
-    $remuneration,
-    $name, 
-    $last_name, 
-    $second_last_name, 
-    $start_validity, 
-    $end_validity,
-    $bank_account,
-    $date_entry,
-    $working_hours, 
-    $essalud,
-    $cuarta,
-    $ruc,
-    $gender,
-    $group_id,
-    $job_position_id,
-    $level_id,
-    $pension_system,
-    $budgetary_objective_id;
+    public
+        $dni,
+        $birthdate,
+        $airhsp_code,
+        $remuneration,
+        $name,
+        $last_name,
+        $second_last_name,
+        $start_validity,
+        $end_validity,
+        $bank_account,
+        $date_entry,
+        $working_hours,
+        $essalud,
+        $cuarta,
+        $ruc,
+        $gender,
+        $group_id,
+        $job_position_id,
+        $level_id,
+        $pension_system,
+        $budgetary_objective_id;
 
     public $afp_code, $afp_fing, $afp_id;
 
@@ -103,8 +103,17 @@ class FormEdit extends Component
             ]);
 
             if ($has_afp) {
-                $this->employee->afps()->detach();
-                $this->employee->afps()->attach($this->afp_id, ['afp_code' => $this->afp_code, 'afp_fing' => $this->afp_fing]);
+                $this->employee->update([
+                    'afp_id' => $this->afp_id,
+                    'afp_code' => $this->afp_code,
+                    'afp_fing' => $this->afp_fing,
+                ]);
+            } else {
+                $this->employee->update([
+                    'afp_id' => null,
+                    'afp_code' => null,
+                    'afp_fing' => null,
+                ]);
             }
 
             $this->dispatch('message', code: '200', content: 'Se ha editado');
@@ -144,11 +153,11 @@ class FormEdit extends Component
         $this->pension_system = $this->employee->pension_system;
 
         if ($this->employee->pension_system === 'afp') {
-            if ($afp = $this->employee->afps()->first()) {
-                $this->afp_id = $afp->id;
-                $this->afp_code = $afp->pivot->afp_code;
-                $this->afp_fing = $afp->pivot->afp_fing;
-            }
+            $this->afp_id = $this->employee->afp_id;
+            $this->afp_code = $this->employee->afp_code;
+            $this->afp_fing = $this->employee->afp_fing;
+            // if ($afp = $this->employee->afps()->first()) {
+            // }
         }
     }
 

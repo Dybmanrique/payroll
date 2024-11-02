@@ -30,6 +30,9 @@ return new class extends Migration
             $table->boolean('cuarta');
             $table->string('ruc')->nullable();
             $table->enum('gender', ['Masculino', 'Femenino']);
+            $table->string('afp_code')->nullable();
+            $table->string('afp_fing')->nullable();
+            $table->foreignId('afp_id')->nullable()->constrained();
             $table->foreignId('group_id')->constrained();
             $table->foreignId('job_position_id')->constrained();
             $table->foreignId('level_id')->constrained();
