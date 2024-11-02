@@ -30,6 +30,7 @@ class FormEdit extends Component
     $date_entry,
     $working_hours, 
     $essalud,
+    $cuarta,
     $ruc,
     $gender,
     $group_id,
@@ -45,7 +46,7 @@ class FormEdit extends Component
         $this->validate([
             'dni' => 'required',
             'birthdate' => 'required',
-            'airhsp_code' => 'required',
+            'airhsp_code' => 'nullable',
             'remuneration' => 'required',
             'name' => 'required',
             'last_name' => 'required',
@@ -56,6 +57,7 @@ class FormEdit extends Component
             'date_entry' => 'required',
             'working_hours' => 'required',
             'essalud' => 'required|boolean',
+            'cuarta' => 'required|boolean',
             'ruc' => 'required',
             'gender' => 'required',
             'group_id' => 'required',
@@ -90,6 +92,7 @@ class FormEdit extends Component
                 'date_entry' => $this->date_entry,
                 'working_hours' => $this->working_hours,
                 'essalud' => $this->essalud,
+                'cuarta' => $this->essalud,
                 'ruc' => $this->ruc,
                 'gender' => $this->gender,
                 'group_id' => $this->group_id,
@@ -131,6 +134,7 @@ class FormEdit extends Component
         $this->date_entry = $this->employee->date_entry;
         $this->working_hours = $this->employee->working_hours;
         $this->essalud = $this->employee->essalud;
+        $this->cuarta = $this->employee->cuarta;
         $this->ruc = $this->employee->ruc;
         $this->gender = $this->employee->gender;
         $this->group_id = $this->employee->group_id;

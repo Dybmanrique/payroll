@@ -23,6 +23,7 @@ class Employee extends Model
             'date_entry',
             'working_hours',
             'essalud',
+            'cuarta',
             'ruc',
             'gender',
             'group_id',
@@ -34,6 +35,7 @@ class Employee extends Model
 
     protected $casts = [
         'essalud' => 'boolean',
+        'cuarta' => 'boolean',
     ];
 
     public function afps(){

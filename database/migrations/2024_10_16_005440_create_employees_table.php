@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('dni', 8);
             $table->date('birthdate');
             $table->decimal('remuneration', 9, 2);
-            $table->string('airhsp_code');
+            $table->string('airhsp_code')->nullable();
             $table->string('name');
             $table->string('last_name');
             $table->string('second_last_name');
@@ -27,6 +27,7 @@ return new class extends Migration
             $table->date('date_entry');
             $table->integer('working_hours');
             $table->boolean('essalud');
+            $table->boolean('cuarta');
             $table->string('ruc')->nullable();
             $table->enum('gender', ['Masculino', 'Femenino']);
             $table->foreignId('group_id')->constrained();

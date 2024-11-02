@@ -29,6 +29,7 @@ class FormCreate extends Component
     $date_entry,
     $working_hours, 
     $essalud=0,
+    $cuarta=0,
     $ruc,
     $gender,
     $group_id,
@@ -45,7 +46,7 @@ class FormCreate extends Component
             'dni' => 'required',
             'birthdate' => 'required',
             'remuneration' => 'required',
-            'airhsp_code' => 'required',
+            'airhsp_code' => 'nullable',
             'name' => 'required',
             'last_name' => 'required',
             'second_last_name' => 'required',
@@ -55,6 +56,7 @@ class FormCreate extends Component
             'date_entry' => 'required',
             'working_hours' => 'required',
             'essalud' => 'required',
+            'cuarta' => 'required',
             'ruc' => 'required',
             'gender' => 'required',
             'group_id' => 'required',
@@ -87,6 +89,7 @@ class FormCreate extends Component
                 'date_entry' => $this->date_entry,
                 'working_hours' => $this->working_hours,
                 'essalud' => $this->essalud,
+                'cuarta' => $this->cuarta,
                 'ruc' => $this->ruc,
                 'gender' => $this->gender,
                 'group_id' => $this->group_id,
@@ -123,6 +126,7 @@ class FormCreate extends Component
             'afp_fing',
             'afp_id');
             $this->essalud = false;
+            $this->cuarta = false;
             $this->dispatch('message', code: '200', content: 'Se ha creado');
             $this->dispatch('hide_afp');
         } catch (\Exception $th) {

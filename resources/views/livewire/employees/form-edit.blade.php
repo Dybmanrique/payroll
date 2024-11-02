@@ -78,7 +78,7 @@
                         <div class="form-group">
                             <label for="airhsp_code">Código AIRHSP:</label>
                             <input type="text" wire:model='airhsp_code' id="airhsp_code" class="form-control"
-                                placeholder="Ingrese el nombre del grupo" required autocomplete="off">
+                                placeholder="Ingrese el nombre del grupo" autocomplete="off">
                             @error('airhsp_code')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
@@ -157,6 +157,23 @@
                                 </div>
                             </div>
                             @error('essalud')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="">Renta*:</label>
+                            <div class="rounded p-2" style="max-height: 38px; border: 1px solid #ced4da;">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="cuarta"
+                                        wire:model='cuarta'>
+                                    <label class="form-check-label" for="cuarta">
+                                        Renta de 4ta categoría
+                                    </label>
+                                </div>
+                            </div>
+                            @error('cuarta')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
                         </div>
