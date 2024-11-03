@@ -40,23 +40,7 @@ class PayrollController extends Controller
             ]);
         } catch (\Exception $ex) {
             return response()->json([
-                'message' => 'No se puede eliminar',
-                'code' => '500'
-            ]);
-        }
-    }
-    public function view(Request $request)
-    {
-        try {
-            $payroll = Payroll::findOrFail($request->id);
-            $payroll->employees;
-            return response()->json([
-                'content' => $payroll,
-                'code' => '200'
-            ]);
-        } catch (\Exception $ex) {
-            return response()->json([
-                'content' => 'Algo salió mal',
+                'message' => 'No se puede eliminar, recuerde que tiene que eliminar todos los periodos asociados para poder eliminar una planilla.',
                 'code' => '500'
             ]);
         }
