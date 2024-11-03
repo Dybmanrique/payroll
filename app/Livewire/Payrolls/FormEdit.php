@@ -198,7 +198,7 @@ class FormEdit extends Component
                 if ($payment->fines_discount === 0.00) $payment->fines_discount = null;
 
                 $payment->total_remuneration = $payment->basic + $payment->refound + $payment->aguinaldo;
-                $payment->total_discount = $payment->afp_discount + $payment->onp_discount + $payment->fines_discount;
+                $payment->total_discount = $payment->afp_discount + $payment->onp_discount + $payment->fines_discount + $payment->cuarta;
 
                 $payment->net_pay = $payment->total_remuneration - $payment->total_discount;
                 $payment->save();
