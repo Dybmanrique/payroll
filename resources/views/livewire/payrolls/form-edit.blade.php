@@ -389,9 +389,6 @@
                 }
             })
         }
-        Livewire.on('closeModalPeriod', function() {
-            $("#modalPeriod").modal('hide');
-        })
 
         function changeValuePayment(payment_id, field, value) {
             if (value === "") {

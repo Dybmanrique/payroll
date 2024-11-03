@@ -37,7 +37,6 @@ class FormEdit extends Component
         ]);
         $this->periods_payroll = Period::where('payroll_id', $this->payroll->id)->orderBy('mounth')->get();
 
-        $this->dispatch('closeModalPeriod');
         $this->dispatch('message', code: '200', content: 'Hecho');
     }
 
