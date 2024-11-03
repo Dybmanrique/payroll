@@ -88,7 +88,7 @@
                         <div class="form-group">
                             <label for="remuneration">Remuneración:</label>
                             <input type="number" wire:model='remuneration' id="remuneration" class="form-control"
-                                placeholder="Ingrese el nombre del grupo" required autocomplete="off">
+                                placeholder="Ingrese el nombre del grupo" step="0.01" required autocomplete="off">
                             @error('remuneration')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
