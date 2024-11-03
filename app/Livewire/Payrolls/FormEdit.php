@@ -54,6 +54,22 @@ class FormEdit extends Component
         $this->payments_list = Payment::where('period_id', $this->selected_period)->get();
     }
 
+    public function deletePeriod()
+    {
+        $this->validate([
+            'selected_period' => 'required|numeric'
+        ]);
+        try {
+            Period::find($this->selected_period)->delete();
+            $this->selected_period = "";
+            $this->payments_list = [];
+            $this->periods_payroll = Period::where('payroll_id', $this->payroll->id)->orderBy('mounth')->get();
+            $this->dispatch('message', code: '200', content: 'Se eliminó el periodo');
+        } catch (\Exception $th) {
+            $this->dispatch('message', code: '200', content: 'Algo salió mal');
+        }
+    }
+
     public function addGroup()
     {
         try {

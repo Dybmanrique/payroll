@@ -192,7 +192,7 @@
                             @endforeach
                         </select>
                         <div class="input-group-prepend">
-                            <button type="submit" class="btn btn-danger font-weight-bold rounded-right"><i class="fas fa-trash-alt"></i> ELIMINAR</button>
+                            <button type="button" onclick='deletePeriod()' wire:loading.attr='disabled' wire:target='deletePeriod' class="btn btn-danger font-weight-bold rounded-right"><i class="fas fa-trash-alt"></i> ELIMINAR</button>
                         </div>
                     </div>
                     @error('selected_period')
@@ -370,6 +370,22 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     @this.deleteEmployee(id);
+                }
+            })
+        }
+        function deletePeriod() {
+            Swal.fire({
+                title: '¿Estas seguro?',
+                text: "Toda la información de este periodo se perderá",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si, Eliminar!',
+                cancelButtonText: 'No'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    @this.deletePeriod();
                 }
             })
         }
