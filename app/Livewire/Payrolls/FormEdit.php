@@ -36,6 +36,7 @@ class FormEdit extends Component
             'mounth' => $this->modal_period_id
         ]);
         $this->periods_payroll = Period::where('payroll_id', $this->payroll->id)->orderBy('mounth')->get();
+
         $this->dispatch('closeModalPeriod');
         $this->dispatch('message', code: '200', content: 'Hecho');
     }
@@ -65,6 +66,7 @@ class FormEdit extends Component
                 }
             }
             $this->payments_list = Payment::where('period_id', $this->selected_period)->get();
+            $this->dispatch('message', code: '200', content: 'Se incluyó al grupo');
         } catch (\Exception $th) {
             $this->dispatch('message', code: '500', content: 'Algo salió mal');
         }

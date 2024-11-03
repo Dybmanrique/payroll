@@ -187,7 +187,7 @@
                         <select id="selected_period" wire:model="selected_period" class="form-control" required>
                             <option value="">--Seleccione un periodo--</option>
                             @foreach ($periods_payroll as $period)
-                                <option value="{{ $period->id }}">{{ $periods[$period->mounth] }}
+                                <option value="{{ $period->id }}" wire:key='{{ $period->id }}'>{{ $periods[$period->mounth] }}
                                 </option>
                             @endforeach
                         </select>
