@@ -35,7 +35,7 @@
     </div>
 
     <!-- Modal Add Employee -->
-    <div wire:ignore.self class="modal fade" id="modalEmployee" tabindex="-1" role="dialog"
+    <div wire:ignore class="modal fade" id="modalEmployee" tabindex="-1" role="dialog"
         aria-labelledby="modalEmployeeLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -49,8 +49,8 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="modal_employee_id">Lista de empleados*:</label>
-                            <select wire:model="modal_employee_id" id="modal_employee_id" class="form-control" required>
-                                <option value="">--Seleccione--</option>
+                            <select id="modal_employee_id" class="form-control select2" data-placeholder="Seleccione al empleado" required>
+                                <option></option>
                                 @foreach ($employees as $employee)
                                     <option value="{{ $employee->id }}">[{{ $employee->dni }}]
                                         {{ $employee->last_name }} {{ $employee->second_last_name }}
@@ -64,7 +64,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">CERRAR</button>
-                        <button type="submit" class="btn btn-primary">ACEPTAR</button>
+                        <button type="submit" class="btn btn-primary" wire:loading.attr='disabled'>ACEPTAR</button>
                     </div>
                 </form>
             </div>
@@ -335,7 +335,8 @@
                                                     </div>
                                                     <div class="col">
                                                         <a href="{{ route('payrolls.generate_payment_slips_period', $selected_period) }}"
-                                                            class="font-weight-bold btn btn-secondary w-100" target="_blank">
+                                                            class="font-weight-bold btn btn-secondary w-100"
+                                                            target="_blank">
                                                             <i class="fas fa-file-alt"></i> IMPRIMIR BOLETAS
                                                         </a>
                                                     </div>
@@ -358,6 +359,15 @@
 </div>
 @push('js')
     <script>
+        $(document).ready(function() {
+            $('#modal_employee_id').select2({
+                theme: 'bootstrap4',
+                dropdownParent: $('#modalEmployee')
+            }).on('select2:select', function(e) {
+                @this.set('modal_employee_id', $('#modal_employee_id').select2("val"));
+            }); 
+        });
+
         function deleteEmployee(id) {
             Swal.fire({
                 title: '¿Estas seguro?',
