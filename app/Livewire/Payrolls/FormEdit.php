@@ -43,6 +43,9 @@ class FormEdit extends Component
 
     public function searchEmployees()
     {
+        $this->validate([
+            'selected_period' => 'required|numeric'
+        ]);
         $this->payments_list = [];
         if (!Period::find($this->selected_period)) {
             $this->payments_list = [];

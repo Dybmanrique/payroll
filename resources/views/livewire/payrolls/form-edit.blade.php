@@ -192,6 +192,9 @@
                             @endforeach
                         </select>
                     </div>
+                    @error('selected_period')
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
                 </div>
             </form>
         </div>
