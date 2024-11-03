@@ -182,7 +182,7 @@
                 <div class="form-group">
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
-                            <button type="submit" class="btn btn-info">BUSCAR</button>
+                            <button type="submit" class="btn btn-info font-weight-bold"><i class="fas fa-search"></i> BUSCAR</button>
                         </div>
                         <select id="selected_period" wire:model="selected_period" class="form-control" required>
                             <option value="">--Seleccione un periodo--</option>
@@ -191,6 +191,9 @@
                                 </option>
                             @endforeach
                         </select>
+                        <div class="input-group-prepend">
+                            <button type="submit" class="btn btn-danger font-weight-bold rounded-right"><i class="fas fa-trash-alt"></i> ELIMINAR</button>
+                        </div>
                     </div>
                     @error('selected_period')
                         <span class="text-danger">{{ $message }}</span>
@@ -232,23 +235,33 @@
                                 <thead class="thead-dark">
                                     <tr>
                                         <th scope="col">#</th>
+                                        <th scope="col">ACCIONES</th>
                                         <th scope="col">DNI</th>
                                         <th scope="col">EMPLEADO</th>
                                         <th scope="col" style="min-width: 120px">BÁSICO</th>
+                                        <th scope="col" style="min-width: 120px">PAGO NETO</th>
                                         <th scope="col" style="min-width: 90px">DÍAS</th>
                                         <th scope="col" style="min-width: 90px">D. DÍAS</th>
                                         <th scope="col" style="min-width: 90px">D. HORAS</th>
                                         <th scope="col" style="min-width: 90px">D. MIN.</th>
                                         <th scope="col" style="min-width: 120px">REINTEGRO</th>
                                         <th scope="col" style="min-width: 120px">AGUINALDO</th>
-                                        <th scope="col" style="min-width: 120px">PAGO NETO</th>
-                                        <th scope="col" class="text-right">ACCIONES</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($payments_list as $index => $payment)
                                         <tr wire:key='{{ $payment->id }}'>
                                             <td>{{ $index + 1 }}</td>
+                                            <td class="text-right text-nowrap">
+                                                <a href="{{ route('payrolls.generate_payment_slip', $payment->id) }}"
+                                                    class="btn btn-sm btn-secondary" target="_blank">
+                                                    <i class="fas fa-file-alt"></i> BOLETA
+                                                </a>
+                                                <button onclick='deleteEmployee({{ $payment->id }})' type="button"
+                                                    class="btn btn-sm btn-danger"><i class="fas fa-trash"></i>
+                                                    ELIMINAR
+                                                </button>
+                                            </td>
                                             <td>{{ $payment->employee->dni }}</td>
                                             <td class="text-nowrap">{{ $payment->employee->last_name }}
                                                 {{ $payment->employee->second_last_name }}
@@ -258,6 +271,10 @@
                                                 <input class="form-control" type="number"
                                                     onchange="changeValuePayment({{ $payment->id }}, 'basic', this.value)"
                                                     value="{{ $payment->basic }}" step="0.01">
+                                            </td>
+                                            <td>
+                                                <input class="form-control"
+                                                    type="number"value="{{ $payment->net_pay }}" disabled>
                                             </td>
                                             <td>
                                                 <input class="form-control" type="number"
@@ -289,20 +306,6 @@
                                                     onchange="changeValuePayment({{ $payment->id }}, 'aguinaldo', this.value)"
                                                     value="{{ $payment->aguinaldo }}">
                                             </td>
-                                            <td>
-                                                <input class="form-control"
-                                                    type="number"value="{{ $payment->net_pay }}" disabled>
-                                            </td>
-                                            <td class="text-right text-nowrap">
-                                                <a href="{{ route('payrolls.generate_payment_slip', $payment->id) }}"
-                                                    class="btn btn-sm btn-secondary" target="_blank">
-                                                    <i class="fas fa-file-alt"></i> BOLETA
-                                                </a>
-                                                <button onclick='deleteEmployee({{ $payment->id }})' type="button"
-                                                    class="btn btn-sm btn-danger"><i class="fas fa-trash"></i>
-                                                    ELIMINAR
-                                                </button>
-                                            </td>
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -324,12 +327,12 @@
                                     </div>
                                     <div class="col">
                                         <button type="button" class="font-weight-bold btn btn-info w-100"
-                                            wire:click='mcpp()'>INTERFAZ MCPP</button>
+                                            wire:click='mcpp()'><i class="fas fa-file-alt"></i> INTERFAZ MCPP</button>
                                     </div>
                                     <div class="col">
                                         <a href="{{ route('payrolls.generate_payment_slips_period', $selected_period) }}"
                                             class="font-weight-bold btn btn-secondary w-100" target="_blank">
-                                            <i class="fas fa-file-alt"></i> IMPRIMIR BOLETAS
+                                            <i class="fas fa-file-pdf"></i> IMPRIMIR BOLETAS
                                         </a>
                                     </div>
                                 </div>
