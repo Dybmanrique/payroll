@@ -76,16 +76,16 @@ class PayrollController extends Controller
 
             $body = "";
             foreach ($period->payments as $key => $payment) {
-                $identity_document_type = "2";
+                $identity_document_type = $payment->employee->identity_type->code;
                 $airhsp_record_type = CAS;
 
                 //HONORARIOS
-                $body .= implode("|", [$identity_document_type, $payment->employee->dni, $period->payroll->funding_resource->code, INGRESOS, "0077", "HONORARIOS", $payment->total_remuneration, $airhsp_record_type, $payment->employee->airhsp_code . "\n"]);
+                $body .= implode("|", [$identity_document_type, $payment->employee->identity_number, $period->payroll->funding_resource->code, INGRESOS, "0077", "HONORARIOS", $payment->total_remuneration, $airhsp_record_type, $payment->employee->airhsp_code . "\n"]);
 
 
                 //ONP
                 if ($payment->onp_discount !== null) {
-                    $body .= implode("|", [$identity_document_type, $payment->employee->dni, $period->payroll->funding_resource->code, DESCUENTOS, "0001", "S.N.P. 19990 - SUNAT", $payment->onp_discount, $airhsp_record_type, $payment->employee->airhsp_code . "\n"]);
+                    $body .= implode("|", [$identity_document_type, $payment->employee->identity_number, $period->payroll->funding_resource->code, DESCUENTOS, "0001", "S.N.P. 19990 - SUNAT", $payment->onp_discount, $airhsp_record_type, $payment->employee->airhsp_code . "\n"]);
                 }
 
                 //AFP
@@ -93,28 +93,28 @@ class PayrollController extends Controller
                     $airhsp_concept = DESCUENTOS;
 
                     //AFP AP OBLIG
-                    $body .= implode("|", [$identity_document_type, $payment->employee->dni, $period->payroll->funding_resource->code, DESCUENTOS, "0002", "SISTEMA PRIVADO DE P", $payment->obligatory_afp, $airhsp_record_type, $payment->employee->airhsp_code . "\n"]);
+                    $body .= implode("|", [$identity_document_type, $payment->employee->identity_number, $period->payroll->funding_resource->code, DESCUENTOS, "0002", "SISTEMA PRIVADO DE P", $payment->obligatory_afp, $airhsp_record_type, $payment->employee->airhsp_code . "\n"]);
 
                     //AFP SEGURO
-                    $body .= implode("|", [$identity_document_type, $payment->employee->dni, $period->payroll->funding_resource->code, DESCUENTOS, "0004", "SEGURO - AFP", $payment->life_insurance_afp, $airhsp_record_type, $payment->employee->airhsp_code . "\n"]);
+                    $body .= implode("|", [$identity_document_type, $payment->employee->identity_number, $period->payroll->funding_resource->code, DESCUENTOS, "0004", "SEGURO - AFP", $payment->life_insurance_afp, $airhsp_record_type, $payment->employee->airhsp_code . "\n"]);
 
                     //AFP COM VAR
-                    $body .= implode("|", [$identity_document_type, $payment->employee->dni, $period->payroll->funding_resource->code, DESCUENTOS, "0005", "COM.VARIABLE-AFP", $payment->variable_afp, $airhsp_record_type, $payment->employee->airhsp_code . "\n"]);
+                    $body .= implode("|", [$identity_document_type, $payment->employee->identity_number, $period->payroll->funding_resource->code, DESCUENTOS, "0005", "COM.VARIABLE-AFP", $payment->variable_afp, $airhsp_record_type, $payment->employee->airhsp_code . "\n"]);
                 }
 
                 //CUARTA CATEGORÍA
                 if ($payment->cuarta !== null) {
-                    $body .= implode("|", [$identity_document_type, $payment->employee->dni, $period->payroll->funding_resource->code, DESCUENTOS, "0007", "CUARTA CATEGORIA", $payment->cuarta, $airhsp_record_type, $payment->employee->airhsp_code . "\n"]);
+                    $body .= implode("|", [$identity_document_type, $payment->employee->identity_number, $period->payroll->funding_resource->code, DESCUENTOS, "0007", "CUARTA CATEGORIA", $payment->cuarta, $airhsp_record_type, $payment->employee->airhsp_code . "\n"]);
                 }
 
                 //FALTAS Y TARDANZAS
                 if ($payment->fines_discount !== null) {
-                    $body .= implode("|", [$identity_document_type, $payment->employee->dni, $period->payroll->funding_resource->code, DESCUENTOS, "0009", "FALTAS Y TARDANZAS", $payment->fines_discount, $airhsp_record_type, $payment->employee->airhsp_code . "\n"]);
+                    $body .= implode("|", [$identity_document_type, $payment->employee->identity_number, $period->payroll->funding_resource->code, DESCUENTOS, "0009", "FALTAS Y TARDANZAS", $payment->fines_discount, $airhsp_record_type, $payment->employee->airhsp_code . "\n"]);
                 }
 
                 //ESSALUD
                 if ($payment->essalud !== null) {
-                    $body .= implode("|", [$identity_document_type, $payment->employee->dni, $period->payroll->funding_resource->code, APORTACIONES, "0007", "ESSALUD", $payment->essalud, $airhsp_record_type, $payment->employee->airhsp_code . "\n"]);
+                    $body .= implode("|", [$identity_document_type, $payment->employee->identity_number, $period->payroll->funding_resource->code, APORTACIONES, "0007", "ESSALUD", $payment->essalud, $airhsp_record_type, $payment->employee->airhsp_code . "\n"]);
                 }
 
                 $total_income += $payment->total_remuneration;

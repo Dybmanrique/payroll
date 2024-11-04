@@ -41,11 +41,11 @@
                 <table>
                     <tr>
                         <td class="text-bold">BOLETA</td>
-                        <td>: 00515615</td>
+                        <td>: {{ $payment->period->payroll->year }}{{ $payment->period->mounth }}-{{ $payment->id }}</td>
                     </tr>
                     <tr>
                         <td class="text-bold">CÓDIGO</td>
-                        <td>: {{ $payment->employee->dni }}</td>
+                        <td>: {{ $payment->employee->identity_number }}</td>
                     </tr>
                     <tr>
                         <td class="text-bold">ESSALUD</td>

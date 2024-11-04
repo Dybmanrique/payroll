@@ -53,9 +53,7 @@
                                 data-placeholder="Seleccione al empleado" required>
                                 <option></option>
                                 @foreach ($employees as $employee)
-                                    <option value="{{ $employee->id }}">[{{ $employee->dni }}]
-                                        {{ $employee->last_name }} {{ $employee->second_last_name }}
-                                        {{ $employee->name }}</option>
+                                    <option value="{{ $employee->id }}">[{{ $employee->identity_number }}] {{ $employee->last_name }} {{ $employee->second_last_name }} {{ $employee->name }}</option>
                                 @endforeach
                             </select>
                             @error('modal_employee_id')
@@ -236,7 +234,7 @@
                                     <tr>
                                         <th scope="col">#</th>
                                         <th scope="col">ACCIONES</th>
-                                        <th scope="col">DNI</th>
+                                        <th scope="col">IDENTIFICACIÓN</th>
                                         <th scope="col">EMPLEADO</th>
                                         <th scope="col" style="min-width: 120px">BÁSICO</th>
                                         <th scope="col" style="min-width: 120px">PAGO NETO</th>
@@ -262,7 +260,7 @@
                                                     ELIMINAR
                                                 </button>
                                             </td>
-                                            <td>{{ $payment->employee->dni }}</td>
+                                            <td>[{{ $payment->employee->identity_type->name }}] {{ $payment->employee->identity_number }}</td>
                                             <td class="text-nowrap">{{ $payment->employee->last_name }}
                                                 {{ $payment->employee->second_last_name }}
                                                 {{ $payment->employee->name }}
