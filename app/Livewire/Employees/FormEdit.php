@@ -61,7 +61,7 @@ class FormEdit extends Component
             'working_hours' => 'required',
             'essalud' => 'required|boolean',
             'cuarta' => 'required|boolean',
-            'ruc' => 'required',
+            'ruc' => 'nullable',
             'gender' => 'required',
             'group_id' => 'required',
             'job_position_id' => 'required',

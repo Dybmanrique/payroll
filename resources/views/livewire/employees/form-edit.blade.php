@@ -193,7 +193,7 @@
                         <div class="form-group">
                             <label for="ruc">RUC*:</label>
                             <input type="number" wire:model='ruc' id="ruc" class="form-control"
-                                placeholder="Ingrese el nombre del grupo" required autocomplete="off">
+                                placeholder="Ingrese el nombre del grupo" autocomplete="off">
                             @error('ruc')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
