@@ -10,7 +10,8 @@ class Employee extends Model
     use HasFactory;
 
     protected $fillable = [
-            'dni', 
+            'identity_number', 
+            'identity_type_id', 
             'birthdate', 
             'airhsp_code',
             'name',
@@ -43,6 +44,10 @@ class Employee extends Model
 
     public function afp(){
         return $this->belongsTo(Afp::class);
+    }
+
+    public function identity_type(){
+        return $this->belongsTo(IdentityType::class);
     }
 
     public function job_position(){

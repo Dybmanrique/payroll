@@ -13,7 +13,7 @@ class EmployeeController extends Controller
     }
     public function data()
     {
-        return Employee::all();
+        return Employee::with('identity_type')->get();
     }
 
     public function create()

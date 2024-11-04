@@ -5,12 +5,23 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="dni">DNI*:</label>
-                            <input type="number" wire:model='dni' id="dni" class="form-control"
-                                placeholder="Ingrese el nombre del grupo" required autocomplete="off">
-                            @error('dni')
-                                <span class="text-danger">{{ $message }}</span>
-                            @enderror
+                            <label for="identity_number">Número de identificación*:</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <select id="identity_type_id" wire:model="identity_type_id" class="form-control"
+                                        required>
+                                        @foreach ($identity_types as $identity_type)
+                                            <option value="{{ $identity_type->id }}">{{ $identity_type->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <input type="number" wire:model='identity_number' id="identity_number"
+                                    class="form-control" placeholder="Ingrese el nombre del grupo" required
+                                    autocomplete="off">
+                                @error('identity_number')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -234,10 +245,13 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="budgetary_objective_id">Meta presupuestal*:</label>
-                            <select wire:model="budgetary_objective_id" id="budgetary_objective_id" class="form-control" required>
+                            <select wire:model="budgetary_objective_id" id="budgetary_objective_id"
+                                class="form-control" required>
                                 <option value="">--Seleccione--</option>
                                 @foreach ($budgetary_objectives as $budgetary_objective)
-                                    <option value="{{ $budgetary_objective->id }}">[{{ $budgetary_objective->pneumonic }}] {{ $budgetary_objective->name }}</option>
+                                    <option value="{{ $budgetary_objective->id }}">
+                                        [{{ $budgetary_objective->pneumonic }}] {{ $budgetary_objective->name }}
+                                    </option>
                                 @endforeach
                             </select>
                             @error('budgetary_objective_id')

@@ -5,6 +5,7 @@ namespace App\Livewire\Employees;
 use App\Models\Afp;
 use App\Models\BudgetaryObjective;
 use App\Models\Group;
+use App\Models\IdentityType;
 use App\Models\JobPosition;
 use App\Models\Level;
 use Livewire\Component;
@@ -13,11 +14,12 @@ class FormEdit extends Component
 {
     public $employee;
 
-    public $groups, $job_positions, $levels, $afps, $budgetary_objectives;
+    public $groups, $job_positions, $levels, $afps, $budgetary_objectives, $identity_types;
 
     //EMPLOYEE ATRIBUTTES
     public
-        $dni,
+        $identity_number,
+        $identity_type_id,
         $birthdate,
         $airhsp_code,
         $remuneration,
@@ -44,7 +46,8 @@ class FormEdit extends Component
     public function save()
     {
         $this->validate([
-            'dni' => 'required',
+            'identity_number' => 'required',
+            'identity_type_id' => 'required',
             'birthdate' => 'required',
             'airhsp_code' => 'nullable',
             'remuneration' => 'required',
@@ -79,7 +82,8 @@ class FormEdit extends Component
 
         try {
             $this->employee->update([
-                'dni' => $this->dni,
+                'identity_number' => $this->identity_number,
+                'identity_type_id' => $this->identity_type_id,
                 'birthdate' => $this->birthdate,
                 'airhsp_code' => $this->airhsp_code,
                 'remuneration' => $this->remuneration,
@@ -129,8 +133,10 @@ class FormEdit extends Component
         $this->levels = Level::all();
         $this->afps = Afp::all();
         $this->budgetary_objectives = BudgetaryObjective::all();
+        $this->identity_types = IdentityType::all();
 
-        $this->dni = $this->employee->dni;
+        $this->identity_number = $this->employee->identity_number;
+        $this->identity_type_id = $this->employee->identity_type_id;
         $this->birthdate = $this->employee->birthdate;
         $this->airhsp_code = $this->employee->airhsp_code;
         $this->remuneration = $this->employee->remuneration;
@@ -156,8 +162,6 @@ class FormEdit extends Component
             $this->afp_id = $this->employee->afp_id;
             $this->afp_code = $this->employee->afp_code;
             $this->afp_fing = $this->employee->afp_fing;
-            // if ($afp = $this->employee->afps()->first()) {
-            // }
         }
     }
 

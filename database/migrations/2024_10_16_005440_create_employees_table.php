@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('employees', function (Blueprint $table) {
             $table->id();
-            $table->string('dni', 8);
+            $table->string('identity_number');
             $table->date('birthdate');
             $table->decimal('remuneration', 9, 2);
             $table->string('airhsp_code')->nullable();
@@ -25,7 +25,7 @@ return new class extends Migration
             $table->enum('pension_system', ['afp', 'onp']);
             $table->string('bank_account');
             $table->date('date_entry');
-            $table->integer('working_hours');
+            $table->integer('working_hours')->nullable();
             $table->boolean('essalud');
             $table->boolean('cuarta');
             $table->string('ruc')->nullable();
@@ -33,6 +33,7 @@ return new class extends Migration
             $table->string('afp_code')->nullable();
             $table->string('afp_fing')->nullable();
             $table->foreignId('afp_id')->nullable()->constrained();
+            $table->foreignId('identity_type_id')->constrained();
             $table->foreignId('group_id')->constrained();
             $table->foreignId('job_position_id')->constrained();
             $table->foreignId('level_id')->constrained();

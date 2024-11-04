@@ -6,17 +6,19 @@ use App\Models\Afp;
 use App\Models\BudgetaryObjective;
 use App\Models\Employee;
 use App\Models\Group;
+use App\Models\IdentityType;
 use App\Models\JobPosition;
 use App\Models\Level;
 use Livewire\Component;
 
 class FormCreate extends Component
 {
-    public $groups, $job_positions, $levels, $afps, $budgetary_objectives;
+    public $groups, $job_positions, $levels, $afps, $budgetary_objectives, $identity_types;
 
     //EMPLOYEE ATRIBUTTES
     public 
-    $dni,
+    $identity_number,
+    $identity_type_id,
     $birthdate,
     $remuneration,
     $airhsp_code,
@@ -43,7 +45,7 @@ class FormCreate extends Component
     public function save()
     {
         $this->validate([
-            'dni' => 'required',
+            'identity_number' => 'required',
             'birthdate' => 'required',
             'remuneration' => 'required',
             'airhsp_code' => 'nullable',
@@ -76,7 +78,8 @@ class FormCreate extends Component
 
         try {
             $employee = Employee::create([
-                'dni' => $this->dni,
+                'identity_number' => $this->identity_number,
+                'identity_type_id' => $this->identity_type_id,
                 'birthdate' => $this->birthdate,
                 'remuneration' => $this->remuneration,
                 'airhsp_code' => $this->airhsp_code,
@@ -107,7 +110,7 @@ class FormCreate extends Component
                 ]);
             }
     
-            $this->reset('dni',
+            $this->reset('identity_number',
             'birthdate',
             'airhsp_code',
             'remuneration',
@@ -131,6 +134,7 @@ class FormCreate extends Component
             'afp_id');
             $this->essalud = false;
             $this->cuarta = false;
+            $this->identity_type_id = 1;
             $this->dispatch('message', code: '200', content: 'Se ha creado');
             $this->dispatch('hide_afp');
         } catch (\Exception $th) {
@@ -145,6 +149,8 @@ class FormCreate extends Component
         $this->levels = Level::all();
         $this->afps = Afp::all();
         $this->budgetary_objectives = BudgetaryObjective::all();
+        $this->identity_types = IdentityType::all();
+        $this->identity_type_id = 1;
     }
 
     public function render()

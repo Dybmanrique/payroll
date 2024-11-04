@@ -20,7 +20,7 @@
                     <thead class="thead-dark">
                         <tr>
                             <th scope="col">#</th>
-                            <th scope="col">DNI</th>
+                            <th scope="col">IDENTIFICACIÓN</th>
                             <th scope="col">NOMBRE</th>
                             <th scope="col">ACCIONES</th>
                         </tr>
@@ -61,7 +61,12 @@
                         return meta.row + 1;
                     }
                 },
-                { 'data': 'dni' },
+                {
+                    "data": null,
+                    "render": function(data, type, row, meta) {
+                        return `[${data.identity_type.name}] ${data.identity_number}`;
+                    }
+                },
                 {
                     "data": null,
                     "render": function(data, type, row, meta) {
