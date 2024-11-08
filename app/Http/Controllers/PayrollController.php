@@ -152,4 +152,25 @@ class PayrollController extends Controller
         $pdf = Pdf::loadView('admin.reports-templates.payment-slips-period', ['period' => $period, 'periods' => $periods])->setPaper('a4');
         return $pdf->stream();
     }
+    public function general_report(Period $period)
+    {
+        $periods = [1 => 'ENERO', 2 => 'FEBRERO', 3 => 'MARZO', 4 => 'ABRIL', 5 => 'MAYO', 6 => 'JUNIO', 7 => 'JULIO', 8 => 'AGOSTO', 9 => 'SETIEMBRE', 10 => 'OCTUBRE', 11 => 'NOVIEMBRE', 12 => 'DICIEMBRE'];
+        $total_income = 0.00;
+        $total_discounts = 0.00;
+        $total_contributions = 0.00;
+
+        foreach ($period->payments as $key => $payment) {
+            $total_income += $payment->total_remuneration;
+            $total_discounts += $payment->total_discount;
+            $total_contributions += $payment->essalud;
+        }
+        $net_pay = number_format(($total_income - $total_discounts), 2, '.', '');
+        $total_contributions = number_format($total_contributions, 2, '.', '');
+        $total_discounts = number_format($total_discounts, 2, '.', '');
+        $total_contributions = number_format($total_contributions, 2, '.', '');
+
+        $data = compact('total_income','total_discounts','total_contributions','net_pay');
+        $pdf = Pdf::loadView('admin.reports-templates.general-report', ['period' => $period, 'periods' => $periods, 'data' => $data])->setPaper('a4');
+        return $pdf->stream();
+    }
 }

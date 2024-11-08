@@ -333,6 +333,12 @@
                                             <i class="fas fa-file-pdf"></i> IMPRIMIR BOLETAS
                                         </a>
                                     </div>
+                                    <div class="col">
+                                        <a href="{{ route('payrolls.general_report', $selected_period) }}"
+                                            class="font-weight-bold btn btn-secondary w-100" target="_blank">
+                                            <i class="fas fa-file-pdf"></i> REPORTE GENERAL
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
