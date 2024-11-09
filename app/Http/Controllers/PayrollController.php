@@ -53,6 +53,8 @@ class PayrollController extends Controller
         define("APORTACIONES", 3);
 
         define("CAS", 4);
+        define("PAYROLL_TYPE_ACTIVO", "01");
+        define("PAYROLL_CLASS_CAS", "03");
 
         define("ONP_COMISSION", 0.13);
         define("ESSALUD", 0.09);
@@ -63,8 +65,8 @@ class PayrollController extends Controller
             $executing_unit = "001479";
             $year_process = $period->payroll->year;
             $mounth_process = $period->mounth;
-            $payroll_type = "01";
-            $payroll_class = "03";
+            $payroll_type = PAYROLL_TYPE_ACTIVO;
+            $payroll_class = PAYROLL_CLASS_CAS;
             $correlative = $period->payroll->number;
             $extension = ".txt";
 
@@ -90,8 +92,6 @@ class PayrollController extends Controller
 
                 //AFP
                 if ($payment->afp_discount !== null) {
-                    $airhsp_concept = DESCUENTOS;
-
                     //AFP AP OBLIG
                     $body .= implode("|", [$identity_document_type, $payment->employee->identity_number, $period->payroll->funding_resource->code, DESCUENTOS, "0002", "SISTEMA PRIVADO DE P", $payment->obligatory_afp, $airhsp_record_type, $payment->employee->airhsp_code . "\n"]);
 
