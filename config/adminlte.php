@@ -375,6 +375,12 @@ return [
             'icon' => 'fas fa-fw fa-user',
             'active' => ['planillas/*'],
         ],
+        [
+            'text' => 'Parámetros',
+            'route' => 'settings.index',
+            'icon' => 'fas fa-fw fa-user',
+            'active' => ['parametros/*'],
+        ],
     ],
 
     /*

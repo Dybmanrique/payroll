@@ -10,6 +10,7 @@ use App\Http\Controllers\LevelController;
 use App\Http\Controllers\PayrollController;
 use App\Http\Controllers\PayrollTypeController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SettingController;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Route;
 
@@ -89,6 +90,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/planillas/{payment}/boleta-de-pago', [PayrollController::class, 'generate_payment_slip'])->name('payrolls.generate_payment_slip');
     Route::get('/planillas/{period}/boletas-de-pago', [PayrollController::class, 'generate_payment_slips_period'])->name('payrolls.generate_payment_slips_period');
     Route::get('/planillas/{period}/reporte-general', [PayrollController::class, 'general_report'])->name('payrolls.general_report');
+
+    Route::get('/parametros', [SettingController::class, 'index'])->name('settings.index');
 });
 
 
