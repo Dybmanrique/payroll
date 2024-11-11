@@ -7,6 +7,7 @@ use App\Models\BudgetaryObjective;
 use App\Models\Group;
 use App\Models\IdentityType;
 use App\Models\JobPosition;
+use App\Models\JudicialDiscount;
 use App\Models\Level;
 use Livewire\Component;
 
@@ -42,6 +43,64 @@ class FormEdit extends Component
         $budgetary_objective_id;
 
     public $afp_code, $afp_fing, $afp_id;
+
+    public $judicial_name, $judicial_amount, $judicial_discount_type, $judicial_account, $judicial_dni;
+    public $judicial_discounts = [];
+    public $judicial_edit_mode = false;
+    public $judicial_selected = null;
+
+    public function addJudicialDiscount()
+    {
+        $this->validate([
+            'judicial_name' => 'required|string|max:255',
+            'judicial_amount' => 'required|numeric|min:0|max:99999',
+            'judicial_discount_type' => 'required|string|max:255',
+            'judicial_account' => 'nullable|numeric',
+            'judicial_dni' => 'nullable|numeric',
+        ]);
+
+        if ($this->judicial_edit_mode) {
+            $this->judicial_selected->update([
+                'name' => $this->judicial_name,
+                'amount' => $this->judicial_amount,
+                'discount_type' => $this->judicial_discount_type,
+                'account' => $this->judicial_account,
+                'dni' => $this->judicial_dni,
+            ]);
+        } else {
+            JudicialDiscount::create([
+                'name' => $this->judicial_name,
+                'amount' => $this->judicial_amount,
+                'discount_type' => $this->judicial_discount_type,
+                'account' => $this->judicial_account,
+                'dni' => $this->judicial_dni,
+                'employee_id' => $this->employee->id,
+            ]);
+
+            $this->reset(['judicial_name', 'judicial_amount', 'judicial_discount_type', 'judicial_account', 'judicial_dni']);
+        }
+
+        $this->dispatch('message', code: '200', content: 'Hecho');
+        $this->judicial_discounts = JudicialDiscount::where('employee_id', $this->employee->id)->get();
+    }
+
+    public function enableJudicialEdition($judicial_discount_id)
+    {
+        $this->judicial_edit_mode = true;
+        $this->judicial_selected = JudicialDiscount::find($judicial_discount_id);
+        $this->judicial_name = $this->judicial_selected->name;
+        $this->judicial_amount = $this->judicial_selected->amount;
+        $this->judicial_discount_type = $this->judicial_selected->discount_type;
+        $this->judicial_account = $this->judicial_selected->account;
+        $this->judicial_dni = $this->judicial_selected->dni;
+    }
+
+    public function deleteJudicial($judicial_discount_id){
+        JudicialDiscount::find($judicial_discount_id)->delete();
+        $this->dispatch('message', code: '200', content: 'Eliminado');
+        $this->judicial_discounts = JudicialDiscount::where('employee_id', $this->employee->id)->get();
+
+    }
 
     public function save()
     {
@@ -163,6 +222,8 @@ class FormEdit extends Component
             $this->afp_code = $this->employee->afp_code;
             $this->afp_fing = $this->employee->afp_fing;
         }
+
+        $this->judicial_discounts = JudicialDiscount::where('employee_id', $this->employee->id)->get();
     }
 
     public function render()

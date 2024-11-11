@@ -57,4 +57,8 @@ class Employee extends Model
     public function payrolls(){
         return $this->belongsToMany(Payroll::class);
     }
+
+    public function judicial_discounts(){
+        return $this->hasMany(JudicialDiscount::class);
+    }
 }
