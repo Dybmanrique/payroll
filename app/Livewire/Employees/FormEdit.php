@@ -59,6 +59,9 @@ class FormEdit extends Component
             'judicial_dni' => 'nullable|numeric',
         ]);
 
+        if (trim($this->judicial_account) == "") $this->judicial_account = null;
+        if (trim($this->judicial_dni) == "") $this->judicial_dni = null;
+        
         if ($this->judicial_edit_mode) {
             $this->judicial_selected->update([
                 'name' => $this->judicial_name,
