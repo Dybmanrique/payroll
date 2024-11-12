@@ -41,7 +41,7 @@
                 <table>
                     <tr>
                         <td class="text-bold">BOLETA</td>
-                        <td>: {{ $payment->period->payroll->year }}{{ $payment->period->mounth }}-{{ $payment->id }}</td>
+                        <td>: {{ $payment->period->payroll->year }}{{ sprintf("%02d", $payment->period->mounth) }}-{{ sprintf("%03d", $payment->id) }}</td>
                     </tr>
                     <tr>
                         <td class="text-bold">CÓDIGO</td>
