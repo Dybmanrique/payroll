@@ -1,7 +1,7 @@
-<div>
+<div class="pb-3">
     <form wire:submit='save'>
         <div class="card">
-            <div class="card-header">
+            <div class="card-header font-weight-bold">
                 DATOS DE LA INSTITUCIÓN
             </div>
             <div class="card-body">
@@ -41,7 +41,7 @@
         </div>
 
         <div class="card">
-            <div class="card-header">
+            <div class="card-header font-weight-bold">
                 PARÁMETROS
             </div>
             <div class="card-body">
