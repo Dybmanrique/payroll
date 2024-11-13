@@ -16,10 +16,10 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        // User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+        User::factory()->create([
+            'name' => 'Deyber Manrique',
+            'email' => 'dbrmanrique@gmail.com',
+        ]);
 
         Setting::create(['key' => 'institution_name', 'value' => 'UGEL - ASUNCIÓN']);
         Setting::create(['key' => 'ruc', 'value' => '20571443784']);
