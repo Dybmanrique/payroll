@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\IdentityType;
 use App\Models\Setting;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -27,5 +28,7 @@ class DatabaseSeeder extends Seeder
         Setting::create(['key' => 'essalud_percent', 'value' => '9']);
         Setting::create(['key' => 'onp_percent', 'value' => '13']);
         Setting::create(['key' => 'working_hours', 'value' => '8']);
+
+        IdentityType::create(['code' => '2','name'=>'DNI','description'=>'DOCUMENTO NACIONAL DE IDENTIDAD',]);
     }
 }
