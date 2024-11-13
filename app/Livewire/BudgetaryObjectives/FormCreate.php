@@ -7,42 +7,68 @@ use Livewire\Component;
 
 class FormCreate extends Component
 {
-    public $pneumonic, $function, $program, $subprogram,
-        $program_p, $act_proy, $component, $cas_classifier, $essalud_classifier, $name;
+
+
+    public
+        $programa_pptal,
+        $producto_proyecto,
+        $activ_obra_accinv,
+        $funcion,
+        $division_fn,
+        $grupo_fn,
+        $sec_func,
+        $cas_classifier,
+        $essalud_classifier,
+        $aguinaldo_classifier,
+        $name;
 
     public function save()
     {
         $this->validate([
-            'pneumonic' => 'required|string|max:255',
-            'function' => 'required|string|max:255',
-            'program' => 'required|string|max:255',
-            'subprogram' => 'required|string|max:255',
-            'program_p' => 'required|string|max:255',
-            'act_proy' => 'required|string|max:255',
-            'component' => 'required|string|max:255',
-            'cas_classifier' => 'required|string|max:255',
-            'essalud_classifier' => 'required|string|max:255',
-            'name' => 'required|string|max:255',
+            'programa_pptal' => 'required|numeric|digits:4',
+            'producto_proyecto' => 'required|numeric|digits:7',
+            'activ_obra_accinv' => 'required|numeric|digits:7',
+            'funcion' => 'required|numeric|digits:2',
+            'division_fn' => 'required|numeric|digits:3',
+            'grupo_fn' => 'required|numeric|digits:4',
+            'sec_func' => 'required|numeric|max:99',
+            'cas_classifier' => 'nullable|string|max:20',
+            'essalud_classifier' => 'nullable|string|max:20',
+            'aguinaldo_classifier' => 'nullable|string|max:20',
+            'name' => 'required|string|max:300',
         ]);
         try {
             BudgetaryObjective::create([
-                'pneumonic' => $this->pneumonic,
-                'function' => $this->function,
-                'program' => $this->program,
-                'subprogram' => $this->subprogram,
-                'program_p' => $this->program_p,
-                'act_proy' => $this->act_proy,
-                'component' => $this->component,
+                'programa_pptal' => $this->programa_pptal,
+                'producto_proyecto' => $this->producto_proyecto,
+                'activ_obra_accinv' => $this->activ_obra_accinv,
+                'funcion' => $this->funcion,
+                'division_fn' => $this->division_fn,
+                'grupo_fn' => $this->grupo_fn,
+                'sec_func' => $this->sec_func,
                 'cas_classifier' => $this->cas_classifier,
                 'essalud_classifier' => $this->essalud_classifier,
+                'aguinaldo_classifier' => $this->aguinaldo_classifier,
                 'name' => $this->name,
             ]);
-    
-            $this->reset('name', 'pneumonic', 'function', 'program','subprogram','program_p', 'act_proy', 'component', 'cas_classifier', 'essalud_classifier');
+
+            $this->reset(
+                'programa_pptal',
+                'producto_proyecto',
+                'activ_obra_accinv',
+                'funcion',
+                'division_fn',
+                'grupo_fn',
+                'sec_func',
+                'cas_classifier',
+                'essalud_classifier',
+                'aguinaldo_classifier',
+                'name',
+            );
             $this->dispatch('message', code: '200', content: 'Se ha creado');
         } catch (\Exception $th) {
             $this->dispatch('message', code: '500', content: 'No se pudo crear');
-        }        
+        }
     }
 
     public function render()

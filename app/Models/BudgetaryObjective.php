@@ -10,15 +10,16 @@ class BudgetaryObjective extends Model
     use HasFactory;
 
     protected $fillable = [
-        'pneumonic',
-        'function',
-        'program',
-        'subprogram',
-        'program_p',
-        'act_proy',
-        'component',
+        'programa_pptal',
+        'producto_proyecto',
+        'activ_obra_accinv',
+        'funcion',
+        'division_fn',
+        'grupo_fn',
+        'sec_func',
         'cas_classifier',
         'essalud_classifier',
+        'aguinaldo_classifier',
         'name',
     ];
 }

@@ -10,7 +10,8 @@
     <div class="card">
 
         <div class="card-header">
-            <a href="{{ route('budgetary_objectives.create') }}" class="btn btn-primary text-uppercase font-weight-bold">Registrar
+            <a href="{{ route('budgetary_objectives.create') }}"
+                class="btn btn-primary text-uppercase font-weight-bold">Registrar
                 nuevo</a>
         </div>
 
@@ -20,16 +21,17 @@
                     <thead class="thead-dark">
                         <tr>
                             <th class="text-nowrap" scope="col">#</th>
-                            <th class="text-nowrap" scope="col">N. ACTIVIDAD</th>
-                            <th class="text-nowrap" scope="col">NEUMONICO</th>
-                            <th class="text-nowrap" scope="col">FUNCIÓN</th>
-                            <th class="text-nowrap" scope="col">PROGRAMA</th>
-                            <th class="text-nowrap" scope="col">SUB PROGRAMA</th>
+                            <th class="text-nowrap" scope="col">FINALIDAD</th>
                             <th class="text-nowrap" scope="col">PROGRAMA P.</th>
-                            <th class="text-nowrap" scope="col">ACT/PROY</th>
-                            <th class="text-nowrap" scope="col">COMPONENTE</th>
+                            <th class="text-nowrap" scope="col">PRODUCTO/PROYECTO</th>
+                            <th class="text-nowrap" scope="col">ACTIVIDAD/OBRA</th>
+                            <th class="text-nowrap" scope="col">FUNCIÓN</th>
+                            <th class="text-nowrap" scope="col">DIVISIÓN FN.</th>
+                            <th class="text-nowrap" scope="col">GRUPO FN.</th>
+                            <th class="text-nowrap" scope="col">SECUENCIA FUNCIONAL</th>
                             <th class="text-nowrap" scope="col">CLASIFICADOR CAS</th>
                             <th class="text-nowrap" scope="col">CLASIFICADOR ESSALUD</th>
+                            <th class="text-nowrap" scope="col">CLASIFICADOR AGUINALDO</th>
                             <th class="text-nowrap" scope="col">ACCIONES</th>
                         </tr>
                     </thead>
@@ -73,31 +75,34 @@
                     "data": "name",
                 },
                 {
-                    "data": "pneumonic",
+                    "data": "programa_pptal",
                 },
                 {
-                    "data": "function",
+                    "data": "producto_proyecto",
                 },
                 {
-                    "data": "program",
+                    "data": "activ_obra_accinv",
                 },
                 {
-                    "data": "subprogram",
+                    "data": "funcion",
                 },
                 {
-                    "data": "program_p",
+                    "data": "division_fn",
                 },
                 {
-                    "data": "act_proy",
+                    "data": "grupo_fn",
                 },
                 {
-                    "data": "component",
+                    "data": "sec_func",
                 },
                 {
                     "data": "cas_classifier",
                 },
                 {
                     "data": "essalud_classifier",
+                },
+                {
+                    "data": "aguinaldo_classifier",
                 },
                 {
                     "data": null,
@@ -114,11 +119,11 @@
 
             columnDefs = [{
                     className: 'text-left text-nowrap',
-                    targets: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+                    targets: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
                 },
                 {
                     className: 'text-right',
-                    targets: [10]
+                    targets: []
                 },
             ];
 
@@ -138,7 +143,7 @@
 
             $(`#table tbody`).on('click', '.btn-delete', function() {
                 let data = table.row($(this).parents('tr')).data();
-                
+
                 Swal.fire({
                     title: 'Estas seguro?',
                     text: "Esta acción no se puede revertir!",

@@ -13,16 +13,17 @@ return new class extends Migration
     {
         Schema::create('budgetary_objectives', function (Blueprint $table) {
             $table->id();
-            $table->string('pneumonic');
-            $table->string('function');
-            $table->string('program');
-            $table->string('subprogram');
-            $table->string('program_p');
-            $table->string('act_proy');
-            $table->string('component');
-            $table->string('cas_classifier');
-            $table->string('essalud_classifier');
-            $table->string('name');
+            $table->string('programa_pptal');
+            $table->string('producto_proyecto');
+            $table->string('activ_obra_accinv');
+            $table->string('funcion');
+            $table->string('division_fn');
+            $table->string('grupo_fn');
+            $table->string('sec_func');
+            $table->string('cas_classifier')->nullable();
+            $table->string('essalud_classifier')->nullable();
+            $table->string('aguinaldo_classifier')->nullable();
+            $table->text('name');
             $table->timestamps();
         });
     }
