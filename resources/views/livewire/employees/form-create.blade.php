@@ -249,8 +249,7 @@
                                 class="form-control" required>
                                 <option value="">--Seleccione--</option>
                                 @foreach ($budgetary_objectives as $budgetary_objective)
-                                    <option value="{{ $budgetary_objective->id }}">
-                                        [{{ $budgetary_objective->pneumonic }}] {{ $budgetary_objective->name }}
+                                    <option value="{{ $budgetary_objective->id }}">{{ $budgetary_objective->name }}
                                     </option>
                                 @endforeach
                             </select>
