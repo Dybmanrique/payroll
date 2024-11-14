@@ -29,6 +29,5 @@ class DatabaseSeeder extends Seeder
         Setting::create(['key' => 'onp_percent', 'value' => '13']);
         Setting::create(['key' => 'working_hours', 'value' => '8']);
 
-        IdentityType::create(['code' => '2','name'=>'DNI','description'=>'DOCUMENTO NACIONAL DE IDENTIDAD',]);
     }
 }
