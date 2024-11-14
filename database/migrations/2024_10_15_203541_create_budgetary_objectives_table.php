@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('budgetary_objectives', function (Blueprint $table) {
             $table->id();
+            $table->integer('year');
             $table->string('programa_pptal');
             $table->string('producto_proyecto');
             $table->string('activ_obra_accinv');
