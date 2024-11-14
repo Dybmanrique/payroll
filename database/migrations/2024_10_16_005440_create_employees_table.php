@@ -15,18 +15,13 @@ return new class extends Migration
             $table->id();
             $table->string('identity_number');
             $table->date('birthdate');
-            $table->decimal('remuneration', 9, 2);
             $table->string('airhsp_code')->nullable();
             $table->string('name');
             $table->string('last_name');
             $table->string('second_last_name');
-            $table->date('start_validity');
-            $table->date('end_validity');
-            $table->enum('pension_system', ['afp', 'onp']);
             $table->string('bank_account');
             $table->date('date_entry');
-            $table->integer('working_hours')->nullable();
-            $table->boolean('essalud');
+            $table->enum('pension_system', ['afp', 'onp']);
             $table->boolean('cuarta');
             $table->string('ruc')->nullable();
             $table->enum('gender', ['Masculino', 'Femenino']);
@@ -35,9 +30,6 @@ return new class extends Migration
             $table->foreignId('afp_id')->nullable()->constrained();
             $table->foreignId('identity_type_id')->constrained();
             $table->foreignId('group_id')->constrained();
-            $table->foreignId('job_position_id')->constrained();
-            $table->foreignId('level_id')->constrained();
-            $table->foreignId('budgetary_objective_id')->constrained();
             $table->timestamps();
         });
     }
