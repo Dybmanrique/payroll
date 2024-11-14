@@ -10,6 +10,7 @@ class BudgetaryObjective extends Model
     use HasFactory;
 
     protected $fillable = [
+        'year',
         'programa_pptal',
         'producto_proyecto',
         'activ_obra_accinv',

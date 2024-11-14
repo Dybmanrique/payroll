@@ -20,7 +20,8 @@ class FormCreate extends Component
         $cas_classifier,
         $essalud_classifier,
         $aguinaldo_classifier,
-        $name;
+        $name,
+        $year;
 
     public function save()
     {
@@ -36,6 +37,7 @@ class FormCreate extends Component
             'essalud_classifier' => 'nullable|string|max:20',
             'aguinaldo_classifier' => 'nullable|string|max:20',
             'name' => 'required|string|max:300',
+            'year' => 'required|numeric|digits:4',
         ]);
         try {
             BudgetaryObjective::create([
@@ -50,6 +52,7 @@ class FormCreate extends Component
                 'essalud_classifier' => $this->essalud_classifier,
                 'aguinaldo_classifier' => $this->aguinaldo_classifier,
                 'name' => $this->name,
+                'year' => $this->year,
             ]);
 
             $this->reset(
@@ -64,6 +67,7 @@ class FormCreate extends Component
                 'essalud_classifier',
                 'aguinaldo_classifier',
                 'name',
+                'year',
             );
             $this->dispatch('message', code: '200', content: 'Se ha creado');
         } catch (\Exception $th) {

@@ -21,6 +21,7 @@
                     <thead class="thead-dark">
                         <tr>
                             <th class="text-nowrap" scope="col">#</th>
+                            <th class="text-nowrap" scope="col">AÑO</th>
                             <th class="text-nowrap" scope="col">FINALIDAD</th>
                             <th class="text-nowrap" scope="col">PROGRAMA P.</th>
                             <th class="text-nowrap" scope="col">PRODUCTO/PROYECTO</th>
@@ -72,6 +73,9 @@
                     }
                 },
                 {
+                    "data": "year",
+                },
+                {
                     "data": "name",
                 },
                 {
@@ -119,7 +123,7 @@
 
             columnDefs = [{
                     className: 'text-left text-nowrap',
-                    targets: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+                    targets: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
                 },
                 {
                     className: 'text-right',

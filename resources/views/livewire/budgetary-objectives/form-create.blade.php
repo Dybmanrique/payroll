@@ -14,6 +14,16 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
+                            <label for="year">Año*:</label>
+                            <input type="number" wire:model='year' id="year" class="form-control"
+                                placeholder="Código de la categoría presupuestal" required autocomplete="off">
+                            @error('year')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
                             <label for="programa_pptal">Programa presupuestal*:</label>
                             <input type="text" wire:model='programa_pptal' id="programa_pptal" class="form-control"
                                 placeholder="Código de la categoría presupuestal" required autocomplete="off">

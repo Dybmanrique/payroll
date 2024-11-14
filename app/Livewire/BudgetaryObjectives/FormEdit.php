@@ -18,7 +18,8 @@ class FormEdit extends Component
         $cas_classifier,
         $essalud_classifier,
         $aguinaldo_classifier,
-        $name;
+        $name,
+        $year;
 
 
     public function mount(){
@@ -33,6 +34,7 @@ class FormEdit extends Component
         $this->essalud_classifier = $this->budgetary_objective->essalud_classifier;
         $this->aguinaldo_classifier = $this->budgetary_objective->aguinaldo_classifier;
         $this->name = $this->budgetary_objective->name;
+        $this->year = $this->budgetary_objective->year;
     }
 
     public function save()
@@ -49,6 +51,7 @@ class FormEdit extends Component
             'essalud_classifier' => 'nullable|string|max:20',
             'aguinaldo_classifier' => 'nullable|string|max:20',
             'name' => 'required|string|max:300',
+            'year' => 'required|numeric|digits:4',
         ]);
         try {
             $this->budgetary_objective->update([
@@ -63,6 +66,7 @@ class FormEdit extends Component
                 'essalud_classifier' => $this->essalud_classifier,
                 'aguinaldo_classifier' => $this->aguinaldo_classifier,
                 'name' => $this->name,
+                'year' => $this->year,
             ]);
     
             $this->dispatch('message', code: '200', content: 'Se ha editado');
