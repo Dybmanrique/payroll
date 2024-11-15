@@ -17,7 +17,7 @@
                             <div class="form-group">
                                 <label for="judicial_name">Nombre judicial*:</label>
                                 <input type="text" class="form-control" id="judicial_name" wire:model='judicial_name'
-                                    required>
+                                    placeholder="El nombre del descuento judicial" required>
                                 @error('judicial_name')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
@@ -34,7 +34,7 @@
                                         </select>
                                     </div>
                                     <input type="number" wire:model='judicial_amount' id="judicial_amount"
-                                        class="form-control" required autocomplete="off">
+                                        class="form-control" placeholder="El monto del descuento judicial" required autocomplete="off">
                                     @error('judicial_amount')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
@@ -43,14 +43,15 @@
                             <div class="form-group">
                                 <label for="judicial_account">Cuenta Judicial*:</label>
                                 <input type="number" class="form-control" id="judicial_account"
-                                    wire:model='judicial_account'>
+                                    wire:model='judicial_account' placeholder="La cuenta judicial" autocomplete="off">
                                 @error('judicial_account')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
                             <div class="form-group">
                                 <label for="judicial_dni">DNI judicial*:</label>
-                                <input type="number" class="form-control" id="judicial_dni" wire:model='judicial_dni'>
+                                <input type="number" class="form-control" id="judicial_dni" wire:model='judicial_dni'
+                                placeholder="El DNI representante judicial" autocomplete="off">
                                 @error('judicial_dni')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
@@ -58,6 +59,116 @@
                         </div>
 
                         <div class="text-center w-100" wire:loading wire:target='enableJudicialEdition'>
+                            <div class="spinner-border spinner-border-sm" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                            CARGANDO...
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">CERRAR</button>
+                        <button type="submit" class="btn btn-primary">ACEPTAR</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal add Contrato-->
+    <div wire:ignore.self class="modal fade" id="contractModal" tabindex="-1" aria-labelledby="contractModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <form wire:submit='addContract()'>
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="contractModalLabel">CONTRATO</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div wire:loading.remove wire:target='enableContractEdition'>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="remuneration">Remuneración*:</label>
+                                        <input type="text" class="form-control" id="remuneration"
+                                            wire:model='remuneration' placeholder="Monto base de remuneración" required autocomplete="off">
+                                        @error('remuneration')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="working_hours">Jornada laboral*:</label>
+                                        <input type="number" class="form-control" id="working_hours"
+                                            wire:model='working_hours' placeholder="Horas laborales" required autocomplete="off">
+                                        @error('working_hours')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="start_validity">Inicio de vigencia*:</label>
+                                        <input type="date" class="form-control" id="start_validity"
+                                            wire:model='start_validity'>
+                                        @error('start_validity')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="end_validity">Fin de vigencia*:</label>
+                                        <input type="date" class="form-control" id="end_validity"
+                                            wire:model='end_validity'>
+                                        @error('end_validity')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="level_id">Nivel*:</label>
+                                        <select class="form-control" wire:model="level_id" id="level_id">
+                                            <option value="">--Seleccione--</option>
+                                            @foreach ($levels as $level)
+                                                <option value="{{ $level->id }}">{{ $level->name }}</option>
+                                            @endforeach
+                                        </select>
+                                        @error('level_id')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="job_position_id">Cargo*:</label>
+                                        <select class="form-control" wire:model="job_position_id"
+                                            id="job_position_id">
+                                            <option value="">--Seleccione--</option>
+                                            @foreach ($job_positions as $job_position)
+                                                <option value="{{ $job_position->id }}">{{ $job_position->name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        @error('job_position_id')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="budgetary_objective_id">Meta presupuestal*:</label>
+                                        <select class="form-control" wire:model="budgetary_objective_id"
+                                            id="budgetary_objective_id">
+                                            <option value="">--Seleccione--</option>
+                                            @foreach ($budgetary_objectives as $budgetary_objective)
+                                                <option value="{{ $budgetary_objective->id }}">
+                                                    {{ $budgetary_objective->name }}</option>
+                                            @endforeach
+                                        </select>
+                                        @error('budgetary_objective_id')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="text-center w-100" wire:loading wire:target='enableContractEdition'>
                             <div class="spinner-border spinner-border-sm" role="status">
                                 <span class="sr-only">Loading...</span>
                             </div>
@@ -88,7 +199,8 @@
                                     <select id="identity_type_id" wire:model="identity_type_id" class="form-control"
                                         required>
                                         @foreach ($identity_types as $identity_type)
-                                            <option value="{{ $identity_type->id }}">{{ $identity_type->name }}</option>
+                                            <option value="{{ $identity_type->id }}">{{ $identity_type->name }}
+                                            </option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -350,6 +462,61 @@
             @endforelse
         </div>
     </div>
+
+
+    <div class="card">
+        <div class="card-header font-weight-bold">
+            <div class="d-flex justify-content-between align-items-center">
+                <span>CONTRATOS</span>
+                <button type="button" class="btn btn-sm btn-success" data-toggle="modal"
+                    data-target="#contractModal">AGREGAR</button>
+            </div>
+        </div>
+        <div class="card-body">
+            @forelse ($contracts as $contract)
+                <div class="shadow-sm rounded border mb-2 p-3 d-flex justify-content-between align-items-center"
+                    wire:key='{{ $contract->id }}'>
+                    <div class="w-100">
+                        <div><span class="font-weight-bold">VIGENCIA:</span>
+                            Desde el {{ $contract->start_validity->format('d-m-Y') }} hasta el
+                            {{ $contract->end_validity->format('d-m-Y') }}
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4"><span class="font-weight-bold">REMUNERACIÓN:</span>
+                                {{ $contract->remuneration }}
+                            </div>
+                            <div class="col-md-8"><span class="font-weight-bold">META:</span>
+                                {{ $contract->budgetary_objective->name }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4"><span class="font-weight-bold">NIVEL:</span>
+                                {{ $contract->level->name }}
+                            </div>
+                            <div class="col-md-4"><span class="font-weight-bold">CARGO:</span>
+                                {{ $contract->job_position->name }}
+                            </div>
+                            <div class="col-md-4"><span class="font-weight-bold">JORNADA L.:</span>
+                                {{ $contract->working_hours }} horas
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <button class="btn btn-primary btn-sm mb-1 w-100" data-toggle="modal"
+                            data-target="#contractModal" wire:click='enableContractEdition({{ $contract->id }})'>
+                            <i class="fas fa-edit"></i> EDITAR
+                        </button>
+                        <button class="btn btn-danger btn-sm w-100" type="button"
+                            onclick="deleteContract({{ $contract->id }})"><i class="fas fa-trash-alt"></i>
+                            ELIMINAR</button>
+                    </div>
+                </div>
+            @empty
+                No hay contratos
+            @endforelse
+            {{ $contracts->links(data: ['scrollTo' => false]) }}
+        </div>
+    </div>
 </div>
 @push('js')
     <script>
@@ -370,6 +537,15 @@
                 @this.set('judicial_account', null);
                 @this.set('judicial_dni', null);
             });
+            $('#contractModal').on('hidden.bs.modal', function(e) {
+                @this.set('remuneration', false);
+                @this.set('working_hours', null);
+                @this.set('start_validity', null);
+                @this.set('end_validity', null);
+                @this.set('level_id', null);
+                @this.set('job_position_id', null);
+                @this.set('budgetary_objective_id', null);
+            });
         });
 
         function deleteJudicial(id) {
@@ -385,6 +561,23 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     @this.deleteJudicial(id);
+                }
+            })
+        }
+
+        function deleteContract(id) {
+            Swal.fire({
+                title: 'Estas seguro?',
+                text: "Esta acción se aplicará directamente!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#1e40af',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'SÍ, ELIMINAR!',
+                cancelButtonText: 'CANCELAR'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    @this.deleteContract(id);
                 }
             })
         }

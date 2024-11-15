@@ -4,15 +4,20 @@ namespace App\Livewire\Employees;
 
 use App\Models\Afp;
 use App\Models\BudgetaryObjective;
+use App\Models\Contract;
+use App\Models\Employee;
 use App\Models\Group;
 use App\Models\IdentityType;
 use App\Models\JobPosition;
 use App\Models\JudicialDiscount;
 use App\Models\Level;
 use Livewire\Component;
+use Livewire\Features\SupportPagination\WithoutUrlPagination;
+use Livewire\WithPagination;
 
 class FormEdit extends Component
 {
+    use WithPagination, WithoutUrlPagination;
     public $employee;
 
     public $groups, $job_positions, $levels, $afps, $budgetary_objectives, $identity_types;
@@ -36,10 +41,24 @@ class FormEdit extends Component
 
     public $afp_code, $afp_fing, $afp_id;
 
+    //MODAL JUDICIAL DISCOUNTS ATRIBUTES
     public $judicial_name, $judicial_amount, $judicial_discount_type, $judicial_account, $judicial_dni;
     public $judicial_discounts = [];
     public $judicial_edit_mode = false;
     public $judicial_selected = null;
+
+    //MODAL CONTRACTS ATRIBUTES
+    public $remuneration,
+        $start_validity,
+        $end_validity,
+        $job_position_id,
+        $level_id,
+        $budgetary_objective_id,
+        $working_hours;
+
+    // public $contracts = [];
+    public $contract_edit_mode = false;
+    public $contract_selected = null;
 
     public function addJudicialDiscount()
     {
@@ -53,7 +72,7 @@ class FormEdit extends Component
 
         if (trim($this->judicial_account) == "") $this->judicial_account = null;
         if (trim($this->judicial_dni) == "") $this->judicial_dni = null;
-        
+
         if ($this->judicial_edit_mode) {
             $this->judicial_selected->update([
                 'name' => $this->judicial_name,
@@ -90,11 +109,83 @@ class FormEdit extends Component
         $this->judicial_dni = $this->judicial_selected->dni;
     }
 
-    public function deleteJudicial($judicial_discount_id){
+    public function deleteJudicial($judicial_discount_id)
+    {
         JudicialDiscount::find($judicial_discount_id)->delete();
         $this->dispatch('message', code: '200', content: 'Eliminado');
         $this->judicial_discounts = JudicialDiscount::where('employee_id', $this->employee->id)->get();
+    }
 
+    public function addContract()
+    {
+        $this->validate([
+            'remuneration' => 'required|numeric|min:0|max:100000',
+            'working_hours' => 'required|numeric|min:0|max:1000',
+            'start_validity' => 'required|date',
+            'end_validity' => 'required|date',
+            'level_id' => 'required|numeric',
+            'job_position_id' => 'required|numeric',
+            'budgetary_objective_id' => 'required|numeric',
+        ]);
+
+        if ($this->contract_edit_mode) {
+            $this->contract_selected->update([
+                'remuneration' => $this->remuneration,
+                'start_validity' => $this->start_validity,
+                'end_validity' => $this->end_validity,
+                'working_hours' => $this->working_hours,
+                'job_position_id' => $this->job_position_id,
+                'level_id' => $this->level_id,
+                'budgetary_objective_id' => $this->budgetary_objective_id,
+            ]);
+        } else {
+            Contract::create([
+                'remuneration' => $this->remuneration,
+                'start_validity' => $this->start_validity,
+                'end_validity' => $this->end_validity,
+                'working_hours' => $this->working_hours,
+                'employee_id' => $this->employee->id,
+                'job_position_id' => $this->job_position_id,
+                'level_id' => $this->level_id,
+                'budgetary_objective_id' => $this->budgetary_objective_id,
+            ]);
+
+            $this->reset([
+                'remuneration',
+                'start_validity',
+                'end_validity',
+                'working_hours',
+                'job_position_id',
+                'level_id',
+                'budgetary_objective_id'
+            ]);
+        }
+
+        $this->dispatch('message', code: '200', content: 'Hecho');
+        $this->resetPage();
+        // $this->contracts = Contract::where('employee_id', $this->employee->id)->get();
+    }
+
+    public function enableContractEdition($contract_id)
+    {
+        $this->contract_edit_mode = true;
+        $this->contract_selected = Contract::find($contract_id);
+
+        $this->remuneration = $this->contract_selected->remuneration;
+        $this->start_validity = $this->contract_selected->start_validity;
+        $this->end_validity = $this->contract_selected->end_validity;
+        $this->working_hours = $this->contract_selected->working_hours;
+        $this->job_position_id = $this->contract_selected->job_position_id;
+        $this->level_id = $this->contract_selected->level_id;
+        $this->budgetary_objective_id = $this->contract_selected->budgetary_objective_id;
+    }
+
+    public function deleteContract($contract_id)
+    {
+        Contract::find($contract_id)->delete();
+        $this->dispatch('message', code: '200', content: 'Eliminado');
+        $this->resetPage();
+        // $this->contracts = Contract::where('employee_id', $this->employee->id)->get();
     }
 
     public function save()
@@ -195,10 +286,13 @@ class FormEdit extends Component
         }
 
         $this->judicial_discounts = JudicialDiscount::where('employee_id', $this->employee->id)->get();
+        // $this->contracts = Contract::where('employee_id', $this->employee->id)->get();
     }
 
     public function render()
     {
-        return view('livewire.employees.form-edit');
+        return view('livewire.employees.form-edit',[
+            'contracts' => Contract::where('employee_id',$this->employee->id)->orderByDesc('id')->paginate(5),
+        ]);
     }
 }
