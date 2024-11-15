@@ -23,24 +23,16 @@ class FormEdit extends Component
         $identity_type_id,
         $birthdate,
         $airhsp_code,
-        $remuneration,
         $name,
         $last_name,
         $second_last_name,
-        $start_validity,
-        $end_validity,
         $bank_account,
         $date_entry,
-        $working_hours,
-        $essalud,
         $cuarta,
         $ruc,
         $gender,
         $group_id,
-        $job_position_id,
-        $level_id,
-        $pension_system,
-        $budgetary_objective_id;
+        $pension_system;
 
     public $afp_code, $afp_fing, $afp_id;
 
@@ -112,23 +104,15 @@ class FormEdit extends Component
             'identity_type_id' => 'required',
             'birthdate' => 'required',
             'airhsp_code' => 'nullable',
-            'remuneration' => 'required',
             'name' => 'required',
             'last_name' => 'required',
             'second_last_name' => 'required',
-            'start_validity' => 'required',
-            'end_validity' => 'required',
             'bank_account' => 'required',
             'date_entry' => 'required',
-            'working_hours' => 'required',
-            'essalud' => 'required|boolean',
             'cuarta' => 'required|boolean',
             'ruc' => 'nullable',
             'gender' => 'required',
             'group_id' => 'required',
-            'job_position_id' => 'required',
-            'level_id' => 'required',
-            'budgetary_objective_id' => 'required',
             'pension_system' => 'required',
         ]);
 
@@ -148,23 +132,15 @@ class FormEdit extends Component
                 'identity_type_id' => $this->identity_type_id,
                 'birthdate' => $this->birthdate,
                 'airhsp_code' => $this->airhsp_code,
-                'remuneration' => $this->remuneration,
                 'name' => $this->name,
                 'last_name' => $this->last_name,
                 'second_last_name' => $this->second_last_name,
-                'start_validity' => $this->start_validity,
-                'end_validity' => $this->end_validity,
                 'bank_account' => $this->bank_account,
                 'date_entry' => $this->date_entry,
-                'working_hours' => $this->working_hours,
-                'essalud' => $this->essalud,
                 'cuarta' => $this->cuarta,
                 'ruc' => $this->ruc,
                 'gender' => $this->gender,
                 'group_id' => $this->group_id,
-                'job_position_id' => $this->job_position_id,
-                'level_id' => $this->level_id,
-                'budgetary_objective_id' => $this->budgetary_objective_id,
                 'pension_system' => $this->pension_system,
             ]);
 
@@ -201,23 +177,15 @@ class FormEdit extends Component
         $this->identity_type_id = $this->employee->identity_type_id;
         $this->birthdate = $this->employee->birthdate;
         $this->airhsp_code = $this->employee->airhsp_code;
-        $this->remuneration = $this->employee->remuneration;
         $this->name = $this->employee->name;
         $this->last_name = $this->employee->last_name;
         $this->second_last_name = $this->employee->second_last_name;
-        $this->start_validity = $this->employee->start_validity;
-        $this->end_validity = $this->employee->end_validity;
         $this->bank_account = $this->employee->bank_account;
         $this->date_entry = $this->employee->date_entry;
-        $this->working_hours = $this->employee->working_hours;
-        $this->essalud = $this->employee->essalud;
         $this->cuarta = $this->employee->cuarta;
         $this->ruc = $this->employee->ruc;
         $this->gender = $this->employee->gender;
         $this->group_id = $this->employee->group_id;
-        $this->job_position_id = $this->employee->job_position_id;
-        $this->level_id = $this->employee->level_id;
-        $this->budgetary_objective_id = $this->employee->budgetary_objective_id;
         $this->pension_system = $this->employee->pension_system;
 
         if ($this->employee->pension_system === 'afp') {
