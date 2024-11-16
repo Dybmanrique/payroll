@@ -20,11 +20,6 @@ class Contract extends Model
         'budgetary_objective_id',
     ];
 
-    protected $casts = [
-        'start_validity' => 'date',
-        'end_validity' => 'date',
-    ];
-
     public function budgetary_objective(){
         return $this->belongsTo(BudgetaryObjective::class);
     }
