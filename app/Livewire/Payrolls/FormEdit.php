@@ -9,6 +9,7 @@ use App\Models\Group;
 use App\Models\Payment;
 use App\Models\PayrollType;
 use App\Models\Period;
+use App\Models\Setting;
 use Carbon\Carbon;
 use Livewire\Component;
 
@@ -195,11 +196,13 @@ class FormEdit extends Component
         if (!$this->has_employees()) {
             return;
         }
-        define("ONP_COMISSION", 0.13);
-        define("ESSALUD", 0.09);
+        define("ONP_COMISSION", ((double) Setting::where('key', 'onp_percent')->first()->value) / 100);
+        define("ESSALUD", ((double) Setting::where('key', 'essalud_percent')->first()->value) / 100);
         define("CUARTA", 0.08);
-        define("WORKING_HOURS", 8);
-        define("WORKING_MINUTES", 480);
+        define("WORKING_HOURS", ((int) Setting::where('key', 'working_hours')->first()->value));
+        define("WORKING_MINUTES", ((int) Setting::where('key', 'working_hours')->first()->value) * 60);
+        define("UIT", ((double) Setting::where('key', 'uit')->first()->value));
+        define("MAX_AMOUNT_ESSALUD", ((double) Setting::where('key', 'max_amount_essalud_percent')->first()->value) / 100);
 
         try {
             $period = Period::find($this->selected_period);
@@ -218,7 +221,11 @@ class FormEdit extends Component
                     $payment->onp_discount = ($payment->basic + $payment->refound) * ONP_COMISSION;
                 }
                 
-                $payment->essalud = ($payment->basic + $payment->refound) * ESSALUD;
+                if(($payment->basic + $payment->refound) < UIT * MAX_AMOUNT_ESSALUD){
+                    $payment->essalud = ($payment->basic + $payment->refound) * ESSALUD;
+                } else {
+                    $payment->essalud = (UIT * MAX_AMOUNT_ESSALUD) * ESSALUD;
+                }
                 
                 if ($employee->cuarta) {
                     $payment->cuarta = ($payment->basic + $payment->refound) * CUARTA;
