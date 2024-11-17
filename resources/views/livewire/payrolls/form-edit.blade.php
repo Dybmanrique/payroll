@@ -35,37 +35,80 @@
     </div>
 
     <!-- Modal Add Employee -->
-    <div wire:ignore class="modal fade" id="modalEmployee" tabindex="-1" role="dialog"
+    <div wire:ignore.self class="modal fade" id="modalEmployee" tabindex="-1" role="dialog"
         aria-labelledby="modalEmployeeLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
+        <div class="modal-dialog modal-xl" role="document">
             <div class="modal-content">
-                <form wire:submit='addEmployee'>
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="modalEmployeeLabel">AGREGAR EMPLEADO</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label for="modal_employee_id">Lista de empleados*:</label>
-                            <select id="modal_employee_id" class="form-control select2"
-                                data-placeholder="Seleccione al empleado" required>
-                                <option></option>
-                                @foreach ($employees as $employee)
-                                    <option value="{{ $employee->id }}">[{{ $employee->identity_number }}] {{ $employee->last_name }} {{ $employee->second_last_name }} {{ $employee->name }}</option>
-                                @endforeach
-                            </select>
-                            @error('modal_employee_id')
-                                <span class="text-danger">{{ $message }}</span>
-                            @enderror
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalEmployeeLabel">AGREGAR EMPLEADO</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div wire:ignore class="form-group">
+                                <label for="modal_employee_id">Lista de empleados*:</label>
+                                <select id="modal_employee_id" class="form-control select2"
+                                    data-placeholder="Seleccione al empleado" required>
+                                    <option></option>
+                                    @foreach ($employees as $employee)
+                                        <option value="{{ $employee->id }}">[{{ $employee->identity_number }}]
+                                            {{ $employee->last_name }} {{ $employee->second_last_name }}
+                                            {{ $employee->name }}</option>
+                                    @endforeach
+                                </select>
+                                @error('modal_employee_id')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <span class="font-weight-bold">CONTRATOS VIGENTES</span>
+                            @forelse ($contracts_list as $contract)
+                                <div class="shadow-sm rounded border mb-2 p-3" wire:key='{{ $contract->id }}'>
+                                    <div class="w-100">
+                                        <div><span class="font-weight-bold">VIGENCIA:</span>
+                                            Desde el {{ date('d-m-Y', strtotime($contract->start_validity)) }} hasta el
+                                            {{ date('d-m-Y', strtotime($contract->end_validity)) }}
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4"><span class="font-weight-bold">REMUNERACIÓN:</span>
+                                                {{ $contract->remuneration }}
+                                            </div>
+                                            <div class="col-md-8"><span class="font-weight-bold">META:</span>
+                                                {{ $contract->budgetary_objective->name }}
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4"><span class="font-weight-bold">NIVEL:</span>
+                                                {{ $contract->level->name }}
+                                            </div>
+                                            <div class="col-md-4"><span class="font-weight-bold">CARGO:</span>
+                                                {{ $contract->job_position->name }}
+                                            </div>
+                                            <div class="col-md-4"><span class="font-weight-bold">JORNADA L.:</span>
+                                                {{ $contract->working_hours }} horas
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <button class="btn btn-primary btn-sm mb-1 w-100"
+                                            wire:click='addContract({{ $contract->id }})'>
+                                            <i class="fas fa-plus"></i> AGREGAR
+                                        </button>
+                                    </div>
+                                </div>
+                            @empty
+                                <div>Seleccione un empleado para ver sus contratos</div>
+                            @endforelse
                         </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">CERRAR</button>
-                        <button type="submit" class="btn btn-primary" wire:loading.attr='disabled'>ACEPTAR</button>
-                    </div>
-                </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">CERRAR</button>
+                </div>
             </div>
         </div>
     </div>
@@ -180,17 +223,21 @@
                 <div class="form-group">
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
-                            <button type="submit" class="btn btn-info font-weight-bold"><i class="fas fa-search"></i> BUSCAR</button>
+                            <button type="submit" class="btn btn-info font-weight-bold"><i
+                                    class="fas fa-search"></i> BUSCAR</button>
                         </div>
                         <select id="selected_period" wire:model="selected_period" class="form-control" required>
                             <option value="">--Seleccione un periodo--</option>
                             @foreach ($periods_payroll as $period)
-                                <option value="{{ $period->id }}" wire:key='{{ $period->id }}'>{{ $periods[$period->mounth] }}
+                                <option value="{{ $period->id }}" wire:key='{{ $period->id }}'>
+                                    {{ $periods[$period->mounth] }}
                                 </option>
                             @endforeach
                         </select>
                         <div class="input-group-prepend">
-                            <button type="button" onclick='deletePeriod()' wire:loading.attr='disabled' wire:target='deletePeriod' class="btn btn-danger font-weight-bold rounded-right"><i class="fas fa-trash-alt"></i> ELIMINAR</button>
+                            <button type="button" onclick='deletePeriod()' wire:loading.attr='disabled'
+                                wire:target='deletePeriod' class="btn btn-danger font-weight-bold rounded-right"><i
+                                    class="fas fa-trash-alt"></i> ELIMINAR</button>
                         </div>
                     </div>
                     @error('selected_period')
@@ -236,6 +283,7 @@
                                         <th scope="col">ACCIONES</th>
                                         <th scope="col">IDENTIFICACIÓN</th>
                                         <th scope="col">EMPLEADO</th>
+                                        <th scope="col">META</th>
                                         <th scope="col" style="min-width: 120px">BÁSICO</th>
                                         <th scope="col" style="min-width: 120px">PAGO NETO</th>
                                         <th scope="col" style="min-width: 90px">DÍAS</th>
@@ -255,15 +303,22 @@
                                                     class="btn btn-sm btn-secondary" target="_blank">
                                                     <i class="fas fa-file-alt"></i> BOLETA
                                                 </a>
-                                                <button onclick='deleteEmployee({{ $payment->id }})' type="button"
+                                                <button onclick='deleteContract({{ $payment->id }})' type="button"
                                                     class="btn btn-sm btn-danger"><i class="fas fa-trash"></i>
                                                     ELIMINAR
                                                 </button>
                                             </td>
-                                            <td>[{{ $payment->employee->identity_type->name }}] {{ $payment->employee->identity_number }}</td>
-                                            <td class="text-nowrap">{{ $payment->employee->last_name }}
-                                                {{ $payment->employee->second_last_name }}
-                                                {{ $payment->employee->name }}
+                                            <td>[{{ $payment->contract->employee->identity_type->name }}]
+                                                {{ $payment->contract->employee->identity_number }}</td>
+                                            <td class="text-nowrap">{{ $payment->contract->employee->last_name }}
+                                                {{ $payment->contract->employee->second_last_name }}
+                                                {{ $payment->contract->employee->name }}
+                                            </td>
+                                            <td class="text-nowrap text-break">
+                                                <span title="{{ $payment->contract->budgetary_objective->name }}"
+                                                    class="d-inline-block text-truncate" style="max-width: 250px;">
+                                                    {{ $payment->contract->budgetary_objective->name }}
+                                                </span>
                                             </td>
                                             <td>
                                                 <input class="form-control" type="number"
@@ -302,7 +357,8 @@
                                             <td>
                                                 <input class="form-control" type="number"
                                                     onchange="changeValuePayment({{ $payment->id }}, 'aguinaldo', this.value)"
-                                                    value="{{ $payment->aguinaldo }}">
+                                                    value="{{ $payment->aguinaldo }}"
+                                                    {{ ($payment->period->mounth === 7 || $payment->period->mounth===12) ? '' : 'disabled' }}>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -357,11 +413,12 @@
                 theme: 'bootstrap4',
                 dropdownParent: $('#modalEmployee')
             }).on('select2:select', function(e) {
-                @this.set('modal_employee_id', $('#modal_employee_id').select2("val"));
+                // @this.set('modal_employee_id', $('#modal_employee_id').select2("val"));
+                @this.searchContracts($('#modal_employee_id').select2("val"));
             });
         });
 
-        function deleteEmployee(id) {
+        function deleteContract(id) {
             Swal.fire({
                 title: '¿Estas seguro?',
                 text: "Tendrás que volver a insertar al empleado si lo quitas",
@@ -373,10 +430,11 @@
                 cancelButtonText: 'No'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    @this.deleteEmployee(id);
+                    @this.deleteContract(id);
                 }
             })
         }
+
         function deletePeriod() {
             Swal.fire({
                 title: '¿Estas seguro?',

@@ -2,12 +2,14 @@
 
 namespace App\Livewire\Payrolls;
 
+use App\Models\Contract;
 use App\Models\Employee;
 use App\Models\FundingResource;
 use App\Models\Group;
 use App\Models\Payment;
 use App\Models\PayrollType;
 use App\Models\Period;
+use Carbon\Carbon;
 use Livewire\Component;
 
 class FormEdit extends Component
@@ -89,16 +91,26 @@ class FormEdit extends Component
             $this->dispatch('message', code: '500', content: 'Algo salió mal');
         }
     }
-    public function addEmployee()
+
+    public $contracts_list = [];
+    public function searchContracts($employee_id)
     {
-        if ($this->theEmployeeIsIncluded($this->modal_employee_id)) {
+        $current_date = Carbon::now();
+        $this->contracts_list = Contract::where('employee_id', $employee_id)
+        ->where('start_validity', '<=', $current_date->format('y-m-d'))
+        ->where('end_validity', '>=', $current_date->format('y-m-d'))->get();
+    }
+
+    public function addContract($contract_id)
+    {
+        if ($this->theContractIsIncluded($contract_id)) {
             $this->dispatch('message', code: '500', content: 'Ya está incluido');
             return;
         }
-        $employee = Employee::find($this->modal_employee_id);
+        $contract = Contract::find($contract_id);
         Payment::create([
-            'basic' => $employee->remuneration,
-            'employee_id' => $employee->id,
+            'basic' => $contract->remuneration,
+            'contract_id' => $contract->id,
             'period_id' => $this->selected_period,
         ]);
 
@@ -106,20 +118,20 @@ class FormEdit extends Component
         $this->dispatch('message', code: '200', content: 'Se agregó');
     }
 
-    private function theEmployeeIsIncluded($employee_id)
+    private function theContractIsIncluded($contract_id)
     {
         foreach ($this->payments_list as $payment) {
-            if ($payment->employee->id == intval($employee_id)) {
+            if ($payment->contract->id == intval($contract_id)) {
                 return true;
             }
         }
         return false;
     }
 
-    public function deleteEmployee($employee_id)
+    public function deleteContract($contract_id)
     {
         try {
-            Payment::find($employee_id)->delete();
+            Payment::find($contract_id)->delete();
             $this->payments_list = Payment::where('period_id', $this->selected_period)->get();
             $this->dispatch('message', code: '200', content: 'Se eliminó correctamente');
         } catch (\Exception $th) {
@@ -190,9 +202,9 @@ class FormEdit extends Component
         define("WORKING_MINUTES", 480);
 
         try {
-            $year = Period::find($this->selected_period);
-            foreach ($year->payments as $key => $payment) {
-                $employee = $payment->employee;
+            $period = Period::find($this->selected_period);
+            foreach ($period->payments as $key => $payment) {
+                $employee = $payment->contract->employee;
                 $payment->onp_discount = $payment->afp_discount = $payment->essalud = null;
 
                 if ($employee->pension_system === 'afp') {
@@ -205,9 +217,9 @@ class FormEdit extends Component
                 if ($employee->pension_system === 'onp') {
                     $payment->onp_discount = ($payment->basic + $payment->refound) * ONP_COMISSION;
                 }
-                if ($employee->essalud) {
-                    $payment->essalud = ($payment->basic + $payment->refound) * ESSALUD;
-                }
+                
+                $payment->essalud = ($payment->basic + $payment->refound) * ESSALUD;
+                
                 if ($employee->cuarta) {
                     $payment->cuarta = ($payment->basic + $payment->refound) * CUARTA;
                 }

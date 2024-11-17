@@ -27,12 +27,12 @@ class Payment extends Model
         'minutes_discount',
         'refound',
         'aguinaldo',
-        'employee_id',
+        'contract_id',
         'period_id',
     ];
 
-    public function employee(){
-        return $this->belongsTo(Employee::class);
+    public function contract(){
+        return $this->belongsTo(Contract::class);
     }
 
     public function period(){

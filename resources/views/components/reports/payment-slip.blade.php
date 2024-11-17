@@ -24,12 +24,12 @@
                     </tr>
                     <tr>
                         <td class="text-bold">APELLIDOS Y NOMRBES</td>
-                        <td>: {{ $payment->employee->last_name }} {{ $payment->employee->second_last_name }}
-                            {{ $payment->employee->name }}</td>
+                        <td>: {{ $payment->contract->employee->last_name }} {{ $payment->contract->employee->second_last_name }}
+                            {{ $payment->contract->employee->name }}</td>
                     </tr>
                     <tr>
                         <td class="text-bold">CARGO</td>
-                        <td>: {{ $payment->employee->job_position->name }}</td>
+                        <td>: {{ $payment->contract->job_position->name }}</td>
                     </tr>
                     <tr>
                         <td class="text-bold">ESTABLECIMIENTO</td>
@@ -45,7 +45,7 @@
                     </tr>
                     <tr>
                         <td class="text-bold">CÓDIGO</td>
-                        <td>: {{ $payment->employee->identity_number }}</td>
+                        <td>: {{ $payment->contract->employee->identity_number }}</td>
                     </tr>
                     <tr>
                         <td class="text-bold">ESSALUD</td>

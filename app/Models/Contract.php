@@ -29,4 +29,7 @@ class Contract extends Model
     public function job_position(){
         return $this->belongsTo(JobPosition::class);
     }
+    public function employee(){
+        return $this->belongsTo(Employee::class);
+    }
 }
