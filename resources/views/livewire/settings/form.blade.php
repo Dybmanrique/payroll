@@ -48,6 +48,37 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
+                            <label for="uit">UIT*:</label>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">S/.</span>
+                                </div>
+                                <input type="number" id="uit" wire:model='uit'
+                                    class="form-control" placeholder="Aportación obligatoria" required>
+                            </div>
+                            @error('uit')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="max_amount_essalud_percent">Base máxima imponible Essalud*:</label>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">%</span>
+                                </div>
+                                <input type="number" id="max_amount_essalud_percent" wire:model='max_amount_essalud_percent'
+                                    class="form-control" placeholder="Aportación obligatoria" min="1"
+                                    max="100" step="0.01" required>
+                            </div>
+                            @error('max_amount_essalud_percent')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
                             <label for="essalud_percent">Comisión ESSALUD*:</label>
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">

@@ -25,9 +25,11 @@ class DatabaseSeeder extends Seeder
         Setting::create(['key' => 'institution_name', 'value' => 'UGEL - ASUNCIÓN']);
         Setting::create(['key' => 'ruc', 'value' => '20571443784']);
         Setting::create(['key' => 'airhsp_code', 'value' => '001479']);
-        Setting::create(['key' => 'essalud_percent', 'value' => '9']);
         Setting::create(['key' => 'onp_percent', 'value' => '13']);
         Setting::create(['key' => 'working_hours', 'value' => '8']);
+        Setting::create(['key' => 'essalud_percent', 'value' => '9']);
+        Setting::create(['key' => 'max_amount_essalud_percent', 'value' => '45']);
+        Setting::create(['key' => 'uit', 'value' => '5150']);
 
     }
 }
