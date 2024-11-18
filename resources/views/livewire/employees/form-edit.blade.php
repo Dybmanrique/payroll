@@ -17,7 +17,7 @@
                             <div class="form-group">
                                 <label for="judicial_name">Nombre judicial*:</label>
                                 <input type="text" class="form-control" id="judicial_name" wire:model='judicial_name'
-                                    placeholder="El nombre del descuento judicial" required>
+                                    placeholder="El nombre del descuento judicial" required autocomplete="off">
                                 @error('judicial_name')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
@@ -92,7 +92,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="remuneration">Remuneración*:</label>
-                                        <input type="text" class="form-control" id="remuneration"
+                                        <input type="number" class="form-control" id="remuneration" step="0.01"
                                             wire:model='remuneration' placeholder="Monto base de remuneración" required autocomplete="off">
                                         @error('remuneration')
                                             <span class="text-danger">{{ $message }}</span>
@@ -538,7 +538,8 @@
                 @this.set('judicial_dni', null);
             });
             $('#contractModal').on('hidden.bs.modal', function(e) {
-                @this.set('remuneration', false);
+                @this.set('contract_edit_mode', false);
+                @this.set('remuneration', null);
                 @this.set('working_hours', null);
                 @this.set('start_validity', null);
                 @this.set('end_validity', null);

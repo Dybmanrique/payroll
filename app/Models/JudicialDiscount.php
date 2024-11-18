@@ -14,7 +14,12 @@ class JudicialDiscount extends Model
         'amount',
         'account',
         'dni',
+        'is_deleted',
         'discount_type',
         'employee_id',
     ];
+
+    public function payments(){
+        return $this->belongsToMany(Payment::class);
+    }
 }

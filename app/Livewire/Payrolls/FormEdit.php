@@ -232,18 +232,17 @@ class FormEdit extends Component
                 }
 
                 $total_judicial_discount = 0;
-                if ($employee->judicial_discounts) {
-                    $payment->judicial_discounts()->detach();
-                    foreach ($employee->judicial_discounts as $key => $judicial_discount) {
-                        if ($judicial_discount->discount_type === 'fijo') {
-                            $payment->judicial_discounts()->attach($judicial_discount->id, ['amount' => $judicial_discount->amount]);
-                            $total_judicial_discount += $judicial_discount->amount;
-                        } else if ($judicial_discount->discount_type === 'porcentaje_total') {
-                            $payment->judicial_discounts()->attach($judicial_discount->id, ['amount' => ($payment->basic + $payment->refound) * ($judicial_discount->amount / 100)]);
-                            $total_judicial_discount += ($payment->basic + $payment->refound) * ($judicial_discount->amount / 100);
-                        }
+                $payment->judicial_discounts()->detach();
+                foreach ($employee->judicial_discounts()->where('is_deleted',false)->get() as $key => $judicial_discount) {
+                    if ($judicial_discount->discount_type === 'fijo') {
+                        $payment->judicial_discounts()->attach($judicial_discount->id, ['amount' => $judicial_discount->amount]);
+                        $total_judicial_discount += $judicial_discount->amount;
+                    } else if ($judicial_discount->discount_type === 'porcentaje_total') {
+                        $payment->judicial_discounts()->attach($judicial_discount->id, ['amount' => ($payment->basic + $payment->refound) * ($judicial_discount->amount / 100)]);
+                        $total_judicial_discount += ($payment->basic + $payment->refound) * ($judicial_discount->amount / 100);
                     }
                 }
+
                 $payment->judicial = ($total_judicial_discount === 0) ? null : $total_judicial_discount;
 
                 $days_discount = ($payment->basic / $payment->days) * $payment->days_discount;

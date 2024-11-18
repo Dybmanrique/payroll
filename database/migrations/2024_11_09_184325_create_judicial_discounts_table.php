@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('account')->nullable();
             $table->string('dni')->nullable();
             $table->enum('discount_type',['fijo', 'porcentaje_total']);
+            $table->boolean('is_deleted');
             $table->foreignId('employee_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });

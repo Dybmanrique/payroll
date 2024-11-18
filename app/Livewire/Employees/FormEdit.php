@@ -88,6 +88,7 @@ class FormEdit extends Component
                 'discount_type' => $this->judicial_discount_type,
                 'account' => $this->judicial_account,
                 'dni' => $this->judicial_dni,
+                'is_deleted' => false,
                 'employee_id' => $this->employee->id,
             ]);
 
@@ -95,7 +96,7 @@ class FormEdit extends Component
         }
 
         $this->dispatch('message', code: '200', content: 'Hecho');
-        $this->judicial_discounts = JudicialDiscount::where('employee_id', $this->employee->id)->get();
+        $this->judicial_discounts = JudicialDiscount::where('employee_id', $this->employee->id)->where('is_deleted',false)->get();
     }
 
     public function enableJudicialEdition($judicial_discount_id)
@@ -111,9 +112,20 @@ class FormEdit extends Component
 
     public function deleteJudicial($judicial_discount_id)
     {
-        JudicialDiscount::find($judicial_discount_id)->delete();
-        $this->dispatch('message', code: '200', content: 'Eliminado');
-        $this->judicial_discounts = JudicialDiscount::where('employee_id', $this->employee->id)->get();
+        try {
+            $judicial = JudicialDiscount::find($judicial_discount_id);
+            if(count($judicial->payments)>0){
+                $judicial->update([
+                    'is_deleted' => true,
+                ]);
+            } else {
+                $judicial->delete();
+            }
+            $this->dispatch('message', code: '200', content: 'Eliminado');
+            $this->judicial_discounts = JudicialDiscount::where('employee_id', $this->employee->id)->where('is_deleted',false)->get();
+        } catch (\Exception $th) {
+            $this->dispatch('message', code: '500', content: 'Algo salió mal');
+        }
     }
 
     public function addContract()
@@ -285,7 +297,7 @@ class FormEdit extends Component
             $this->afp_fing = $this->employee->afp_fing;
         }
 
-        $this->judicial_discounts = JudicialDiscount::where('employee_id', $this->employee->id)->get();
+        $this->judicial_discounts = JudicialDiscount::where('employee_id', $this->employee->id)->where('is_deleted',false)->get();
         // $this->contracts = Contract::where('employee_id', $this->employee->id)->get();
     }
 
