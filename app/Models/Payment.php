@@ -31,11 +31,17 @@ class Payment extends Model
         'period_id',
     ];
 
-    public function contract(){
+    public function contract()
+    {
         return $this->belongsTo(Contract::class);
     }
 
-    public function period(){
+    public function period()
+    {
         return $this->belongsTo(Period::class);
+    }
+
+    public function judicial_discounts() {
+        return $this->belongsToMany(JudicialDiscount::class)->withPivot('amount');
     }
 }

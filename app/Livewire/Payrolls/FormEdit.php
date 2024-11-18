@@ -230,6 +230,18 @@ class FormEdit extends Component
                 if ($employee->cuarta) {
                     $payment->cuarta = ($payment->basic + $payment->refound) * CUARTA;
                 }
+
+                if($employee->judicial_discounts){
+                    $payment->judicial_discounts()->detach();
+                    foreach ($employee->judicial_discounts as $key => $judicial_discount) {
+                        if($judicial_discount->discount_type === 'fijo'){
+                            $payment->judicial_discounts()->attach($judicial_discount->id, ['amount' => $judicial_discount->amount]);
+                        } else if ($judicial_discount->discount_type === 'porcentaje_total') {
+                            $payment->judicial_discounts()->attach($judicial_discount->id, ['amount' => $payment->basic * ($judicial_discount->amount / 100) ]);
+                        }
+                    }
+                }
+
                 $days_discount = ($payment->basic / $payment->days) * $payment->days_discount;
                 $hours_discount = ($payment->basic / $payment->days / WORKING_HOURS) * $payment->hours_discount;
                 $minutes_discount = ($payment->basic / $payment->days / WORKING_MINUTES) * $payment->minutes_discount;
