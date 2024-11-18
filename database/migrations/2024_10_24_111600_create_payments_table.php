@@ -31,6 +31,8 @@ return new class extends Migration
             $table->integer('minutes_discount')->nullable();
             $table->decimal('refound', 9, 2)->nullable();
             $table->decimal('aguinaldo', 9, 2)->nullable();
+            $table->decimal('judicial', 9, 2)->nullable();
+            $table->decimal('others', 9, 2)->nullable();
             $table->foreignId('contract_id')->constrained()->onDelete('cascade');
             $table->foreignId('period_id')->constrained()->onDelete('cascade');
             $table->timestamps();
