@@ -108,7 +108,37 @@
         </tr>
     </table>
     @foreach ($results as $result)
-        <div style="margin-top: 30px">FINALIDAD: {{ $result->name }}</div>
+        <div style="margin-top: 30px; margin-left: 3px;"><span class="text-bold">FINALIDAD:</span> {{ $result->name }}</div>
+        <table style="margin-bottom: 10px">
+            <tr>
+                <td class="text-bold">PROGRAMA PRESUPUESTAL</td>
+                <td>: {{ $result->programa_pptal }}</td>
+            </tr>
+            <tr>
+                <td class="text-bold">PRODUCTO/PROYECTO</td>
+                <td>: {{ $result->producto_proyecto }}</td>
+            </tr>
+            <tr>
+                <td class="text-bold">ACTIVIDAD/OBRA/INVERSIÓN:</td>
+                <td>: {{ $result->activ_obra_accinv }}</td>
+            </tr>
+            <tr>
+                <td class="text-bold">FUNCIÓN</td>
+                <td>: {{ $result->funcion }}</td>
+            </tr>
+            <tr>
+                <td class="text-bold">DIVISIÓN FUNCIONAL</td>
+                <td>: {{ $result->division_fn }}</td>
+            </tr>
+            <tr>
+                <td class="text-bold">GRUPO FUNCIONAL</td>
+                <td>: {{ $result->grupo_fn }}</td>
+            </tr>
+            <tr>
+                <td class="text-bold">SECUENCIA FUNCIONAL</td>
+                <td>: {{ $result->sec_func }}</td>
+            </tr>
+        </table>
         <table class="w-full" style="table-layout: fixed;">
             <tr>
                 <td style="vertical-align: top">
