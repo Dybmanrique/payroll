@@ -112,6 +112,11 @@ class PayrollController extends Controller
                 $body .= implode("|", [$identity_document_type, $employee->identity_number, $period->payroll->funding_resource->code, DESCUENTOS, "0009", "FALTAS Y TARDANZAS", $payment->fines_discount, $airhsp_record_type, $employee->airhsp_code . "\n"]);
             }
 
+            //DESCUENTO JUDICIAL
+            if ($payment->judicial !== null) {
+                $body .= implode("|", [$identity_document_type, $employee->identity_number, $period->payroll->funding_resource->code, DESCUENTOS, "0008", "DESCUENTO JUDICIAL", $payment->judicial, $airhsp_record_type, $employee->airhsp_code . "\n"]);
+            }
+
             //ESSALUD
             if ($payment->essalud !== null) {
                 $body .= implode("|", [$identity_document_type, $employee->identity_number, $period->payroll->funding_resource->code, APORTACIONES, "0007", "ESSALUD", $payment->essalud, $airhsp_record_type, $employee->airhsp_code . "\n"]);
