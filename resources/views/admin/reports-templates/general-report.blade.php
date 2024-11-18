@@ -128,7 +128,7 @@
                             </tr>
                             <tr>
                                 <td>NETOS: </td>
-                                <td class="text-right">{{ $result->total_net_pay }}</td>
+                                <td class="text-right">{{ number_format($result->total_basic + $result->total_refound - $result->total_discount, 2, '.', '') }}</td>
                             </tr>
                         </table>
                     </div>
