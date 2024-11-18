@@ -71,6 +71,11 @@
     @foreach ($period->payments as $payment)
         <!-- BOLETA -->
         <x-reports.payment-slip :payment="$payment" :periods="$periods"></x-reports.payment-slip>
+        @foreach ($payment->judicial_discounts as $judicial)
+            <div style="page-break-after:always;"></div> <!-- SALTO DE PÁG.-->
+            <x-reports.judicial-payment-slip :payment="$payment" :judicial="$judicial"
+                :periods="$periods"></x-reports.judicial-payment-slip>
+        @endforeach
         @if (!$loop->last)
             <div style="page-break-after:always;"></div> <!-- SALTO DE PÁG.-->
         @endif

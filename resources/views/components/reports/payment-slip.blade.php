@@ -20,7 +20,7 @@
                 <table>
                     <tr>
                         <td class="text-bold">PERIODO</td>
-                        <td>: {{ $periods[$payment->period->mounth] }} 2024</td>
+                        <td>: {{ $periods[$payment->period->mounth] }} {{ $payment->period->payroll->year }}</td>
                     </tr>
                     <tr>
                         <td class="text-bold">APELLIDOS Y NOMRBES</td>
@@ -41,7 +41,7 @@
                 <table>
                     <tr>
                         <td class="text-bold">BOLETA</td>
-                        <td>: {{ $payment->period->payroll->year }}{{ sprintf("%02d", $payment->period->mounth) }}-{{ sprintf("%04d", $payment->id) }}</td>
+                        <td>: {{ $payment->period->payroll->year }}{{ sprintf("%02d", $payment->period->mounth) }}-{{ sprintf("%04d", $payment->contract->employee->id) }}</td>
                     </tr>
                     <tr>
                         <td class="text-bold">CÓDIGO</td>
@@ -122,6 +122,12 @@
                             <tr>
                                 <td>Multas: </td>
                                 <td class="text-right">{{ $payment->fines_discount }}</td>
+                            </tr>
+                        @endif
+                        @if ($payment->judicial)
+                            <tr>
+                                <td>Descuento judicial: </td>
+                                <td class="text-right">{{ $payment->judicial }}</td>
                             </tr>
                         @endif
                     </table>
