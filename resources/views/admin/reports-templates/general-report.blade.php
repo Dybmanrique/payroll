@@ -8,7 +8,8 @@
 </head>
 <style>
     @page {
-        margin: 2cm; /* Ajustar los márgenes aquí */
+        margin: 2cm;
+        /* Ajustar los márgenes aquí */
     }
 
     body {
@@ -61,7 +62,7 @@
         vertical-align: top;
     }
 
-    .text-lg{
+    .text-lg {
         font-size: 25px;
     }
 </style>
@@ -88,7 +89,7 @@
                     </tr>
                     <tr>
                         <td class="text-bold">N° PLANILLA</td>
-                        <td>: {{ $period->payroll->number }}</td>
+                        <td>: {{ $period->payroll->number }}-{{ $period->payroll->year }}</td>
                     </tr>
                 </table>
             </td>
@@ -106,63 +107,92 @@
             </td>
         </tr>
     </table>
-
-    <table class="w-full" style="table-layout: fixed;">
-        <tr>
-            <td style="vertical-align: top">
-                <div class="border text-center text-bold" style="border-bottom: none; padding: 3px;">
-                    INGRESOS
-                </div>
-                <div class="border" style="min-height: 100px;">
-                    <table class="w-full">
-                        <tr>
-                            <td>TOTAL: </td>
-                            <td class="text-right">{{ $data['total_income'] }}</td>
-                        </tr>
-                    </table>
-                </div>
-            </td>
-            <td style="vertical-align: top">
-                <div class="border text-center text-bold" style="border-bottom: none; padding: 3px;">
-                    DESCUENTOS
-                </div>
-                <div class="border" style="min-height: 100px;">
-                    <table class="w-full">
-                        <tr>
-                            <td>TOTAL: </td>
-                            <td class="text-right">{{ $data['total_discounts'] }}</td>
-                        </tr>
-                    </table>
-                </div>
-            </td>
-            <td style="vertical-align: top">
-                <div class="border text-center text-bold" style="border-bottom: none; padding: 3px;">
-                    APORTES
-                </div>
-                <div class="border" style="min-height: 100px;">
-                    <table class="w-full">
-                        <tr>
-                            <td>TOTAL: </td>
-                            <td class="text-right">{{ $data['total_contributions'] }}</td>
-                        </tr>
-                    </table>
-                </div>
-            </td>
-            <td style="vertical-align: top">
-                <div class="border text-center text-bold" style="border-bottom: none; padding: 3px;">
-                    NETO
-                </div>
-                <div class="border" style="min-height: 100px;">
-                    <table class="w-full">
-                        <tr>
-                            <td>TOTAL: </td>
-                            <td class="text-right">{{ $data['net_pay'] }}</td>
-                        </tr>
-                    </table>
-                </div>
-            </td>
-        </tr>
-    </table>
+    @foreach ($results as $result)
+        <div style="margin-top: 30px">FINALIDAD: {{ $result->name }}</div>
+        <table class="w-full" style="table-layout: fixed;">
+            <tr>
+                <td style="vertical-align: top">
+                    <div class="border text-center text-bold" style="border-bottom: none; padding: 3px;">
+                        CAS ({{ $result->cas_classifier }})
+                    </div>
+                    <div class="border" style="min-height: 100px;">
+                        <table class="w-full">
+                            <tr>
+                                <td>INGRESOS: </td>
+                                <td class="text-right">
+                                    {{ number_format($result->total_basic + $result->total_refound, 2, '.', '') }}</td>
+                            </tr>
+                            <tr>
+                                <td>DESCUENTOS: </td>
+                                <td class="text-right">{{ $result->total_discount }}</td>
+                            </tr>
+                            <tr>
+                                <td>NETOS: </td>
+                                <td class="text-right">{{ $result->total_net_pay }}</td>
+                            </tr>
+                        </table>
+                    </div>
+                </td>
+                @if ($period->mounth == 7 || $period->mounth == 12)
+                    <td style="vertical-align: top">
+                        <div class="border text-center text-bold" style="border-bottom: none; padding: 3px;">
+                            AGUINALDO ({{ $result->aguinaldo_classifier }})
+                        </div>
+                        <div class="border" style="min-height: 100px;">
+                            <table class="w-full">
+                                <tr>
+                                    <td>TOTAL: </td>
+                                    <td class="text-right">{{ $result->total_aguinaldo ?? 'No aplicable' }}</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </td>
+                @endif
+                <td style="vertical-align: top">
+                    <div class="border text-center text-bold" style="border-bottom: none; padding: 3px;">
+                        ESSALUD ({{ $result->essalud_classifier }})
+                    </div>
+                    <div class="border" style="min-height: 100px;">
+                        <table class="w-full">
+                            <tr>
+                                <td>TOTAL: </td>
+                                <td class="text-right">{{ $result->total_essalud }}</td>
+                            </tr>
+                        </table>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td style="vertical-align: top" colspan="{{ ($period->mounth == 7 || $period->mounth == 12) ? '3' : '2' }}">
+                    <div class="border text-center text-bold" style="border-bottom: none; padding: 3px;">
+                        NETO
+                    </div>
+                    <div class="border" style="min-height: 100px;">
+                        <table class="w-full">
+                            <tr>
+                                <td>TOTAL INGRESOS: </td>
+                                <td class="text-right">{{ $result->total_remuneration }}</td>
+                            </tr>
+                            <tr>
+                                <td>TOTAL DESCUENTOS: </td>
+                                <td class="text-right">{{ $result->total_discount }}</td>
+                            </tr>
+                            <tr>
+                                <td>TOTAL APORTES: </td>
+                                <td class="text-right">{{ $result->total_essalud }}</td>
+                            </tr>
+                            <tr>
+                                <td>TOTAL FINAL: </td>
+                                <td class="text-right">
+                                    {{ number_format($result->total_essalud + $result->total_remuneration, 2, '.', '') }}
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    @endforeach
 </body>
 
 </html>

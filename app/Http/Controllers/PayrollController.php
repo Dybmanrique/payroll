@@ -8,6 +8,7 @@ use App\Models\Payroll;
 use App\Models\Period;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\DB;
 
 class PayrollController extends Controller
 {
@@ -161,22 +162,29 @@ class PayrollController extends Controller
     public function general_report(Period $period)
     {
         $periods = [1 => 'ENERO', 2 => 'FEBRERO', 3 => 'MARZO', 4 => 'ABRIL', 5 => 'MAYO', 6 => 'JUNIO', 7 => 'JULIO', 8 => 'AGOSTO', 9 => 'SETIEMBRE', 10 => 'OCTUBRE', 11 => 'NOVIEMBRE', 12 => 'DICIEMBRE'];
-        $total_income = 0.00;
-        $total_discounts = 0.00;
-        $total_contributions = 0.00;
 
-        foreach ($period->payments as $key => $payment) {
-            $total_income += $payment->total_remuneration;
-            $total_discounts += $payment->total_discount;
-            $total_contributions += $payment->essalud;
-        }
-        $net_pay = number_format(($total_income - $total_discounts), 2, '.', '');
-        $total_contributions = number_format($total_contributions, 2, '.', '');
-        $total_discounts = number_format($total_discounts, 2, '.', '');
-        $total_contributions = number_format($total_contributions, 2, '.', '');
+        $results = DB::table('payments')
+            ->join('contracts', 'payments.contract_id', '=', 'contracts.id')
+            ->join('budgetary_objectives', 'contracts.budgetary_objective_id', '=', 'budgetary_objectives.id')
+            ->select(
+                'budgetary_objectives.name',
+                'budgetary_objectives.cas_classifier',
+                'budgetary_objectives.essalud_classifier',
+                'budgetary_objectives.aguinaldo_classifier',
+                'contracts.budgetary_objective_id',
+                DB::raw('SUM(payments.basic) as total_basic'),
+                DB::raw('SUM(payments.refound) as total_refound'),
+                DB::raw('SUM(payments.total_discount) as total_discount'),
+                DB::raw('SUM(payments.total_remuneration) as total_remuneration'),
+                DB::raw('SUM(payments.net_pay) as total_net_pay'),
+                DB::raw('SUM(payments.aguinaldo) as total_aguinaldo'),
+                DB::raw('SUM(payments.essalud) as total_essalud'),
+            )
+            ->where('payments.period_id', $period->id) // Uso de la variable
+            ->groupBy('contracts.budgetary_objective_id', 'budgetary_objectives.name')
+            ->get();
 
-        $data = compact('total_income','total_discounts','total_contributions','net_pay');
-        $pdf = Pdf::loadView('admin.reports-templates.general-report', ['period' => $period, 'periods' => $periods, 'data' => $data])->setPaper('a4');
+        $pdf = Pdf::loadView('admin.reports-templates.general-report', ['period' => $period, 'periods' => $periods, 'results' => $results])->setPaper('a4');
         return $pdf->stream();
     }
 }
