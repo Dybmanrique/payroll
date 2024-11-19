@@ -119,7 +119,7 @@
                 <td>: {{ $result->producto_proyecto }}</td>
             </tr>
             <tr>
-                <td class="text-bold">ACTIVIDAD/OBRA/INVERSIÓN:</td>
+                <td class="text-bold">ACTIVIDAD/OBRA/INVERSIÓN</td>
                 <td>: {{ $result->activ_obra_accinv }}</td>
             </tr>
             <tr>
