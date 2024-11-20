@@ -113,7 +113,11 @@
                                     </div>
                                 </div>
                             @empty
-                                <div wire:loading.remove wire:target="searchContracts">Seleccione un empleado para ver sus contratos</div>
+                                <div class="card" wire:loading.remove wire:target="searchContracts">
+                                    <div class="card-body text-center">
+                                        Ningún contrato disponible
+                                    </div>
+                                </div>
                             @endforelse
                         </div>
                     </div>
