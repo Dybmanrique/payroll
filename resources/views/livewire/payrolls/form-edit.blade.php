@@ -79,41 +79,37 @@
                             </div>
                             @forelse ($contracts_list as $contract)
                                 <div class="shadow-sm rounded border mb-2 p-3" wire:key='{{ $contract->id }}'
-                                    wire:loading.class='opacity-low' wire:target="searchContracts"
-                                    style="transition-property: opacity; transition-duration: 300ms;">
-                                    <div wire:loading.remove wire:target="searchContracts">
-
-                                        <div class="w-100">
-                                            <div><span class="font-weight-bold">VIGENCIA:</span>
-                                                Desde el {{ date('d-m-Y', strtotime($contract->start_validity)) }} hasta el
-                                                {{ date('d-m-Y', strtotime($contract->end_validity)) }}
+                                    wire:loading.class='d-none' wire:target="searchContracts">
+                                    <div class="w-100">
+                                        <div><span class="font-weight-bold">VIGENCIA:</span>
+                                            Desde el {{ date('d-m-Y', strtotime($contract->start_validity)) }} hasta el
+                                            {{ date('d-m-Y', strtotime($contract->end_validity)) }}
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4"><span class="font-weight-bold">REMUNERACIÓN:</span>
+                                                {{ $contract->remuneration }}
                                             </div>
-                                            <div class="row">
-                                                <div class="col-md-4"><span class="font-weight-bold">REMUNERACIÓN:</span>
-                                                    {{ $contract->remuneration }}
-                                                </div>
-                                                <div class="col-md-8"><span class="font-weight-bold">META:</span>
-                                                    {{ $contract->budgetary_objective->name }}
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-4"><span class="font-weight-bold">NIVEL:</span>
-                                                    {{ $contract->level->name }}
-                                                </div>
-                                                <div class="col-md-4"><span class="font-weight-bold">CARGO:</span>
-                                                    {{ $contract->job_position->name }}
-                                                </div>
-                                                <div class="col-md-4"><span class="font-weight-bold">JORNADA L.:</span>
-                                                    {{ $contract->working_hours }} horas
-                                                </div>
+                                            <div class="col-md-8"><span class="font-weight-bold">META:</span>
+                                                {{ $contract->budgetary_objective->name }}
                                             </div>
                                         </div>
-                                        <div>
-                                            <button class="btn btn-primary btn-sm mb-1 w-100"
-                                                wire:click='addContract({{ $contract->id }})'>
-                                                <i class="fas fa-plus"></i> AGREGAR
-                                            </button>
+                                        <div class="row">
+                                            <div class="col-md-4"><span class="font-weight-bold">NIVEL:</span>
+                                                {{ $contract->level->name }}
+                                            </div>
+                                            <div class="col-md-4"><span class="font-weight-bold">CARGO:</span>
+                                                {{ $contract->job_position->name }}
+                                            </div>
+                                            <div class="col-md-4"><span class="font-weight-bold">JORNADA L.:</span>
+                                                {{ $contract->working_hours }} horas
+                                            </div>
                                         </div>
+                                    </div>
+                                    <div>
+                                        <button class="btn btn-primary btn-sm mb-1 w-100"
+                                            wire:click='addContract({{ $contract->id }})'>
+                                            <i class="fas fa-plus"></i> AGREGAR
+                                        </button>
                                     </div>
                                 </div>
                             @empty
@@ -274,10 +270,9 @@
             </div>
         </div>
     </div>
-    <div wire:loading.class='opacity-low' wire:target="searchEmployees"
-        style="transition-property: opacity; transition-duration: 300ms;">
+    <div wire:loading.class='d-none' wire:target="searchEmployees">
         @if ($payments_list)
-            <div class="card" wire:loading.remove wire:target="searchEmployees">
+            <div class="card">
                 <div class="card-header">
                     <div class="d-flex flex-row justify-content-between align-items-center">
                         <span class="font-weight-bold">LISTA DE EMPLEADOS</span>
