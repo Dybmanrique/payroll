@@ -210,12 +210,14 @@ class FormEdit extends Component
                 $employee = $payment->contract->employee;
                 $payment->onp_discount = $payment->afp_discount = $payment->essalud = null;
 
+                $payment->afp_id = null;
                 if ($employee->pension_system === 'afp') {
                     $payment->obligatory_afp = ($payment->basic + $payment->refound) * ($employee->afp->obligatory_contribution / 100);
                     $payment->life_insurance_afp = ($payment->basic + $payment->refound) * ($employee->afp->life_insurance / 100);
                     $payment->variable_afp = ($payment->basic + $payment->refound) * ($employee->afp->variable_commission / 100);
 
                     $payment->afp_discount = $payment->obligatory_afp + $payment->life_insurance_afp + $payment->variable_afp;
+                    $payment->afp_id = $payment->contract->employee->afp_id;
                 }
                 if ($employee->pension_system === 'onp') {
                     $payment->onp_discount = ($payment->basic + $payment->refound) * ONP_COMISSION;

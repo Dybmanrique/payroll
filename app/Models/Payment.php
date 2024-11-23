@@ -41,6 +41,11 @@ class Payment extends Model
         return $this->belongsTo(Period::class);
     }
 
+    public function afp()
+    {
+        return $this->belongsTo(Afp::class);
+    }
+
     public function judicial_discounts() {
         return $this->belongsToMany(JudicialDiscount::class)->withPivot('amount');
     }
