@@ -411,6 +411,14 @@
                                         </a>
                                     </div>
                                 </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <a href="{{ route('payrolls.payroll_report', $selected_period) }}"
+                                            class="font-weight-bold btn btn-secondary w-100" target="_blank">
+                                            <i class="fas fa-file-pdf"></i> IMPRIMIR PLANILLA
+                                        </a>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     @else

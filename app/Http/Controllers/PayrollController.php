@@ -194,4 +194,10 @@ class PayrollController extends Controller
         $pdf = Pdf::loadView('admin.reports-templates.general-report', ['period' => $period, 'periods' => $periods, 'results' => $results])->setPaper('a4');
         return $pdf->stream();
     }
+    public function payroll_report(Period $period)
+    {
+        $periods = config('periods_spanish');
+        $pdf = Pdf::loadView('admin.reports-templates.payroll', ['period' => $period, 'periods' => $periods])->setPaper('a4','landscape');
+        return $pdf->stream();
+    }
 }
