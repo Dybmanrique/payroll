@@ -17,8 +17,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('/ejemplo-de-reporte', function () {
-    $pdf = Pdf::loadView('general-report', [])->setPaper('a4');
+Route::get('/ejemplo-de-planilla', function () {
+    $pdf = Pdf::loadView('payroll', [])->setPaper('a4', 'landscape');
     return $pdf->stream();
 });
 
