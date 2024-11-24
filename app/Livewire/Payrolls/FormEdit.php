@@ -21,7 +21,7 @@ class FormEdit extends Component
 
     public $number, $year, $payroll_type_id, $funding_resource_id;
 
-    public $modal_employee_id, $modal_group_id, $modal_period_id;
+    public $modal_employee_id, $modal_group_id;
 
     public $periods = [1 => 'ENERO', 2 => 'FEBRERO', 3 => 'MARZO', 4 => 'ABRIL', 5 => 'MAYO', 6 => 'JUNIO', 7 => 'JULIO', 8 => 'AGOSTO', 9 => 'SETIEMBRE', 10 => 'OCTUBRE', 11 => 'NOVIEMBRE', 12 => 'DICIEMBRE'];
     public $periods_payroll;
@@ -29,14 +29,14 @@ class FormEdit extends Component
 
     public $payments_list = [];
 
-    public function addPeriod()
+    public function addPeriod($mounth)
     {
-        if (count($this->payroll->periods->where('mounth', $this->modal_period_id)) >= 1) {
-            $this->dispatch('message', code: '500', content: "El periodo de {$this->periods[$this->modal_period_id]} ya está incluido");
+        if (count($this->payroll->periods->where('mounth', $mounth)) >= 1) {
+            $this->dispatch('message', code: '500', content: "El periodo de {$this->periods[$mounth]} ya está incluido");
             return;
         }
         $this->payroll->periods()->create([
-            'mounth' => $this->modal_period_id
+            'mounth' => $mounth
         ]);
         $this->periods_payroll = Period::where('payroll_id', $this->payroll->id)->orderBy('mounth')->get();
 

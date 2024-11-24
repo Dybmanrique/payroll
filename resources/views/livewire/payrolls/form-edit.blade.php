@@ -4,32 +4,26 @@
         aria-labelledby="modalPeriodLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <form wire:submit='addPeriod'>
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="modalPeriodLabel">AGREGAR PERIODO</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label for="modal_period_id">Lista de periodos*:</label>
-                            <select wire:model="modal_period_id" id="modal_period_id" class="form-control" required>
-                                <option value="">--Seleccione--</option>
-                                @foreach ($periods as $index => $period)
-                                    <option value="{{ $index }}">{{ $period }}</option>
-                                @endforeach
-                            </select>
-                            @error('modal_period_id')
-                                <span class="text-danger">{{ $message }}</span>
-                            @enderror
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalPeriodLabel">AGREGAR PERIODO</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <div class="row">
+                            @foreach ($periods as $index => $period)
+                                <div class="col-md-4">
+                                    <button wire:click='addPeriod({{ $index }})' wire:loading.attr='disabled' class="btn btn-success w-100 mt-2">{{ $period }}</button>
+                                </div>
+                            @endforeach
                         </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">CERRAR</button>
-                        <button type="submit" class="btn btn-primary">ACEPTAR</button>
-                    </div>
-                </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">CERRAR</button>
+                </div>
             </div>
         </div>
     </div>
@@ -54,7 +48,9 @@
                                     data-placeholder="Seleccione al empleado" required>
                                     <option></option>
                                     @foreach ($employees as $employee)
-                                        <option value="{{ $employee->id }}">[{{ $employee->identity_number }}] {{ $employee->last_name }} {{ $employee->second_last_name }} {{ $employee->name }}</option>
+                                        <option value="{{ $employee->id }}">[{{ $employee->identity_number }}]
+                                            {{ $employee->last_name }} {{ $employee->second_last_name }}
+                                            {{ $employee->name }}</option>
                                     @endforeach
                                 </select>
                                 @error('modal_employee_id')
@@ -281,12 +277,13 @@
                         <div class="col-md-6 text-right">
                             <div class="row">
                                 <div class="col-md-6">
-                                    <button class="w-100 mt-1 btn btn-secondary btn-sm font-weight-bold" type="button"
-                                        data-toggle="modal" data-target="#modalEmployee">AGREGAR</button>
+                                    <button class="w-100 mt-1 btn btn-secondary btn-sm font-weight-bold"
+                                        type="button" data-toggle="modal"
+                                        data-target="#modalEmployee">AGREGAR</button>
                                 </div>
                                 <div class="col-md-6">
-                                    <button class="w-100 mt-1 btn btn-dark btn-sm font-weight-bold" type="button" data-toggle="modal"
-                                        data-target="#modalGroup">AGREGAR VARIOS</button>
+                                    <button class="w-100 mt-1 btn btn-dark btn-sm font-weight-bold" type="button"
+                                        data-toggle="modal" data-target="#modalGroup">AGREGAR VARIOS</button>
                                 </div>
                             </div>
                         </div>
