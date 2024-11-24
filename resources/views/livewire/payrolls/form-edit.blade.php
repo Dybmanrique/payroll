@@ -54,9 +54,7 @@
                                     data-placeholder="Seleccione al empleado" required>
                                     <option></option>
                                     @foreach ($employees as $employee)
-                                        <option value="{{ $employee->id }}">[{{ $employee->identity_number }}]
-                                            {{ $employee->last_name }} {{ $employee->second_last_name }}
-                                            {{ $employee->name }}</option>
+                                        <option value="{{ $employee->id }}">[{{ $employee->identity_number }}] {{ $employee->last_name }} {{ $employee->second_last_name }} {{ $employee->name }}</option>
                                     @endforeach
                                 </select>
                                 @error('modal_employee_id')
@@ -253,7 +251,7 @@
                         <div class="input-group-prepend">
                             <button type="button" onclick='deletePeriod()' wire:loading.attr='disabled'
                                 wire:target='deletePeriod' class="btn btn-danger font-weight-bold rounded-right"><i
-                                    class="fas fa-trash-alt"></i> ELIMINAR</button>
+                                    class="fas fa-trash-alt"></i></button>
                         </div>
                     </div>
                     @error('selected_period')
@@ -278,13 +276,19 @@
         @if ($payments_list)
             <div class="card">
                 <div class="card-header">
-                    <div class="d-flex flex-row justify-content-between align-items-center">
-                        <span class="font-weight-bold">LISTA DE EMPLEADOS</span>
-                        <div>
-                            <button class="btn btn-secondary btn-sm font-weight-bold" type="button"
-                                data-toggle="modal" data-target="#modalEmployee">AGREGAR</button>
-                            <button class="btn btn-dark btn-sm font-weight-bold" type="button" data-toggle="modal"
-                                data-target="#modalGroup">AGREGAR VARIOS</button>
+                    <div class="row">
+                        <div class="col-md-6 font-weight-bold">LISTA DE EMPLEADOS</div>
+                        <div class="col-md-6 text-right">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <button class="w-100 mt-1 btn btn-secondary btn-sm font-weight-bold" type="button"
+                                        data-toggle="modal" data-target="#modalEmployee">AGREGAR</button>
+                                </div>
+                                <div class="col-md-6">
+                                    <button class="w-100 mt-1 btn btn-dark btn-sm font-weight-bold" type="button" data-toggle="modal"
+                                        data-target="#modalGroup">AGREGAR VARIOS</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -383,10 +387,10 @@
                         <div class="card mt-2">
                             <div class="card-body">
                                 <div class="row">
-                                    <div class="col">
+                                    <div class="col-md-3">
                                         <button id="btnCalculate" wire:target="calculate"
                                             wire:loading.class='disabled' type="button"
-                                            class="font-weight-bold btn btn-info w-100" onclick='calculate()'>
+                                            class="mt-1 font-weight-bold btn btn-info w-100" onclick='calculate()'>
                                             <div wire:target="calculate" wire:loading.class='d-inline-block'
                                                 class="d-none spinner-border spinner-border-sm" role="status">
                                                 <span class="sr-only">Loading...</span>
@@ -394,19 +398,19 @@
                                             <i class="fas fa-calculator"></i> REALIZAR CALCULOS
                                         </button>
                                     </div>
-                                    <div class="col">
-                                        <button type="button" class="font-weight-bold btn btn-info w-100"
+                                    <div class="col-md-3">
+                                        <button type="button" class="mt-1 font-weight-bold btn btn-info w-100"
                                             wire:click='mcpp()'><i class="fas fa-file-alt"></i> INTERFAZ MCPP</button>
                                     </div>
-                                    <div class="col">
+                                    <div class="col-md-3">
                                         <a href="{{ route('payrolls.generate_payment_slips_period', $selected_period) }}"
-                                            class="font-weight-bold btn btn-secondary w-100" target="_blank">
+                                            class="mt-1 font-weight-bold btn btn-secondary w-100" target="_blank">
                                             <i class="fas fa-file-pdf"></i> IMPRIMIR BOLETAS
                                         </a>
                                     </div>
-                                    <div class="col">
+                                    <div class="col-md-3">
                                         <a href="{{ route('payrolls.general_report', $selected_period) }}"
-                                            class="font-weight-bold btn btn-secondary w-100" target="_blank">
+                                            class="mt-1 font-weight-bold btn btn-secondary w-100" target="_blank">
                                             <i class="fas fa-file-pdf"></i> REPORTE GENERAL
                                         </a>
                                     </div>
@@ -414,7 +418,7 @@
                                 <div class="row">
                                     <div class="col-md-3">
                                         <a href="{{ route('payrolls.payroll_report', $selected_period) }}"
-                                            class="font-weight-bold btn btn-secondary w-100" target="_blank">
+                                            class="mt-1 font-weight-bold btn btn-secondary w-100" target="_blank">
                                             <i class="fas fa-file-pdf"></i> IMPRIMIR PLANILLA
                                         </a>
                                     </div>
