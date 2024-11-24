@@ -65,6 +65,10 @@
         font-size: 25px;
     }
 
+    .text-md {
+        font-size: 18px;
+    }
+
     .table {
         border: 1px solid;
         border-collapse: collapse;
@@ -113,13 +117,14 @@
     .text-nowrap {
         white-space: nowrap;
     }
+
     .logo {
         width: 100px;
     }
 </style>
 
 <body>
-
+    <!-- SECCION DE PLANILLAS -->
     <table class="w-full">
         <tr>
             <td class="corner"><img class="logo" src="{{ public_path('img/asuncion.jpg') }}" alt=""></td>
@@ -204,7 +209,7 @@
                 @endphp
                 <tr class="row">
                     <td class="cel cel-middle text-center text-bold">
-                        {{ sprintf("%05d", $payment->contract->employee_id) }}
+                        {{ sprintf('%05d', $payment->contract->employee_id) }}
                     </td>
                     <td class="cel cel-top">
                         <table class="details-table">
@@ -412,6 +417,119 @@
             </tr>
         </tfoot>
     </table>
+    <!-- FIN SECCIÓN -->
+
+    <!-- SECCIÓN JUDICIAL -->
+    @php
+        $has_judicial_discounts = false;
+        foreach ($period->payments as $payment) {
+            if (count($payment->judicial_discounts) > 0) {
+                $has_judicial_discounts = true;
+                break;
+            }
+        }
+    @endphp
+
+    @if ($has_judicial_discounts)
+        <div style="page-break-after:always;"></div> <!-- SALTO DE PÁG.-->
+        <table class="w-full">
+            <tr>
+                <td class="corner"><img class="logo" src="{{ public_path('img/asuncion.jpg') }}" alt="">
+                </td>
+                <td>
+                    <div class="text-bold text-center text-lg">PLANILLA DE REMUNERACIONES</div>
+                    <div class="text-center text-md text-bold">DESCUENTO JUDICIAL - DEMANDANTE</div>
+                    <div class="text-center">D.L. 1057 CONTRATO ADMINISTRATIVO DE SERVICIOS</div>
+                </td>
+                <td class="text-right corner"></td>
+            </tr>
+        </table>
+
+        <table>
+            <tr>
+                <td class="text-bold">N° PLANILLA</td>
+                <td>: {{ $period->payroll->number }}-{{ $period->payroll->year }}</td>
+            </tr>
+            <tr>
+                <td class="text-bold">PERIODO</td>
+                <td>: {{ $periods[$period->mounth] }} {{ $period->payroll->year }}</td>
+            </tr>
+            <tr>
+                <td class="text-bold">ESTABLECIMIENTO</td>
+                <td>: UGEL - ASUNCIÓN</td>
+            </tr>
+            <tr>
+                <td class="text-bold">F. FINANCIAMIENTO</td>
+                <td>: [{{ $period->payroll->funding_resource->code }}] {{ $period->payroll->funding_resource->name }}
+                </td>
+            </tr>
+        </table>
+
+        <table class="w-full table">
+            <thead>
+                <tr>
+                    <th class="cel text-bold" style="width: 35px">COD</th>
+                    <th class="cel text-bold" style="width: 550px">DATOS</th>
+                    <th class="cel text-bold" style="width: 200px">DESCUENTO JUDICIAL</th>
+                    <th class="cel text-bold">FIRMA</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($period->payments as $payment)
+                    @foreach ($payment->judicial_discounts as $judicial_discount)
+                    <tr class="row">
+                        <td class="cel cel-middle text-center text-bold">
+                            {{ sprintf('%05d', $judicial_discount->id) }}
+                        </td>
+                        <td class="cel cel-top">
+                            <table class="details-table">
+                                <tr>
+                                    <td class="text-bold">RAZÓN</td>
+                                    <td>: {{ $judicial_discount->name }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-bold">CUENTA JUDICIAL</td>
+                                    <td>: {{ $judicial_discount->account ?? "-" }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-bold">DNI JUDICIAL</td>
+                                    <td>: {{ $judicial_discount->dni }}</td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td class="cel cel-top">
+                            <table class="w-full">
+                                <tr>
+                                    <td>TOTAL</td>
+                                    <td class="text-right">{{ $judicial_discount->pivot->amount }}</td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td class="cel cel-top"></td>
+                    </tr>
+                    @endforeach
+                @endforeach
+
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td class="cel cel-middle text-center text-bold" colspan="2"></td>
+                    <td class="cel cel-top">
+                        <table class="w-full">
+                            <tr>
+                                <td class="text-bold">TOTAL</td>
+                                <td class="text-right text-bold">{{ number_format($total_judicial, 2, '.', '') }}
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td class="cel cel-top"></td>
+                </tr>
+            </tfoot>
+        </table>
+    @endif
+    <!-- FIN SECCIÓN -->
+
 </body>
 
 </html>
