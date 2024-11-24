@@ -65,6 +65,9 @@
     .text-lg {
         font-size: 25px;
     }
+    .logo {
+        width: 100px;
+    }
 </style>
 
 <body>

@@ -65,13 +65,16 @@
     .text-lg {
         font-size: 25px;
     }
+    .logo {
+        width: 100px;
+    }
 </style>
 
 <body>
 
     <table class="w-full">
         <tr>
-            <td class="corner"><img src="{{ public_path('img/asuncion.jpg') }}" alt=""></td>
+            <td class="corner"><img class="logo" src="{{ public_path('img/asuncion.jpg') }}" alt=""></td>
             <td class="text-bold text-center text-lg">
                 REPORTE GENERAL
             </td>

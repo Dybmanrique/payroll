@@ -113,13 +113,16 @@
     .text-nowrap {
         white-space: nowrap;
     }
+    .logo {
+        width: 100px;
+    }
 </style>
 
 <body>
 
     <table class="w-full">
         <tr>
-            <td class="corner"><img src="{{ public_path('img/asuncion.jpg') }}" alt=""></td>
+            <td class="corner"><img class="logo" src="{{ public_path('img/asuncion.jpg') }}" alt=""></td>
             <td>
                 <div class="text-bold text-center text-lg">PLANILLA DE REMUNERACIONES</div>
                 <div class="text-center">D.L. 1057 CONTRATO ADMINISTRATIVO DE SERVICIOS</div>

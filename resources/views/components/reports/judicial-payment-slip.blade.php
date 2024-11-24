@@ -1,7 +1,7 @@
 <div>
     <table class="w-full">
         <tr>
-            <td class="corner"><img src="{{ public_path('img/asuncion.jpg') }}" alt=""></td>
+            <td class="corner"><img class="logo" src="{{ public_path('img/asuncion.jpg') }}" alt=""></td>
             <td class="text-bold text-center">
                 <ul style="list-style-type: none; margin: 0px;">
                     <li class="text-lg">BOLETA DE ASIGNACIÓN JUDICIAL</li>
