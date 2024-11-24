@@ -147,7 +147,7 @@
                         @endif
                         <tr>
                             <td>TOTAL APORTE: </td>
-                            <td class="text-right">{{ $payment->essalud ?? '0.00' }}</td>
+                            <td class="text-right">{{ $payment->total_contribution ?? '0.00' }}</td>
                         </tr>
                     </table>
                 </div>

@@ -178,6 +178,8 @@
                 $total_discount = 0;
 
                 $total_essalud = 0;
+                $total_contribution = 0;
+
                 $total_net_pay = 0;
             @endphp
             @foreach ($period->payments as $payment)
@@ -196,6 +198,8 @@
                     $total_discount += $payment->total_discount;
 
                     $total_essalud += $payment->essalud;
+                    $total_contribution += $payment->total_contribution;
+
                     $total_net_pay += $payment->net_pay;
                 @endphp
                 <tr class="row">
@@ -243,18 +247,18 @@
                     <td class="cel cel-top">
                         <table class="w-full">
                             <tr>
-                                <td class="text-bold">BÁSICO</td>
+                                <td>BÁSICO</td>
                                 <td class="text-right">{{ $payment->basic }}</td>
                             </tr>
                             @if ($payment->aguinaldo)
                                 <tr>
-                                    <td class="text-bold">AGUINALDO</td>
+                                    <td>AGUINALDO</td>
                                     <td class="text-right">{{ $payment->aguinaldo }}</td>
                                 </tr>
                             @endif
                             @if ($payment->refound)
                                 <tr>
-                                    <td class="text-bold">REINTEGRO</td>
+                                    <td>REINTEGRO</td>
                                     <td class="text-right">{{ $payment->refound }}</td>
                                 </tr>
                             @endif
@@ -268,33 +272,33 @@
                         <table class="w-full">
                             @if ($payment->onp_discount)
                                 <tr>
-                                    <td class="text-bold">ONP</td>
+                                    <td>ONP</td>
                                     <td class="text-right">{{ $payment->onp_discount }}</td>
                                 </tr>
                             @endif
                             @if ($payment->afp_discount)
                                 <tr>
-                                    <td class="text-bold">AFP-JUB</td>
+                                    <td>AFP-JUB</td>
                                     <td class="text-right">{{ $payment->obligatory_afp }}</td>
                                 </tr>
                                 <tr>
-                                    <td class="text-bold">AFP-C-V</td>
+                                    <td>AFP-C-V</td>
                                     <td class="text-right">{{ $payment->variable_afp }}</td>
                                 </tr>
                                 <tr>
-                                    <td class="text-bold">AFP-INVA</td>
+                                    <td>AFP-INVA</td>
                                     <td class="text-right">{{ $payment->life_insurance_afp }}</td>
                                 </tr>
                             @endif
                             @if ($payment->judicial)
                                 <tr>
-                                    <td class="text-bold">D. JUDICIAL</td>
+                                    <td>D. JUDICIAL</td>
                                     <td class="text-right">{{ $payment->judicial }}</td>
                                 </tr>
                             @endif
                             @if ($payment->others)
                                 <tr>
-                                    <td class="text-bold">OTROS</td>
+                                    <td>OTROS</td>
                                     <td class="text-right">{{ $payment->others }}</td>
                                 </tr>
                             @endif
@@ -307,8 +311,12 @@
                     <td class="cel cel-top">
                         <table class="w-full">
                             <tr>
-                                <td class="text-bold">ESSALUD</td>
-                                <td class="text-right text-bold">{{ $payment->essalud }}</td>
+                                <td>ESSALUD</td>
+                                <td class="text-right">{{ $payment->essalud }}</td>
+                            </tr>
+                            <tr>
+                                <td class="text-bold">TOTAL</td>
+                                <td class="text-right text-bold">{{ $payment->total_contribution }}</td>
                             </tr>
                         </table>
                     </td>
@@ -331,15 +339,15 @@
                 <td class="cel cel-top">
                     <table class="w-full">
                         <tr>
-                            <td class="text-bold">BÁSICO</td>
+                            <td>BÁSICO</td>
                             <td class="text-right">{{ number_format($total_basic, 2, '.', '') }}</td>
                         </tr>
                         <tr>
-                            <td class="text-bold">AGUINALDO</td>
+                            <td>AGUINALDO</td>
                             <td class="text-right">{{ number_format($total_aguinaldo, 2, '.', '') }}</td>
                         </tr>
                         <tr>
-                            <td class="text-bold">REINTEGRO</td>
+                            <td>REINTEGRO</td>
                             <td class="text-right">{{ number_format($total_refound, 2, '.', '') }}</td>
                         </tr>
                         <tr>
@@ -351,24 +359,28 @@
                 <td class="cel cel-top">
                     <table class="w-full">
                         <tr>
-                            <td class="text-bold">ONP</td>
+                            <td>ONP</td>
                             <td class="text-right">{{ number_format($total_onp, 2, '.', '') }}</td>
                         </tr>
                         <tr>
-                            <td class="text-bold">AFP-JUB</td>
+                            <td>AFP-JUB</td>
                             <td class="text-right">{{ number_format($total_afp_jub, 2, '.', '') }}</td>
                         </tr>
                         <tr>
-                            <td class="text-bold">AFP-C-V</td>
+                            <td>AFP-C-V</td>
                             <td class="text-right">{{ number_format($total_afp_c_v, 2, '.', '') }}</td>
                         </tr>
                         <tr>
-                            <td class="text-bold">AFP-INVA</td>
+                            <td>AFP-INVA</td>
                             <td class="text-right">{{ number_format($total_afp_inva, 2, '.', '') }}</td>
                         </tr>
                         <tr>
-                            <td class="text-bold">D. JUDICIAL</td>
+                            <td>D. JUDICIAL</td>
                             <td class="text-right">{{ number_format($total_judicial, 2, '.', '') }}</td>
+                        </tr>
+                        <tr>
+                            <td>OTROS</td>
+                            <td class="text-right">{{ number_format($total_others, 2, '.', '') }}</td>
                         </tr>
                         <tr>
                             <td class="text-bold">TOTAL</td>
@@ -379,8 +391,12 @@
                 <td class="cel cel-top">
                     <table class="w-full">
                         <tr>
-                            <td class="text-bold">ESSALUD</td>
-                            <td class="text-right text-bold">{{ number_format($total_essalud, 2, '.', '') }}</td>
+                            <td>ESSALUD</td>
+                            <td class="text-right">{{ number_format($total_essalud, 2, '.', '') }}</td>
+                        </tr>
+                        <tr>
+                            <td class="text-bold">TOTAL</td>
+                            <td class="text-right text-bold">{{ number_format($total_contribution, 2, '.', '') }}</td>
                         </tr>
                     </table>
                 </td>

@@ -16,6 +16,7 @@ class Payment extends Model
         'fines_discount',
         'total_remuneration',
         'total_discount',
+        'total_contribution',
         'net_pay',
         'essalud',
         'obligatory_afp',
