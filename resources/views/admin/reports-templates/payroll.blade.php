@@ -143,7 +143,7 @@
         </tr>
         <tr>
             <td class="text-bold">F. FINANCIAMIENTO</td>
-            <td>: {{ $period->payroll->funding_resource->name }}</td>
+            <td>: [{{ $period->payroll->funding_resource->code }}] {{ $period->payroll->funding_resource->name }}</td>
         </tr>
     </table>
 
