@@ -412,7 +412,7 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col">
+                                    <div class="col-md-3">
                                         <a href="{{ route('payrolls.payroll_report', $selected_period) }}"
                                             class="font-weight-bold btn btn-secondary w-100" target="_blank">
                                             <i class="fas fa-file-pdf"></i> IMPRIMIR PLANILLA
