@@ -255,6 +255,7 @@ class FormEdit extends Component
 
                 $payment->total_remuneration = $payment->basic + $payment->refound + $payment->aguinaldo;
                 $payment->total_discount = $payment->afp_discount + $payment->onp_discount + $payment->fines_discount + $payment->cuarta + $payment->judicial;
+                $payment->total_contribution = $payment->essalud;
 
                 $payment->net_pay = $payment->total_remuneration - $payment->total_discount;
                 $payment->save();
