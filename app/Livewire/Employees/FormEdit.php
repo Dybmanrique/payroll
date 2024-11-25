@@ -57,7 +57,7 @@ class FormEdit extends Component
         $working_hours;
 
     // public $contracts = [];
-    public $contract_edit_mode = false;
+    public $contract_mode = "ADD";
     public $contract_selected = null;
 
     public function addJudicialDiscount()
@@ -96,7 +96,7 @@ class FormEdit extends Component
         }
 
         $this->dispatch('message', code: '200', content: 'Hecho');
-        $this->judicial_discounts = JudicialDiscount::where('employee_id', $this->employee->id)->where('is_deleted',false)->get();
+        $this->judicial_discounts = JudicialDiscount::where('employee_id', $this->employee->id)->where('is_deleted', false)->get();
     }
 
     public function enableJudicialEdition($judicial_discount_id)
@@ -114,7 +114,7 @@ class FormEdit extends Component
     {
         try {
             $judicial = JudicialDiscount::find($judicial_discount_id);
-            if(count($judicial->payments)>0){
+            if (count($judicial->payments) > 0) {
                 $judicial->update([
                     'is_deleted' => true,
                 ]);
@@ -122,7 +122,7 @@ class FormEdit extends Component
                 $judicial->delete();
             }
             $this->dispatch('message', code: '200', content: 'Eliminado');
-            $this->judicial_discounts = JudicialDiscount::where('employee_id', $this->employee->id)->where('is_deleted',false)->get();
+            $this->judicial_discounts = JudicialDiscount::where('employee_id', $this->employee->id)->where('is_deleted', false)->get();
         } catch (\Exception $th) {
             $this->dispatch('message', code: '500', content: 'Algo salió mal');
         }
@@ -140,47 +140,55 @@ class FormEdit extends Component
             'budgetary_objective_id' => 'required|numeric',
         ]);
 
-        if ($this->contract_edit_mode) {
-            $this->contract_selected->update([
-                'remuneration' => $this->remuneration,
-                'start_validity' => $this->start_validity,
-                'end_validity' => $this->end_validity,
-                'working_hours' => $this->working_hours,
-                'job_position_id' => $this->job_position_id,
-                'level_id' => $this->level_id,
-                'budgetary_objective_id' => $this->budgetary_objective_id,
-            ]);
-        } else {
-            Contract::create([
-                'remuneration' => $this->remuneration,
-                'start_validity' => $this->start_validity,
-                'end_validity' => $this->end_validity,
-                'working_hours' => $this->working_hours,
-                'employee_id' => $this->employee->id,
-                'job_position_id' => $this->job_position_id,
-                'level_id' => $this->level_id,
-                'budgetary_objective_id' => $this->budgetary_objective_id,
-            ]);
+        switch ($this->contract_mode) {
+            case 'ADD':
+                Contract::create([
+                    'remuneration' => $this->remuneration,
+                    'start_validity' => $this->start_validity,
+                    'end_validity' => $this->end_validity,
+                    'working_hours' => $this->working_hours,
+                    'employee_id' => $this->employee->id,
+                    'job_position_id' => $this->job_position_id,
+                    'level_id' => $this->level_id,
+                    'budgetary_objective_id' => $this->budgetary_objective_id,
+                ]);
 
-            $this->reset([
-                'remuneration',
-                'start_validity',
-                'end_validity',
-                'working_hours',
-                'job_position_id',
-                'level_id',
-                'budgetary_objective_id'
-            ]);
+                $this->reset([
+                    'remuneration',
+                    'start_validity',
+                    'end_validity',
+                    'working_hours',
+                    'job_position_id',
+                    'level_id',
+                    'budgetary_objective_id'
+                ]);
+                break;
+
+            case 'EDIT':
+                $this->contract_selected->update([
+                    'remuneration' => $this->remuneration,
+                    'start_validity' => $this->start_validity,
+                    'end_validity' => $this->end_validity,
+                    'working_hours' => $this->working_hours,
+                    'job_position_id' => $this->job_position_id,
+                    'level_id' => $this->level_id,
+                    'budgetary_objective_id' => $this->budgetary_objective_id,
+                ]);
+
+                break;
+
+            default:
+
+                break;
         }
 
         $this->dispatch('message', code: '200', content: 'Hecho');
         $this->resetPage();
-        // $this->contracts = Contract::where('employee_id', $this->employee->id)->get();
     }
 
-    public function enableContractEdition($contract_id)
+    public function changeContractMode($contract_id, $mode = 'EDIT')
     {
-        $this->contract_edit_mode = true;
+        $this->contract_mode = $mode;
         $this->contract_selected = Contract::find($contract_id);
 
         $this->remuneration = $this->contract_selected->remuneration;
@@ -297,14 +305,14 @@ class FormEdit extends Component
             $this->afp_fing = $this->employee->afp_fing;
         }
 
-        $this->judicial_discounts = JudicialDiscount::where('employee_id', $this->employee->id)->where('is_deleted',false)->get();
+        $this->judicial_discounts = JudicialDiscount::where('employee_id', $this->employee->id)->where('is_deleted', false)->get();
         // $this->contracts = Contract::where('employee_id', $this->employee->id)->get();
     }
 
     public function render()
     {
-        return view('livewire.employees.form-edit',[
-            'contracts' => Contract::where('employee_id',$this->employee->id)->orderByDesc('id')->paginate(5),
+        return view('livewire.employees.form-edit', [
+            'contracts' => Contract::where('employee_id', $this->employee->id)->orderByDesc('id')->paginate(4),
         ]);
     }
 }

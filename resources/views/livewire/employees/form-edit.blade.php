@@ -87,7 +87,7 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <div wire:loading.remove wire:target='enableContractEdition'>
+                        <div wire:loading.remove wire:target='changeContractMode'>
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
@@ -168,7 +168,7 @@
                             </div>
                         </div>
 
-                        <div class="text-center w-100" wire:loading wire:target='enableContractEdition'>
+                        <div class="text-center w-100" wire:loading wire:target='changeContractMode'>
                             <div class="spinner-border spinner-border-sm" role="status">
                                 <span class="sr-only">Loading...</span>
                             </div>
@@ -502,8 +502,12 @@
                         </div>
                     </div>
                     <div>
+                        <button class="btn btn-dark btn-sm mb-1 w-100" data-toggle="modal"
+                            data-target="#contractModal" wire:click='changeContractMode({{ $contract->id }}, "ADD")'>
+                            <i class="fas fa-arrow-circle-up"></i> EXTENDER
+                        </button>
                         <button class="btn btn-primary btn-sm mb-1 w-100" data-toggle="modal"
-                            data-target="#contractModal" wire:click='enableContractEdition({{ $contract->id }})'>
+                            data-target="#contractModal" wire:click='changeContractMode({{ $contract->id }})'>
                             <i class="fas fa-edit"></i> EDITAR
                         </button>
                         <button class="btn btn-danger btn-sm w-100" type="button"
@@ -538,7 +542,7 @@
                 @this.set('judicial_dni', null);
             });
             $('#contractModal').on('hidden.bs.modal', function(e) {
-                @this.set('contract_edit_mode', false);
+                @this.set('contract_mode', 'ADD');
                 @this.set('remuneration', null);
                 @this.set('working_hours', null);
                 @this.set('start_validity', null);
