@@ -5,7 +5,6 @@ namespace App\Livewire\Employees;
 use App\Models\Afp;
 use App\Models\BudgetaryObjective;
 use App\Models\Employee;
-use App\Models\Group;
 use App\Models\IdentityType;
 use App\Models\JobPosition;
 use App\Models\Level;
@@ -13,7 +12,7 @@ use Livewire\Component;
 
 class FormCreate extends Component
 {
-    public $groups, $job_positions, $levels, $afps, $budgetary_objectives, $identity_types;
+    public $job_positions, $levels, $afps, $budgetary_objectives, $identity_types;
 
     //EMPLOYEE ATRIBUTTES
     public 
@@ -29,7 +28,6 @@ class FormCreate extends Component
     $cuarta=0,
     $ruc,
     $gender,
-    $group_id,
     $pension_system;
 
     public $afp_code, $afp_fing, $afp_id;
@@ -48,7 +46,6 @@ class FormCreate extends Component
             'cuarta' => 'required',
             'ruc' => 'nullable',
             'gender' => 'required',
-            'group_id' => 'required',
             'pension_system' => 'required',
         ]);
 
@@ -74,7 +71,6 @@ class FormCreate extends Component
                 'cuarta' => $this->cuarta,
                 'ruc' => $this->ruc,
                 'gender' => $this->gender,
-                'group_id' => $this->group_id,
                 'pension_system' => $this->pension_system,
             ]);
     
@@ -96,7 +92,6 @@ class FormCreate extends Component
             'date_entry',
             'ruc',
             'gender',
-            'group_id',
             'pension_system',
             'afp_code',
             'afp_fing',
@@ -112,7 +107,6 @@ class FormCreate extends Component
 
     public function mount()
     {
-        $this->groups = Group::all();
         $this->job_positions = JobPosition::all();
         $this->levels = Level::all();
         $this->afps = Afp::all();

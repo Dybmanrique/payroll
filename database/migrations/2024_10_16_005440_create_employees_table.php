@@ -29,7 +29,6 @@ return new class extends Migration
             $table->string('afp_fing')->nullable();
             $table->foreignId('afp_id')->nullable()->constrained();
             $table->foreignId('identity_type_id')->constrained();
-            $table->foreignId('group_id')->constrained();
             $table->timestamps();
         });
     }

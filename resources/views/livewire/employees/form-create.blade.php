@@ -145,20 +145,6 @@
                             @enderror
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="group_id">Grupo*:</label>
-                            <select wire:model="group_id" id="group_id" class="form-control" required>
-                                <option value="">--Seleccione--</option>
-                                @foreach ($groups as $group)
-                                    <option value="{{ $group->id }}">{{ $group->name }}</option>
-                                @endforeach
-                            </select>
-                            @error('group_id')
-                                <span class="text-danger">{{ $message }}</span>
-                            @enderror
-                        </div>
-                    </div>
                     <div class="col-md-12">
                         <div class="form-group">
                             <span class="d-block w-100 font-weight-bold mb-2">Sistema de pensiones*:</span>

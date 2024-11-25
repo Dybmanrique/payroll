@@ -5,8 +5,6 @@ namespace App\Livewire\Employees;
 use App\Models\Afp;
 use App\Models\BudgetaryObjective;
 use App\Models\Contract;
-use App\Models\Employee;
-use App\Models\Group;
 use App\Models\IdentityType;
 use App\Models\JobPosition;
 use App\Models\JudicialDiscount;
@@ -20,7 +18,7 @@ class FormEdit extends Component
     use WithPagination, WithoutUrlPagination;
     public $employee;
 
-    public $groups, $job_positions, $levels, $afps, $budgetary_objectives, $identity_types;
+    public $job_positions, $levels, $afps, $budgetary_objectives, $identity_types;
 
     //EMPLOYEE ATRIBUTTES
     public
@@ -36,7 +34,6 @@ class FormEdit extends Component
         $cuarta,
         $ruc,
         $gender,
-        $group_id,
         $pension_system;
 
     public $afp_code, $afp_fing, $afp_id;
@@ -223,7 +220,6 @@ class FormEdit extends Component
             'cuarta' => 'required|boolean',
             'ruc' => 'nullable',
             'gender' => 'required',
-            'group_id' => 'required',
             'pension_system' => 'required',
         ]);
 
@@ -251,7 +247,6 @@ class FormEdit extends Component
                 'cuarta' => $this->cuarta,
                 'ruc' => $this->ruc,
                 'gender' => $this->gender,
-                'group_id' => $this->group_id,
                 'pension_system' => $this->pension_system,
             ]);
 
@@ -277,7 +272,6 @@ class FormEdit extends Component
 
     public function mount()
     {
-        $this->groups = Group::all();
         $this->job_positions = JobPosition::all();
         $this->levels = Level::all();
         $this->afps = Afp::all();
@@ -296,7 +290,6 @@ class FormEdit extends Component
         $this->cuarta = $this->employee->cuarta;
         $this->ruc = $this->employee->ruc;
         $this->gender = $this->employee->gender;
-        $this->group_id = $this->employee->group_id;
         $this->pension_system = $this->employee->pension_system;
 
         if ($this->employee->pension_system === 'afp') {

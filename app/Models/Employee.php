@@ -26,7 +26,6 @@ class Employee extends Model
         'afp_fing',
         'afp_id',
         'identity_type_id',
-        'group_id',
     ];
 
     protected $casts = [
