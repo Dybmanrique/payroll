@@ -100,7 +100,7 @@
                                         </div>
                                     </div>
                                     <div>
-                                        <button class="btn btn-primary btn-sm mb-1 w-100"
+                                        <button class="btn btn-primary btn-sm mb-1 w-100" wire:loading.attr='disabled' wire:target='addContract'
                                             wire:click='addContract({{ $contract->id }})'>
                                             <i class="fas fa-plus"></i> AGREGAR
                                         </button>
