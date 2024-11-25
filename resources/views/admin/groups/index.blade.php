@@ -20,7 +20,7 @@
                     <thead class="thead-dark">
                         <tr>
                             <th scope="col">#</th>
-                            <th scope="col">NOMBRE</th>
+                            <th scope="col">NOMBRE</th>                            
                             <th scope="col">ACCIONES</th>
                         </tr>
                     </thead>
@@ -40,7 +40,26 @@
 @stop
 
 @section('css')
+    <style>
+        .hover-container {
+            position: relative;
+            display: inline-block;
+        }
 
+        .hover-card {
+            position: absolute;
+            top: 100%;
+            /* Just below the container */
+            left: 0;
+            z-index: 10;
+            display: none;
+            width: 300px;
+        }
+
+        .hover-container:hover .hover-card {
+            display: block;
+        }
+    </style>
 @stop
 
 @section('js')
@@ -52,8 +71,11 @@
             timer: 3000
         });
 
-        $(document).ready(function() {
+        $(function() {
+            $('[data-toggle="popover"]').popover()
+        })
 
+        $(document).ready(function() {
             let columnAttributes = [{
                     "data": "id",
                     "render": function(data, type, row, meta) {
@@ -66,8 +88,26 @@
                 {
                     "data": null,
                     "render": function(data, type, row, meta) {
+                        template = "";
+                        if(data.employees.length>0){
+                            data.employees.forEach(employee => {
+                                template += `<li>${employee.last_name} ${employee.second_last_name} ${employee.name}</li>`;
+                            });
+                        }else{
+                            template += `<li>Ninguno asignado</li>`
+                        }
                         return (
-                            `<div class="d-flex flex-row justify-content-end">
+                            `
+                            <div class="d-flex flex-row justify-content-end">
+                                <a tabindex="0" class="btn btn-sm btn-success mr-2 font-weight-bold" role="button" data-toggle="popover" data-trigger="focus" data-html="true" 
+                                   data-content="
+                                   <span class='font-weight-bold'>LISTA DE ASIGNADOS</span>
+                                   <ul class='px-3'>
+                                   ${template}
+                                   </ul>
+                                   ">
+                                   <i class='fas fa-user-friends'></i> ASIGNADOS
+                               </a>
                                 <a class="btn btn-primary btn-sm mr-2 font-weight-bold btn-edit" href="{{ route('groups.edit', ':id') }}"><i class="far fa-edit"></i> EDITAR</a>
                                 <button class="btn btn-sm btn-danger font-weight-bold btn-delete" type="button"><i class=" fas fa-trash"></i> ELIMINAR</button>
                             </div>`.replace(':id', data.id)
@@ -87,6 +127,11 @@
             ];
 
             let table = $(`#table`).DataTable({
+                fnDrawCallback: function() {
+                    $('[data-toggle="popover"]').popover({
+                        container: 'body'
+                    });
+                },
                 "ajax": {
                     "url": "{{ route('groups.data') }}",
                     "type": "GET",

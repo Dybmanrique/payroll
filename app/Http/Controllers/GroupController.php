@@ -13,7 +13,7 @@ class GroupController extends Controller
     }
     public function data()
     {
-        return Group::all();
+        return Group::with('employees')->get();
     }
 
     public function create()

@@ -12,4 +12,8 @@ class Group extends Model
     protected $fillable = [
         'name',
     ];
+
+    public function employees(){
+        return $this->belongsToMany(Employee::class, 'group_employee');
+    }
 }
