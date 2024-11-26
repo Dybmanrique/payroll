@@ -68,17 +68,18 @@ class FormEdit extends Component
             $this->periods_payroll = Period::where('payroll_id', $this->payroll->id)->orderBy('mounth')->get();
             $this->dispatch('message', code: '200', content: 'Se eliminó el periodo');
         } catch (\Exception $th) {
-            $this->dispatch('message', code: '200', content: 'Algo salió mal');
+            $this->dispatch('message', code: '500', content: 'Algo salió mal');
         }
     }
 
-    public $contracts_list = [];
+    public $employee_target = null;
     public function searchContracts($employee_id)
     {
-        $current_date = Carbon::now();
-        $this->contracts_list = Contract::where('employee_id', $employee_id)
-            ->where('start_validity', '<=', $current_date->format('y-m-d'))
-            ->where('end_validity', '>=', $current_date->format('y-m-d'))->get();
+        try {
+            $this->employee_target = Employee::find($employee_id);
+        } catch (\Exception $th) {
+            $this->dispatch('message', code: '500', content: 'Algo salió mal');
+        }
     }
 
     public $employees_group_list = [];
