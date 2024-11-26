@@ -13,7 +13,7 @@ class BudgetaryObjectiveController extends Controller
     }
     public function data()
     {
-        return BudgetaryObjective::all();
+        return BudgetaryObjective::orderByDesc('id')->get();
     }
 
     public function create()
