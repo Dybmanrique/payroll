@@ -15,7 +15,8 @@
                         <div class="row">
                             @foreach ($periods as $index => $period)
                                 <div class="col-md-4">
-                                    <button wire:click='addPeriod({{ $index }})' wire:loading.attr='disabled' class="btn btn-success w-100 mt-2">{{ $period }}</button>
+                                    <button wire:click='addPeriod({{ $index }})' wire:loading.attr='disabled'
+                                        class="btn btn-success w-100 mt-2">{{ $period }}</button>
                                 </div>
                             @endforeach
                         </div>
@@ -100,8 +101,8 @@
                                         </div>
                                     </div>
                                     <div>
-                                        <button class="btn btn-primary btn-sm mb-1 w-100" wire:loading.attr='disabled' wire:target='addContract'
-                                            wire:click='addContract({{ $contract->id }})'>
+                                        <button class="btn btn-primary btn-sm mb-1 w-100" wire:loading.attr='disabled'
+                                            wire:target='addContract' wire:click='addContract({{ $contract->id }})'>
                                             <i class="fas fa-plus"></i> AGREGAR
                                         </button>
                                     </div>
@@ -126,34 +127,109 @@
     <!-- Modal Add Group -->
     <div wire:ignore.self class="modal fade" id="modalGroup" tabindex="-1" role="dialog"
         aria-labelledby="modalGroupLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
+        <div class="modal-dialog modal-xl" role="document">
             <div class="modal-content">
-                <form wire:submit='addGroup'>
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="modalGroupLabel">AGREGAR POR GRUPO</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label for="modal_group_id">Lista de grupos*:</label>
-                            <select wire:model="modal_group_id" id="modal_group_id" class="form-control" required>
-                                <option value="">--Seleccione--</option>
-                                @foreach ($groups as $group)
-                                    <option value="{{ $group->id }}">{{ $group->name }}</option>
-                                @endforeach
-                            </select>
-                            @error('modal_group_id')
-                                <span class="text-danger">{{ $message }}</span>
-                            @enderror
+
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalGroupLabel">AGREGAR POR GRUPO</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="modal_group_id">Lista de grupos*:</label>
+                                <select name="modal_group_id" id="modal_group_id" class="form-control" required>
+                                    <option value="">--Seleccione--</option>
+                                    @foreach ($groups as $group)
+                                        <option value="{{ $group->id }}">{{ $group->name }}</option>
+                                    @endforeach
+                                </select>
+                                @error('modal_group_id')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <span class="font-weight-bold text-lg">CONTRATOS VIGENTES</span>
+                            <div class="card d-none opacity-low" wire:loading.class='d-block opacity-full'
+                                wire:target="searchContractsGroup">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-center justify-items-center">
+                                        <div class="spinner-border" role="status">
+                                            <span class="sr-only">Loading...</span>
+                                        </div>
+                                        <span class="text-md ml-2 font-weight-bold">BUSCANDO...</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div wire:loading.class='d-none' wire:target="searchContractsGroup">
+                                @forelse ($employees_group_list as $employee)
+                                    <div class="font-weight-bold">{{ $employee->last_name }}
+                                        {{ $employee->second_last_name }} {{ $employee->name }}</div>
+                                    @forelse ($employee->current_contracts as $contract)
+                                        <div class="shadow-sm rounded border mb-2 p-3"
+                                            wire:key='{{ $contract->id }}'>
+                                            <div class="w-100">
+                                                <div><span class="font-weight-bold">VIGENCIA:</span>
+                                                    Desde el
+                                                    {{ date('d-m-Y', strtotime($contract->start_validity)) }}
+                                                    hasta el
+                                                    {{ date('d-m-Y', strtotime($contract->end_validity)) }}
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-4"><span
+                                                            class="font-weight-bold">REMUNERACIÓN:</span>
+                                                        {{ $contract->remuneration }}
+                                                    </div>
+                                                    <div class="col-md-8"><span class="font-weight-bold">META:</span>
+                                                        {{ $contract->budgetary_objective->name }}
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-4"><span class="font-weight-bold">NIVEL:</span>
+                                                        {{ $contract->level->name }}
+                                                    </div>
+                                                    <div class="col-md-4"><span class="font-weight-bold">CARGO:</span>
+                                                        {{ $contract->job_position->name }}
+                                                    </div>
+                                                    <div class="col-md-4"><span class="font-weight-bold">JORNADA
+                                                            L.:</span>
+                                                        {{ $contract->working_hours }} horas
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <button class="btn btn-primary btn-sm mb-1 w-100"
+                                                    wire:loading.attr='disabled' wire:target='addContract'
+                                                    wire:click='addContract({{ $contract->id }})'>
+                                                    <i class="fas fa-plus"></i> AGREGAR
+                                                </button>
+                                            </div>
+                                        </div>
+                                    @empty
+                                        <div class="shadow-sm border rounded-sm p-2 mb-2">
+                                            No tiene contratos vigentes <a
+                                                href="{{ route('employees.edit', $employee->id) }}#contratos"
+                                                target="_blank"><i class="fas fa-eye"></i> Ver contratos</a>
+                                        </div>
+                                    @endforelse
+                                @empty
+                                    <div class="card">
+                                        <div class="card-body text-center">
+                                            Ningún contrato disponible
+                                        </div>
+                                    </div>
+                                @endforelse
+                            </div>
                         </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">CERRAR</button>
-                        <button type="submit" class="btn btn-primary">ACEPTAR</button>
-                    </div>
-                </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">CERRAR</button>
+                </div>
             </div>
         </div>
     </div>
@@ -439,6 +515,10 @@
             }).on('select2:select', function(e) {
                 // @this.set('modal_employee_id', $('#modal_employee_id').select2("val"));
                 @this.searchContracts($('#modal_employee_id').select2("val"));
+            });
+
+            $('#modal_group_id').on('change', function() {
+                @this.searchContractsGroup($(this).val());
             });
         });
 

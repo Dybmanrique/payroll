@@ -51,4 +51,14 @@ class Employee extends Model
     public function judicial_discounts(){
         return $this->hasMany(JudicialDiscount::class);
     }
+
+    public function contracts(){
+        return $this->hasMany(Contract::class);
+    }
+    public function current_contracts(){
+        return $this->hasMany(Contract::class)->where(function ($query) {
+            $query->where('end_validity', '>=', now()) // Contratos con fecha de finalización futura
+                  ->orWhereNull('end_validity');       // Contratos sin fecha de finalización
+        });;
+    }
 }

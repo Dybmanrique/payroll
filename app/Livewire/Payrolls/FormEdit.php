@@ -72,27 +72,6 @@ class FormEdit extends Component
         }
     }
 
-    public function addGroup()
-    {
-        try {
-            $employees_group = Employee::where('group_id', $this->modal_group_id)->get();
-
-            foreach ($employees_group as $employee) {
-                if (!$this->theEmployeeIsIncluded($employee->id)) {
-                    Payment::create([
-                        'basic' => $employee->remuneration,
-                        'employee_id' => $employee->id,
-                        'period_id' => $this->selected_period,
-                    ]);
-                }
-            }
-            $this->payments_list = Payment::where('period_id', $this->selected_period)->get();
-            $this->dispatch('message', code: '200', content: 'Se incluyó al grupo');
-        } catch (\Exception $th) {
-            $this->dispatch('message', code: '500', content: 'Algo salió mal');
-        }
-    }
-
     public $contracts_list = [];
     public function searchContracts($employee_id)
     {
@@ -100,6 +79,21 @@ class FormEdit extends Component
         $this->contracts_list = Contract::where('employee_id', $employee_id)
             ->where('start_validity', '<=', $current_date->format('y-m-d'))
             ->where('end_validity', '>=', $current_date->format('y-m-d'))->get();
+    }
+
+    public $employees_group_list = [];
+    public function searchContractsGroup($group_id)
+    {
+        $this->employees_group_list = [];
+        if ($group_id === "" || $group_id === null) {
+            return;
+        }
+        try {
+            $group = Group::findOrFail($group_id);
+            $this->employees_group_list = $group->employees;
+        } catch (\Exception $th) {
+            $this->dispatch('message', code: '500', content: 'Algo salió mal');
+        }
     }
 
     public function addContract($contract_id)
@@ -235,7 +229,7 @@ class FormEdit extends Component
 
                 $total_judicial_discount = 0;
                 $payment->judicial_discounts()->detach();
-                foreach ($employee->judicial_discounts()->where('is_deleted',false)->get() as $key => $judicial_discount) {
+                foreach ($employee->judicial_discounts()->where('is_deleted', false)->get() as $key => $judicial_discount) {
                     if ($judicial_discount->discount_type === 'fijo') {
                         $payment->judicial_discounts()->attach($judicial_discount->id, ['amount' => $judicial_discount->amount]);
                         $total_judicial_discount += $judicial_discount->amount;
@@ -273,7 +267,7 @@ class FormEdit extends Component
         $this->payroll_types = PayrollType::all();
         $this->funding_resources = FundingResource::all();
         $this->employees = Employee::all();
-        $this->groups = Group::where('name', '!=', 'Ninguno')->get();
+        $this->groups = Group::all();
         $this->periods_payroll = Period::where('payroll_id', $this->payroll->id)->orderBy('mounth')->get();
 
         $this->number = $this->payroll->number;

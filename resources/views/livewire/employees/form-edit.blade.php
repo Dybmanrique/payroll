@@ -450,7 +450,7 @@
     </div>
 
 
-    <div class="card">
+    <div class="card" id="contratos">
         <div class="card-header font-weight-bold">
             <div class="d-flex justify-content-between align-items-center">
                 <span>CONTRATOS</span>
