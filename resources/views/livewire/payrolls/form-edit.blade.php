@@ -41,7 +41,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-md-5">
                             <div wire:ignore class="form-group">
                                 <label for="modal_employee_id">Lista de empleados*:</label>
                                 <select id="modal_employee_id" class="form-control select2"
@@ -58,7 +58,7 @@
                                 @enderror
                             </div>
                         </div>
-                        <div class="col-md-8">
+                        <div class="col-md-7">
                             <span class="font-weight-bold">CONTRATOS VIGENTES</span>
                             <div class="card d-none opacity-low" wire:loading.class='d-block opacity-full'
                                 wire:target="searchContracts">
