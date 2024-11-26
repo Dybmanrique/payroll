@@ -141,12 +141,18 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="modal_group_id">Lista de grupos*:</label>
-                                <select name="modal_group_id" id="modal_group_id" class="form-control" required>
-                                    <option value="">--Seleccione--</option>
-                                    @foreach ($groups as $group)
-                                        <option value="{{ $group->id }}">{{ $group->name }}</option>
-                                    @endforeach
-                                </select>
+                                <div class="d-flex flex-row">
+
+                                    <select name="modal_group_id" id="modal_group_id" class="form-control" required>
+                                        <option value="">--Seleccione--</option>
+                                        @foreach ($groups as $group)
+                                            <option value="{{ $group->id }}">{{ $group->name }}</option>
+                                        @endforeach
+                                    </select>
+
+                                    <button class="btn btn-success" title="Volver a cargar"
+                                        onclick="searchContractsGroup()"><i class="fas fa-sync-alt"></i></button>
+                                </div>
                                 @error('modal_group_id')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
@@ -168,7 +174,10 @@
                             <div wire:loading.class='d-none' wire:target="searchContractsGroup">
                                 @forelse ($employees_group_list as $employee)
                                     <div class="font-weight-bold">{{ $employee->last_name }}
-                                        {{ $employee->second_last_name }} {{ $employee->name }}</div>
+                                        {{ $employee->second_last_name }} {{ $employee->name }}
+                                        <a href="{{ route('employees.edit', $employee->id) }}#contratos"
+                                            target="_blank"><i class="fas fa-eye"></i> Ver contratos</a>
+                                    </div>
                                     @forelse ($employee->current_contracts as $contract)
                                         <div class="shadow-sm rounded border mb-2 p-3"
                                             wire:key='{{ $contract->id }}'>
@@ -211,9 +220,7 @@
                                         </div>
                                     @empty
                                         <div class="shadow-sm border rounded-sm p-2 mb-2">
-                                            No tiene contratos vigentes <a
-                                                href="{{ route('employees.edit', $employee->id) }}#contratos"
-                                                target="_blank"><i class="fas fa-eye"></i> Ver contratos</a>
+                                            No tiene contratos vigentes
                                         </div>
                                     @endforelse
                                 @empty
@@ -521,6 +528,10 @@
                 @this.searchContractsGroup($(this).val());
             });
         });
+
+        function searchContractsGroup() {
+            @this.searchContractsGroup($("#modal_group_id").val());
+        }
 
         function deleteContract(id) {
             Swal.fire({
