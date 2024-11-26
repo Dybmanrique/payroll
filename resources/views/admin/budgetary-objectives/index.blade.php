@@ -76,7 +76,14 @@
                     "data": "year",
                 },
                 {
-                    "data": "name",
+                    "data": null,
+                    "render": function(data, type, row, meta) {
+                        return (
+                            `<span title='${data.name}' class="d-inline-block text-truncate" style="max-width: 400px;">
+                                ${data.name}
+                            </span>`
+                        );
+                    }
                 },
                 {
                     "data": "programa_pptal",
