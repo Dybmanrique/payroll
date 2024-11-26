@@ -453,7 +453,7 @@
     <div class="card" id="contratos">
         <div class="card-header font-weight-bold">
             <div class="row justify-content-between align-items-center">
-                <span>CONTRATOS DE {{ $employee->name }}</span>
+                <span>CONTRATOS DE {{ $employee->last_name }} {{ $employee->second_last_name }} {{ $employee->name }}</span>
                 <button type="button" class="btn btn-sm btn-success" data-toggle="modal"
                     data-target="#contractModal">AGREGAR</button>
             </div>
