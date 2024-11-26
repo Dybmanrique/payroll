@@ -34,7 +34,8 @@
                                         </select>
                                     </div>
                                     <input type="number" wire:model='judicial_amount' id="judicial_amount"
-                                        class="form-control" placeholder="El monto del descuento judicial" required autocomplete="off">
+                                        class="form-control" placeholder="El monto del descuento judicial" required
+                                        autocomplete="off">
                                     @error('judicial_amount')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
@@ -51,7 +52,7 @@
                             <div class="form-group">
                                 <label for="judicial_dni">DNI judicial*:</label>
                                 <input type="number" class="form-control" id="judicial_dni" wire:model='judicial_dni'
-                                placeholder="El DNI representante judicial" autocomplete="off">
+                                    placeholder="El DNI representante judicial" autocomplete="off">
                                 @error('judicial_dni')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
@@ -93,19 +94,25 @@
                                     <div class="form-group">
                                         <label for="remuneration">Remuneración*:</label>
                                         <input type="number" class="form-control" id="remuneration" step="0.01"
-                                            wire:model='remuneration' placeholder="Monto base de remuneración" required autocomplete="off">
+                                            wire:model='remuneration' placeholder="Monto base de remuneración"
+                                            required autocomplete="off">
                                         @error('remuneration')
                                             <span class="text-danger">{{ $message }}</span>
                                         @enderror
                                     </div>
+                                </div>
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="working_hours">Jornada laboral*:</label>
                                         <input type="number" class="form-control" id="working_hours"
-                                            wire:model='working_hours' placeholder="Horas laborales" required autocomplete="off">
+                                            wire:model='working_hours' placeholder="Horas laborales" required
+                                            autocomplete="off">
                                         @error('working_hours')
                                             <span class="text-danger">{{ $message }}</span>
                                         @enderror
                                     </div>
+                                </div>
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="start_validity">Inicio de vigencia*:</label>
                                         <input type="date" class="form-control" id="start_validity"
@@ -114,6 +121,8 @@
                                             <span class="text-danger">{{ $message }}</span>
                                         @enderror
                                     </div>
+                                </div>
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="end_validity">Fin de vigencia*:</label>
                                         <input type="date" class="form-control" id="end_validity"
@@ -136,6 +145,8 @@
                                             <span class="text-danger">{{ $message }}</span>
                                         @enderror
                                     </div>
+                                </div>
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="job_position_id">Cargo*:</label>
                                         <select class="form-control" wire:model="job_position_id"
@@ -150,16 +161,21 @@
                                             <span class="text-danger">{{ $message }}</span>
                                         @enderror
                                     </div>
+                                </div>
+                                <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="budgetary_objective_id">Meta presupuestal*:</label>
-                                        <select class="form-control" wire:model="budgetary_objective_id"
-                                            id="budgetary_objective_id">
-                                            <option value="">--Seleccione--</option>
-                                            @foreach ($budgetary_objectives as $budgetary_objective)
-                                                <option value="{{ $budgetary_objective->id }}">
-                                                    {{ $budgetary_objective->name }}</option>
-                                            @endforeach
-                                        </select>
+                                        <div wire:ignore wire:loading.class='div-disabled' wire:target='addContract'>
+                                            <select id="budgetary_objective_id" class="form-control select2"
+                                                data-placeholder="Seleccione una meta presupuestal" required>
+                                                <option></option>
+                                                @foreach ($budgetary_objectives as $budgetary_objective)
+                                                    <option value="{{ $budgetary_objective->id }}">
+                                                        ({{ $budgetary_objective->year }}) {{ $budgetary_objective->name }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
                                         @error('budgetary_objective_id')
                                             <span class="text-danger">{{ $message }}</span>
                                         @enderror
@@ -453,15 +469,15 @@
     <div class="card" id="contratos">
         <div class="card-header font-weight-bold">
             <div class="row justify-content-between align-items-center">
-                <span>CONTRATOS DE {{ $employee->last_name }} {{ $employee->second_last_name }} {{ $employee->name }}</span>
+                <span>CONTRATOS DE {{ $employee->last_name }} {{ $employee->second_last_name }}
+                    {{ $employee->name }}</span>
                 <button type="button" class="btn btn-sm btn-success" data-toggle="modal"
                     data-target="#contractModal">AGREGAR</button>
             </div>
         </div>
         <div class="card-body">
             @forelse ($contracts as $contract)
-                <div class="shadow-sm rounded border mb-2 p-3 row align-items-center"
-                    wire:key='{{ $contract->id }}'>
+                <div class="shadow-sm rounded border mb-2 p-3 row align-items-center" wire:key='{{ $contract->id }}'>
                     <div class="col-md-8">
                         <div><span class="font-weight-bold">VIGENCIA:</span>
                             Desde el {{ date('d-m-Y', strtotime($contract->start_validity)) }} hasta el
@@ -511,6 +527,13 @@
 @push('js')
     <script>
         $(document).ready(function() {
+            $('#budgetary_objective_id').select2({
+                theme: 'bootstrap4',
+                dropdownParent: $('#contractModal')
+            }).on('select2:select', function(e) {
+                @this.set('budgetary_objective_id', $('#budgetary_objective_id').select2("val"));
+            });
+
             $('.pension-system').change(function() {
                 $('#contenidoExtraAfp').slideUp();
 
@@ -538,6 +561,12 @@
                 @this.set('budgetary_objective_id', null);
             });
         });
+
+        Livewire.on('set_meta', function(message) {
+            $('#budgetary_objective_id').val(message.value).trigger('change');
+            console.log(message);
+
+        })
 
         function deleteJudicial(id) {
             Swal.fire({

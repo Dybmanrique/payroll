@@ -21,7 +21,12 @@
 @stop
 
 @section('css')
-
+    <style>
+        .div-disabled {
+            pointer-events: none;
+            opacity: 0.7;
+        }
+    </style>
 @stop
 
 @section('js')

@@ -195,6 +195,7 @@ class FormEdit extends Component
         $this->job_position_id = $this->contract_selected->job_position_id;
         $this->level_id = $this->contract_selected->level_id;
         $this->budgetary_objective_id = $this->contract_selected->budgetary_objective_id;
+        $this->dispatch('set_meta', value: $this->contract_selected->budgetary_objective_id);
     }
 
     public function deleteContract($contract_id)
