@@ -57,7 +57,7 @@
                                             @endforeach
                                         </select>
                                     </div>
-                                    <button class="btn btn-success" title="Volver a cargar"
+                                    <button class="btn btn-success ml-1" title="Volver a cargar"
                                         onclick="searchContracts()"><i class="fas fa-sync-alt"></i>
                                     </button>
                                 </div>
@@ -175,7 +175,7 @@
                                         @endforeach
                                     </select>
 
-                                    <button class="btn btn-success" title="Volver a cargar"
+                                    <button class="btn btn-success ml-1" title="Volver a cargar"
                                         onclick="searchContractsGroup()"><i class="fas fa-sync-alt"></i></button>
                                 </div>
                                 @error('modal_group_id')
