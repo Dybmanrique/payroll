@@ -452,17 +452,17 @@
 
     <div class="card" id="contratos">
         <div class="card-header font-weight-bold">
-            <div class="d-flex justify-content-between align-items-center">
-                <span>CONTRATOS</span>
+            <div class="row justify-content-between align-items-center">
+                <span>CONTRATOS DE {{ $employee->name }}</span>
                 <button type="button" class="btn btn-sm btn-success" data-toggle="modal"
                     data-target="#contractModal">AGREGAR</button>
             </div>
         </div>
         <div class="card-body">
             @forelse ($contracts as $contract)
-                <div class="shadow-sm rounded border mb-2 p-3 d-flex justify-content-between align-items-center"
+                <div class="shadow-sm rounded border mb-2 p-3 row align-items-center"
                     wire:key='{{ $contract->id }}'>
-                    <div class="w-100">
+                    <div class="col-md-8">
                         <div><span class="font-weight-bold">VIGENCIA:</span>
                             Desde el {{ date('d-m-Y', strtotime($contract->start_validity)) }} hasta el
                             {{ date('d-m-Y', strtotime($contract->end_validity)) }}
@@ -487,7 +487,7 @@
                             </div>
                         </div>
                     </div>
-                    <div>
+                    <div class="col-md-4">
                         <button class="btn btn-dark btn-sm mb-1 w-100" data-toggle="modal"
                             data-target="#contractModal" wire:click='changeContractMode({{ $contract->id }}, "ADD")'>
                             <i class="fas fa-arrow-circle-up"></i> EXTENDER
