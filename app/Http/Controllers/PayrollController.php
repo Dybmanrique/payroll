@@ -194,7 +194,7 @@ class PayrollController extends Controller
         WHERE 
             payments.period_id = ?
         GROUP BY 
-            budgetary_objectives.id",
+            budgetary_objectives.id, budgetary_objectives.name, budgetary_objectives.programa_pptal",
             [$period->id]
         );
 
