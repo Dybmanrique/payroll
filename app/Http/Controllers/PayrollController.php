@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BudgetaryObjective;
 use App\Models\Employee;
 use App\Models\Payment;
 use App\Models\Payroll;
@@ -163,48 +164,40 @@ class PayrollController extends Controller
     {
         $periods = config('periods_spanish');
 
-        $results = DB::select(
-            "
-        SELECT 
-            budgetary_objectives.name,
-            budgetary_objectives.programa_pptal,
-            budgetary_objectives.producto_proyecto,
-            budgetary_objectives.activ_obra_accinv,
-            budgetary_objectives.funcion,
-            budgetary_objectives.division_fn,
-            budgetary_objectives.grupo_fn,
-            budgetary_objectives.sec_func,
-            budgetary_objectives.cas_classifier,
-            budgetary_objectives.essalud_classifier,
-            budgetary_objectives.aguinaldo_classifier,
-            contracts.budgetary_objective_id,
-            SUM(payments.basic) as total_basic,
-            SUM(payments.refound) as total_refound,
-            SUM(payments.total_discount) as total_discount,
-            SUM(payments.total_remuneration) as total_remuneration,
-            SUM(payments.net_pay) as total_net_pay,
-            SUM(payments.aguinaldo) as total_aguinaldo,
-            SUM(payments.essalud) as total_essalud
-        FROM 
-            payments
-        JOIN 
-            contracts ON payments.contract_id = contracts.id
-        JOIN 
-            budgetary_objectives ON contracts.budgetary_objective_id = budgetary_objectives.id
-        WHERE 
-            payments.period_id = ?
-        GROUP BY 
-            budgetary_objectives.id, budgetary_objectives.name, budgetary_objectives.programa_pptal, budgetary_objectives.producto_proyecto,
-            budgetary_objectives.activ_obra_accinv,
-            budgetary_objectives.funcion,
-            budgetary_objectives.division_fn,
-            budgetary_objectives.grupo_fn,
-            budgetary_objectives.sec_func,
-            budgetary_objectives.cas_classifier,
-            budgetary_objectives.essalud_classifier,
-            budgetary_objectives.aguinaldo_classifier",
-            [$period->id]
-        );
+        $payments = $period->payments()->with('contract')->get();
+
+        $payments_classified = collect($payments)->groupBy('contract.budgetary_objective_id');
+
+        $results = [];
+        foreach ($payments_classified as $budgetary_objective_id => $payments) {
+            $total_basic = 0;
+            $total_refound = 0;
+            $total_discount = 0;
+            $total_remuneration = 0;
+            $total_net_pay = 0;
+            $total_aguinaldo = 0;
+            $total_essalud = 0;
+
+            foreach ($payments as $payment) {
+                $total_basic += $payment->basic;
+                $total_refound += $payment->refound;
+                $total_discount += $payment->total_discount;
+                $total_remuneration += $payment->total_remuneration;
+                $total_net_pay += $payment->net_pay;
+                $total_aguinaldo += $payment->aguinaldo;
+                $total_essalud += $payment->essalud;
+            }
+            $objeto = new \stdClass();
+            $objeto->budgetary_objective = BudgetaryObjective::find($budgetary_objective_id);
+            $objeto->total_basic = $total_basic;
+            $objeto->total_refound = $total_refound;
+            $objeto->total_discount = $total_discount;
+            $objeto->total_remuneration = $total_remuneration;
+            $objeto->total_net_pay = $total_net_pay;
+            $objeto->total_aguinaldo = $total_aguinaldo;
+            $objeto->total_essalud = $total_essalud;
+            array_push($results, $objeto);
+        }
 
         $pdf = Pdf::loadView('admin.reports-templates.general-report', ['period' => $period, 'periods' => $periods, 'results' => $results])->setPaper('a4');
         return $pdf->stream();

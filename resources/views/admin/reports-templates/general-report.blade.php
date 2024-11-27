@@ -111,42 +111,42 @@
         </tr>
     </table>
     @foreach ($results as $result)
-        <div style="margin-top: 30px; margin-left: 3px;"><span class="text-bold">FINALIDAD:</span> {{ $result->name }}</div>
+        <div style="margin-top: 30px; margin-left: 3px;"><span class="text-bold">FINALIDAD:</span> {{ $result->budgetary_objective->name }}</div>
         <table style="margin-bottom: 10px">
             <tr>
                 <td class="text-bold">PROGRAMA PRESUPUESTAL</td>
-                <td>: {{ $result->programa_pptal }}</td>
+                <td>: {{ $result->budgetary_objective->programa_pptal }}</td>
             </tr>
             <tr>
                 <td class="text-bold">PRODUCTO/PROYECTO</td>
-                <td>: {{ $result->producto_proyecto }}</td>
+                <td>: {{ $result->budgetary_objective->producto_proyecto }}</td>
             </tr>
             <tr>
                 <td class="text-bold">ACTIVIDAD/OBRA/INVERSIÓN</td>
-                <td>: {{ $result->activ_obra_accinv }}</td>
+                <td>: {{ $result->budgetary_objective->activ_obra_accinv }}</td>
             </tr>
             <tr>
                 <td class="text-bold">FUNCIÓN</td>
-                <td>: {{ $result->funcion }}</td>
+                <td>: {{ $result->budgetary_objective->funcion }}</td>
             </tr>
             <tr>
                 <td class="text-bold">DIVISIÓN FUNCIONAL</td>
-                <td>: {{ $result->division_fn }}</td>
+                <td>: {{ $result->budgetary_objective->division_fn }}</td>
             </tr>
             <tr>
                 <td class="text-bold">GRUPO FUNCIONAL</td>
-                <td>: {{ $result->grupo_fn }}</td>
+                <td>: {{ $result->budgetary_objective->grupo_fn }}</td>
             </tr>
             <tr>
                 <td class="text-bold">SECUENCIA FUNCIONAL</td>
-                <td>: {{ $result->sec_func }}</td>
+                <td>: {{ $result->budgetary_objective->sec_func }}</td>
             </tr>
         </table>
         <table class="w-full" style="table-layout: fixed;">
             <tr>
                 <td style="vertical-align: top">
                     <div class="border text-center text-bold" style="border-bottom: none; padding: 3px;">
-                        CAS ({{ $result->cas_classifier }})
+                        CAS ({{ $result->budgetary_objective->cas_classifier }})
                     </div>
                     <div class="border" style="min-height: 100px;">
                         <table class="w-full">
@@ -169,7 +169,7 @@
                 @if ($period->mounth == 7 || $period->mounth == 12)
                     <td style="vertical-align: top">
                         <div class="border text-center text-bold" style="border-bottom: none; padding: 3px;">
-                            AGUINALDO ({{ $result->aguinaldo_classifier }})
+                            AGUINALDO ({{ $result->budgetary_objective->aguinaldo_classifier }})
                         </div>
                         <div class="border" style="min-height: 100px;">
                             <table class="w-full">
@@ -183,7 +183,7 @@
                 @endif
                 <td style="vertical-align: top">
                     <div class="border text-center text-bold" style="border-bottom: none; padding: 3px;">
-                        ESSALUD ({{ $result->essalud_classifier }})
+                        ESSALUD ({{ $result->budgetary_objective->essalud_classifier }})
                     </div>
                     <div class="border" style="min-height: 100px;">
                         <table class="w-full">
