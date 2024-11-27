@@ -163,33 +163,40 @@ class PayrollController extends Controller
     {
         $periods = config('periods_spanish');
 
-        $results = DB::table('payments')
-            ->join('contracts', 'payments.contract_id', '=', 'contracts.id')
-            ->join('budgetary_objectives', 'contracts.budgetary_objective_id', '=', 'budgetary_objectives.id')
-            ->select(
-                'budgetary_objectives.name',
-                'budgetary_objectives.programa_pptal',
-                'budgetary_objectives.producto_proyecto',
-                'budgetary_objectives.activ_obra_accinv',
-                'budgetary_objectives.funcion',
-                'budgetary_objectives.division_fn',
-                'budgetary_objectives.grupo_fn',
-                'budgetary_objectives.sec_func',
-                'budgetary_objectives.cas_classifier',
-                'budgetary_objectives.essalud_classifier',
-                'budgetary_objectives.aguinaldo_classifier',
-                'contracts.budgetary_objective_id',
-                DB::raw('SUM(payments.basic) as total_basic'),
-                DB::raw('SUM(payments.refound) as total_refound'),
-                DB::raw('SUM(payments.total_discount) as total_discount'),
-                DB::raw('SUM(payments.total_remuneration) as total_remuneration'),
-                DB::raw('SUM(payments.net_pay) as total_net_pay'),
-                DB::raw('SUM(payments.aguinaldo) as total_aguinaldo'),
-                DB::raw('SUM(payments.essalud) as total_essalud'),
-            )
-            ->where('payments.period_id', $period->id) // Uso de la variable
-            ->groupBy('contracts.budgetary_objective_id', 'budgetary_objectives.name')
-            ->get();
+        $results = DB::select(
+            "
+        SELECT 
+            budgetary_objectives.name,
+            budgetary_objectives.programa_pptal,
+            budgetary_objectives.producto_proyecto,
+            budgetary_objectives.activ_obra_accinv,
+            budgetary_objectives.funcion,
+            budgetary_objectives.division_fn,
+            budgetary_objectives.grupo_fn,
+            budgetary_objectives.sec_func,
+            budgetary_objectives.cas_classifier,
+            budgetary_objectives.essalud_classifier,
+            budgetary_objectives.aguinaldo_classifier,
+            contracts.budgetary_objective_id,
+            SUM(payments.basic) as total_basic,
+            SUM(payments.refound) as total_refound,
+            SUM(payments.total_discount) as total_discount,
+            SUM(payments.total_remuneration) as total_remuneration,
+            SUM(payments.net_pay) as total_net_pay,
+            SUM(payments.aguinaldo) as total_aguinaldo,
+            SUM(payments.essalud) as total_essalud
+        FROM 
+            payments
+        JOIN 
+            contracts ON payments.contract_id = contracts.id
+        JOIN 
+            budgetary_objectives ON contracts.budgetary_objective_id = budgetary_objectives.id
+        WHERE 
+            payments.period_id = ?
+        GROUP BY 
+            budgetary_objectives.id",
+            [$period->id]
+        );
 
         $pdf = Pdf::loadView('admin.reports-templates.general-report', ['period' => $period, 'periods' => $periods, 'results' => $results])->setPaper('a4');
         return $pdf->stream();
@@ -197,7 +204,7 @@ class PayrollController extends Controller
     public function payroll_report(Period $period)
     {
         $periods = config('periods_spanish');
-        $pdf = Pdf::loadView('admin.reports-templates.payroll', ['period' => $period, 'periods' => $periods])->setPaper('a4','landscape');
+        $pdf = Pdf::loadView('admin.reports-templates.payroll', ['period' => $period, 'periods' => $periods])->setPaper('a4', 'landscape');
         return $pdf->stream();
     }
 }
