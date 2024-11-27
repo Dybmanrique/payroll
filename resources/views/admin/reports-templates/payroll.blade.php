@@ -136,24 +136,37 @@
         </tr>
     </table>
 
-    <table>
+    <hr style="border-bottom: 1px solid ">
+    <table class="w-full">
         <tr>
-            <td class="text-bold">N° PLANILLA</td>
-            <td>: {{ $period->payroll->number }}-{{ $period->payroll->year }}</td>
-        </tr>
-        <tr>
-            <td class="text-bold">PERIODO</td>
-            <td>: {{ $periods[$period->mounth] }} {{ $period->payroll->year }}</td>
-        </tr>
-        <tr>
-            <td class="text-bold">ESTABLECIMIENTO</td>
-            <td>: UGEL - ASUNCIÓN</td>
-        </tr>
-        <tr>
-            <td class="text-bold">F. FINANCIAMIENTO</td>
-            <td>: [{{ $period->payroll->funding_resource->code }}] {{ $period->payroll->funding_resource->name }}</td>
+            <td>
+                <table>
+                    <tr>
+                        <td class="text-bold">N° PLANILLA</td>
+                        <td>: {{ $period->payroll->number }}-{{ $period->payroll->year }}</td>
+                    </tr>
+                    <tr>
+                        <td class="text-bold">PERIODO</td>
+                        <td>: {{ $periods[$period->mounth] }} {{ $period->payroll->year }}</td>
+                    </tr>
+                </table>
+            </td>
+            <td style="width: 500px">
+                <table>
+                    <tr>
+                        <td class="text-bold">ESTABLECIMIENTO</td>
+                        <td>: UGEL - ASUNCIÓN</td>
+                    </tr>
+                    <tr>
+                        <td class="text-bold">F. FINANCIAMIENTO</td>
+                        <td>: [{{ $period->payroll->funding_resource->code }}]
+                            {{ $period->payroll->funding_resource->name }}</td>
+                    </tr>
+                </table>
+            </td>
         </tr>
     </table>
+    <hr style="border-bottom: 1px solid ">
 
     <table class="w-full table">
         <thead>
@@ -347,46 +360,63 @@
                             <td>BÁSICO</td>
                             <td class="text-right">{{ number_format($total_basic, 2, '.', '') }}</td>
                         </tr>
-                        <tr>
-                            <td>AGUINALDO</td>
-                            <td class="text-right">{{ number_format($total_aguinaldo, 2, '.', '') }}</td>
-                        </tr>
-                        <tr>
-                            <td>REINTEGRO</td>
-                            <td class="text-right">{{ number_format($total_refound, 2, '.', '') }}</td>
-                        </tr>
+                        @if ($total_aguinaldo > 0)
+                            <tr>
+                                <td>AGUINALDO</td>
+                                <td class="text-right">{{ number_format($total_aguinaldo, 2, '.', '') }}</td>
+                            </tr>
+                        @endif
+                        @if ($total_refound > 0)
+                            <tr>
+                                <td>REINTEGRO</td>
+                                <td class="text-right">{{ number_format($total_refound, 2, '.', '') }}</td>
+                            </tr>
+                        @endif
                         <tr>
                             <td class="text-bold">TOTAL</td>
-                            <td class="text-right text-bold">{{ number_format($total_remuneration, 2, '.', '') }}</td>
+                            <td class="text-right text-bold">{{ number_format($total_remuneration, 2, '.', '') }}
+                            </td>
                         </tr>
                     </table>
                 </td>
                 <td class="cel cel-top">
                     <table class="w-full">
-                        <tr>
-                            <td>ONP</td>
-                            <td class="text-right">{{ number_format($total_onp, 2, '.', '') }}</td>
-                        </tr>
-                        <tr>
-                            <td>AFP-JUB</td>
-                            <td class="text-right">{{ number_format($total_afp_jub, 2, '.', '') }}</td>
-                        </tr>
-                        <tr>
-                            <td>AFP-C-V</td>
-                            <td class="text-right">{{ number_format($total_afp_c_v, 2, '.', '') }}</td>
-                        </tr>
-                        <tr>
-                            <td>AFP-INVA</td>
-                            <td class="text-right">{{ number_format($total_afp_inva, 2, '.', '') }}</td>
-                        </tr>
-                        <tr>
-                            <td>D. JUDICIAL</td>
-                            <td class="text-right">{{ number_format($total_judicial, 2, '.', '') }}</td>
-                        </tr>
-                        <tr>
-                            <td>OTROS</td>
-                            <td class="text-right">{{ number_format($total_others, 2, '.', '') }}</td>
-                        </tr>
+                        @if ($total_onp > 0)
+                            <tr>
+                                <td>ONP</td>
+                                <td class="text-right">{{ number_format($total_onp, 2, '.', '') }}</td>
+                            </tr>
+                        @endif
+                        @if ($total_afp_jub > 0)
+                            <tr>
+                                <td>AFP-JUB</td>
+                                <td class="text-right">{{ number_format($total_afp_jub, 2, '.', '') }}</td>
+                            </tr>
+                        @endif
+                        @if ($total_afp_c_v > 0)
+                            <tr>
+                                <td>AFP-C-V</td>
+                                <td class="text-right">{{ number_format($total_afp_c_v, 2, '.', '') }}</td>
+                            </tr>
+                        @endif
+                        @if ($total_afp_inva > 0)
+                            <tr>
+                                <td>AFP-INVA</td>
+                                <td class="text-right">{{ number_format($total_afp_inva, 2, '.', '') }}</td>
+                            </tr>
+                        @endif
+                        @if ($total_judicial > 0)
+                            <tr>
+                                <td>D. JUDICIAL</td>
+                                <td class="text-right">{{ number_format($total_judicial, 2, '.', '') }}</td>
+                            </tr>
+                        @endif
+                        @if ($total_others > 0)
+                            <tr>
+                                <td>OTROS</td>
+                                <td class="text-right">{{ number_format($total_others, 2, '.', '') }}</td>
+                            </tr>
+                        @endif
                         <tr>
                             <td class="text-bold">TOTAL</td>
                             <td class="text-right text-bold">{{ number_format($total_discount, 2, '.', '') }}</td>
@@ -477,36 +507,36 @@
             <tbody>
                 @foreach ($period->payments as $payment)
                     @foreach ($payment->judicial_discounts as $judicial_discount)
-                    <tr class="row">
-                        <td class="cel cel-middle text-center text-bold">
-                            {{ sprintf('%05d', $judicial_discount->id) }}
-                        </td>
-                        <td class="cel cel-top">
-                            <table class="details-table">
-                                <tr>
-                                    <td class="text-bold">RAZÓN</td>
-                                    <td>: {{ $judicial_discount->name }}</td>
-                                </tr>
-                                <tr>
-                                    <td class="text-bold">CUENTA JUDICIAL</td>
-                                    <td>: {{ $judicial_discount->account ?? "-" }}</td>
-                                </tr>
-                                <tr>
-                                    <td class="text-bold">DNI JUDICIAL</td>
-                                    <td>: {{ $judicial_discount->dni }}</td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td class="cel cel-top">
-                            <table class="w-full">
-                                <tr>
-                                    <td>TOTAL</td>
-                                    <td class="text-right">{{ $judicial_discount->pivot->amount }}</td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td class="cel cel-top"></td>
-                    </tr>
+                        <tr class="row">
+                            <td class="cel cel-middle text-center text-bold">
+                                {{ sprintf('%05d', $judicial_discount->id) }}
+                            </td>
+                            <td class="cel cel-top">
+                                <table class="details-table">
+                                    <tr>
+                                        <td class="text-bold">RAZÓN</td>
+                                        <td>: {{ $judicial_discount->name }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-bold">CUENTA JUDICIAL</td>
+                                        <td>: {{ $judicial_discount->account ?? '-' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-bold">DNI JUDICIAL</td>
+                                        <td>: {{ $judicial_discount->dni }}</td>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td class="cel cel-top">
+                                <table class="w-full">
+                                    <tr>
+                                        <td>TOTAL</td>
+                                        <td class="text-right">{{ $judicial_discount->pivot->amount }}</td>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td class="cel cel-top"></td>
+                        </tr>
                     @endforeach
                 @endforeach
 
