@@ -91,6 +91,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/planillas/{period}/boletas-de-pago', [PayrollController::class, 'generate_payment_slips_period'])->name('payrolls.generate_payment_slips_period');
     Route::get('/planillas/{period}/reporte-general', [PayrollController::class, 'general_report'])->name('payrolls.general_report');
     Route::get('/planillas/{period}/imprimir-planilla', [PayrollController::class, 'payroll_report'])->name('payrolls.payroll_report');
+    Route::get('/planillas/{period}/resumen-planilla', [PayrollController::class, 'payroll_summary'])->name('payrolls.payroll_summary');
 
     Route::get('/parametros', [SettingController::class, 'index'])->name('settings.index');
 });

@@ -535,6 +535,12 @@
                                             <i class="fas fa-file-pdf"></i> IMPRIMIR PLANILLA
                                         </a>
                                     </div>
+                                    <div class="col-md-3">
+                                        <a href="{{ route('payrolls.payroll_summary', $selected_period) }}"
+                                            class="mt-1 font-weight-bold btn btn-secondary w-100" target="_blank">
+                                            <i class="fas fa-file-pdf"></i> RESUMEN DE PLANILLA
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                         </div>

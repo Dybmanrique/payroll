@@ -208,4 +208,24 @@ class PayrollController extends Controller
         $pdf = Pdf::loadView('admin.reports-templates.payroll', ['period' => $period, 'periods' => $periods])->setPaper('a4', 'landscape');
         return $pdf->stream();
     }
+    public function payroll_summary(Period $period)
+    {
+        $periods = config('periods_spanish');
+
+        $payments = $period->payments()->with('contract')->get();
+
+        $payments_classified = collect($payments)->groupBy('contract.budgetary_objective_id');
+
+        $results = [];
+        foreach ($payments_classified as $budgetary_objective_id => $payments) {
+            
+            $objeto = new \stdClass();
+            $objeto->budgetary_objective = BudgetaryObjective::find($budgetary_objective_id);
+            $objeto->payments = $payments;
+            array_push($results, $objeto);
+        }
+
+        $pdf = Pdf::loadView('admin.reports-templates.summary-report', ['period' => $period, 'periods' => $periods, 'results' => $results])->setPaper('a4','landscape');
+        return $pdf->stream();
+    }
 }
