@@ -65,6 +65,11 @@
     .text-lg {
         font-size: 25px;
     }
+
+    .text-md {
+        font-size: 14px;
+    }
+
     .logo {
         width: 100px;
     }
@@ -110,8 +115,27 @@
             </td>
         </tr>
     </table>
+    @php
+        $total_final_basic = 0;
+        $total_final_refound = 0;
+        $total_final_discount = 0;
+        $total_final_remuneration = 0;
+        $total_final_net_pay = 0;
+        $total_final_aguinaldo = 0;
+        $total_final_essalud = 0;
+    @endphp
     @foreach ($results as $result)
-        <div style="margin-top: 30px; margin-left: 3px;"><span class="text-bold">FINALIDAD:</span> {{ $result->budgetary_objective->name }}</div>
+        @php
+            $total_final_basic += $result->total_basic;
+            $total_final_refound += $result->total_refound;
+            $total_final_discount += $result->total_discount;
+            $total_final_remuneration += $result->total_remuneration;
+            $total_final_net_pay += $result->total_net_pay;
+            $total_final_aguinaldo += $result->total_aguinaldo;
+            $total_final_essalud += $result->total_essalud;
+        @endphp
+        <div style="margin-top: 30px; margin-left: 3px;" class="text-md"><span class="text-bold">FINALIDAD:</span>
+            {{ $result->budgetary_objective->name }}</div>
         <table style="margin-bottom: 10px">
             <tr>
                 <td class="text-bold">PROGRAMA PRESUPUESTAL</td>
@@ -161,7 +185,9 @@
                             </tr>
                             <tr>
                                 <td>NETOS: </td>
-                                <td class="text-right">{{ number_format($result->total_basic + $result->total_refound - $result->total_discount, 2, '.', '') }}</td>
+                                <td class="text-right">
+                                    {{ number_format($result->total_basic + $result->total_refound - $result->total_discount, 2, '.', '') }}
+                                </td>
                             </tr>
                         </table>
                     </div>
@@ -196,7 +222,8 @@
                 </td>
             </tr>
             <tr>
-                <td style="vertical-align: top" colspan="{{ ($period->mounth == 7 || $period->mounth == 12) ? '3' : '2' }}">
+                <td style="vertical-align: top"
+                    colspan="{{ $period->mounth == 7 || $period->mounth == 12 ? '3' : '2' }}">
                     <div class="border text-center text-bold" style="border-bottom: none; padding: 3px;">
                         NETO
                     </div>
@@ -225,7 +252,98 @@
                 </td>
             </tr>
         </table>
+        @if (!$loop->last)
+            <div style="page-break-after:always;"></div> <!-- SALTO DE PÁG.-->
+        @endif
     @endforeach
+    <div style="page-break-after:always;"></div> <!-- SALTO DE PÁG.-->
+    <div class="text-bold text-md">SUMA TOTAL DE SECCIONES</div>
+    <table class="w-full text-bold" style="table-layout: fixed;">
+        <tr>
+            <td style="vertical-align: top">
+                <div class="border text-center text-bold" style="border-bottom: none; padding: 3px;">
+                    CAS
+                </div>
+                <div class="border" style="min-height: 100px;">
+                    <table class="w-full">
+                        <tr>
+                            <td>INGRESOS: </td>
+                            <td class="text-right">
+                                {{ number_format($total_final_basic + $total_final_refound, 2, '.', '') }}</td>
+                        </tr>
+                        <tr>
+                            <td>DESCUENTOS: </td>
+                            <td class="text-right">{{ $total_final_discount }}</td>
+                        </tr>
+                        <tr>
+                            <td>NETOS: </td>
+                            <td class="text-right">
+                                {{ number_format($total_final_basic + $total_final_refound - $total_final_discount, 2, '.', '') }}
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </td>
+            @if ($period->mounth == 7 || $period->mounth == 12)
+                <td style="vertical-align: top">
+                    <div class="border text-center text-bold" style="border-bottom: none; padding: 3px;">
+                        AGUINALDO
+                    </div>
+                    <div class="border" style="min-height: 100px;">
+                        <table class="w-full">
+                            <tr>
+                                <td>TOTAL: </td>
+                                <td class="text-right">{{ $total_final_aguinaldo ?? 'No aplicable' }}</td>
+                            </tr>
+                        </table>
+                    </div>
+                </td>
+            @endif
+            <td style="vertical-align: top">
+                <div class="border text-center text-bold" style="border-bottom: none; padding: 3px;">
+                    ESSALUD
+                </div>
+                <div class="border" style="min-height: 100px;">
+                    <table class="w-full">
+                        <tr>
+                            <td>TOTAL: </td>
+                            <td class="text-right">{{ $total_final_essalud }}</td>
+                        </tr>
+                    </table>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td style="vertical-align: top"
+                colspan="{{ $period->mounth == 7 || $period->mounth == 12 ? '3' : '2' }}">
+                <div class="border text-center text-bold" style="border-bottom: none; padding: 3px;">
+                    NETO
+                </div>
+                <div class="border" style="min-height: 100px;">
+                    <table class="w-full">
+                        <tr>
+                            <td>TOTAL INGRESOS: </td>
+                            <td class="text-right">{{ $total_final_remuneration }}</td>
+                        </tr>
+                        <tr>
+                            <td>TOTAL DESCUENTOS: </td>
+                            <td class="text-right">{{ $total_final_discount }}</td>
+                        </tr>
+                        <tr>
+                            <td>TOTAL APORTES: </td>
+                            <td class="text-right">{{ $total_final_essalud }}</td>
+                        </tr>
+                        <tr>
+                            <td>TOTAL FINAL: </td>
+                            <td class="text-right">
+                                {{ number_format($total_final_essalud + $total_final_remuneration, 2, '.', '') }}
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </td>
+        </tr>
+    </table>
 </body>
 
 </html>
