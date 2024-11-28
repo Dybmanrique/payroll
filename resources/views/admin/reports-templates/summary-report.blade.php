@@ -506,7 +506,10 @@
         @endphp
     @endforeach
     <!-- FIN SECCIÓN -->
-    <div style="margin-top: 20px" class="text-bold text-md">TOTAL FINAL</div>
+
+    <!-- SECCIÓN FINAL -->
+    <div style="page-break-after:always;"></div> <!-- SALTO DE PÁG.-->
+    <div style="margin-top: 20px; margin-bottom: 10px;" class="text-bold text-md">SUMA FINAL DE LAS SECCIONES</div>
     <table class="w-full table">
         <thead>
             <tr>
@@ -635,6 +638,7 @@
             </tr>
         </tbody>
     </table>
+    <!-- FIN SECCIÓN FINAL -->
 </body>
 
 </html>
