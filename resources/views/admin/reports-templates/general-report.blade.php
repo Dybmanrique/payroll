@@ -82,6 +82,7 @@
         </tr>
     </table>
 
+    <hr style="margin-bottom: 1px solid">
     <table class="w-full">
         <tr>
             <td>
@@ -110,6 +111,8 @@
             </td>
         </tr>
     </table>
+    <hr style="margin-bottom: 1px solid">
+
     @php
         $total_final_basic = 0;
         $total_final_refound = 0;
@@ -129,7 +132,7 @@
             $total_final_aguinaldo += $result->total_aguinaldo;
             $total_final_essalud += $result->total_essalud;
         @endphp
-        <div style="margin-top: 30px; margin-left: 3px;" class="text-md"><span class="text-bold">FINALIDAD:</span>
+        <div style="margin-top: 20px; margin-left: 3px;" class="text-md"><span class="text-bold">FINALIDAD:</span>
             {{ $result->budgetary_objective->name }}</div>
         <table style="margin-bottom: 10px">
             <tr>
@@ -253,7 +256,7 @@
     @endforeach
     <div style="page-break-after:always;"></div> <!-- SALTO DE PÁG.-->
     <hr style="margin-bottom: 1px solid">
-    <div class="text-bold text-md" style="margin: 3px">SUMA TOTAL DE SECCIONES</div>
+    <div class="text-bold text-md text-center" style="margin: 3px">SUMA TOTAL DE SECCIONES</div>
     <hr style="margin-bottom: 1px solid">
     <table class="w-full text-bold" style="table-layout: fixed;">
         <tr>

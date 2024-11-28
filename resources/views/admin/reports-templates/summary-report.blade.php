@@ -509,7 +509,9 @@
 
     <!-- SECCIÓN FINAL -->
     <div style="page-break-after:always;"></div> <!-- SALTO DE PÁG.-->
-    <div style="margin-top: 20px; margin-bottom: 10px;" class="text-bold text-md">SUMA FINAL DE LAS SECCIONES</div>
+    <hr style="margin-bottom: 1px solid">
+    <div style="margin-top: 10px; margin-bottom: 10px;" class="text-bold text-md text-center">SUMA FINAL DE LAS SECCIONES</div>
+    <hr style="margin-bottom: 1px solid">
     <table class="w-full table">
         <thead>
             <tr>
