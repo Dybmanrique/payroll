@@ -14,6 +14,7 @@
         </tr>
     </table>
 
+    <hr>
     <table class="w-full">
         <tr>
             <td>
@@ -42,6 +43,8 @@
             </td>
         </tr>
     </table>
+    <hr>
+
     <table class="w-full" style="table-layout: fixed;">
         <tr>
             <td style="vertical-align: top" colspan="3">
@@ -52,7 +55,7 @@
                     <table class="w-full">
                         <tr>
                             <td>Descuento judicial: </td>
-                            <td class="text-right">{{ $judicial->pivot->amount }}</td>
+                            <td class="text-right">{{ number_format($judicial->pivot->amount, 2) }}</td>
                         </tr>
                     </table>
                 </div>
@@ -64,10 +67,10 @@
             <td style="vertical-align: top">
                 <div class="border">
                     <table class="w-full">
-                        <tr>
+                        <tr class="text-bold">
                             <td>NETO: </td>
                             <td class="text-right" style="border-top: 1px solid; border-bottom: 4px double;">
-                                {{ $judicial->pivot->amount }}</td>
+                                {{ number_format($judicial->pivot->amount, 2) }}</td>
                         </tr>
                     </table>
                 </div>

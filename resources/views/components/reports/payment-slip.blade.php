@@ -14,6 +14,7 @@
         </tr>
     </table>
 
+    <hr>
     <table class="w-full">
         <tr>
             <td>
@@ -59,6 +60,8 @@
             </td>
         </tr>
     </table>
+    <hr>
+
     <table class="w-full" style="table-layout: fixed;">
         <tr>
             <td style="vertical-align: top">
@@ -69,18 +72,18 @@
                     <table class="w-full">
                         <tr>
                             <td>Monto mensual: </td>
-                            <td class="text-right">{{ $payment->basic }}</td>
+                            <td class="text-right">{{ number_format($payment->basic, 2) }}</td>
                         </tr>
                         @if ($payment->refound)
                             <tr>
                                 <td>Reintegro: </td>
-                                <td class="text-right">{{ $payment->refound }}</td>
+                                <td class="text-right">{{ number_format($payment->refound, 2) }}</td>
                             </tr>
                         @endif
                         @if ($payment->aguinaldo)
                             <tr>
                                 <td>Gratificación: </td>
-                                <td class="text-right">{{ $payment->aguinaldo }}</td>
+                                <td class="text-right">{{ number_format($payment->aguinaldo,2) }}</td>
                             </tr>
                         @endif
                     </table>
@@ -95,39 +98,39 @@
                         @if ($payment->onp_discount)
                             <tr>
                                 <td>D.L. 19990: </td>
-                                <td class="text-right">{{ $payment->onp_discount }}</td>
+                                <td class="text-right">{{ number_format($payment->onp_discount, 2) }}</td>
                             </tr>
                         @endif
                         @if ($payment->afp_discount)
                             <tr>
                                 <td>AFP - Jubilación: </td>
-                                <td class="text-right">{{ $payment->obligatory_afp }}</td>
+                                <td class="text-right">{{ number_format($payment->obligatory_afp, 2) }}</td>
                             </tr>
                             <tr>
                                 <td>AFP - Comisión variable: </td>
-                                <td class="text-right">{{ $payment->variable_afp }}</td>
+                                <td class="text-right">{{ number_format($payment->variable_afp, 2) }}</td>
                             </tr>
                             <tr>
                                 <td>AFP - Invalidez: </td>
-                                <td class="text-right">{{ $payment->life_insurance_afp }}</td>
+                                <td class="text-right">{{ number_format($payment->life_insurance_afp, 2) }}</td>
                             </tr>
                         @endif
                         @if ($payment->cuarta)
                             <tr>
                                 <td>Desc. 4ta Categoría: </td>
-                                <td class="text-right">{{ $payment->cuarta }}</td>
+                                <td class="text-right">{{ number_format($payment->cuarta) }}</td>
                             </tr>
                         @endif
                         @if ($payment->fines_discount)
                             <tr>
                                 <td>Multas: </td>
-                                <td class="text-right">{{ $payment->fines_discount }}</td>
+                                <td class="text-right">{{ number_format($payment->fines_discount) }}</td>
                             </tr>
                         @endif
                         @if ($payment->judicial)
                             <tr>
                                 <td>Descuento judicial: </td>
-                                <td class="text-right">{{ $payment->judicial }}</td>
+                                <td class="text-right">{{ number_format($payment->judicial, 2) }}</td>
                             </tr>
                         @endif
                     </table>
@@ -142,12 +145,12 @@
                         @if ($payment->essalud)
                             <tr>
                                 <td>Essalud (9%): </td>
-                                <td class="text-right">{{ $payment->essalud }}</td>
+                                <td class="text-right">{{ number_format($payment->essalud, 2) }}</td>
                             </tr>
                         @endif
                         <tr>
                             <td>TOTAL APORTE: </td>
-                            <td class="text-right">{{ $payment->total_contribution ?? '0.00' }}</td>
+                            <td class="text-right">{{ number_format($payment->total_contribution, 2) ?? '0.00' }}</td>
                         </tr>
                     </table>
                 </div>
@@ -160,16 +163,16 @@
                     <table class="w-full">
                         <tr>
                             <td>TOTAL INGRESO: </td>
-                            <td class="text-right">{{ $payment->total_remuneration }}</td>
+                            <td class="text-right">{{ number_format($payment->total_remuneration, 2) }}</td>
                         </tr>
                         <tr>
                             <td>DESCUENTO: </td>
-                            <td class="text-right">{{ $payment->total_discount }}</td>
+                            <td class="text-right">{{ number_format($payment->total_discount, 2) }}</td>
                         </tr>
-                        <tr>
+                        <tr class="text-bold">
                             <td>NETO A PAGAR: </td>
                             <td class="text-right" style="border-top: 1px solid; border-bottom: 4px double;">
-                                {{ $payment->net_pay }}</td>
+                                {{ number_format($payment->net_pay, 2) }}</td>
                         </tr>
                     </table>
                 </div>
