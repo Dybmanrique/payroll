@@ -159,14 +159,34 @@
                     </tr>
                     <tr>
                         <td class="text-bold">F. FINANCIAMIENTO</td>
-                        <td>: [{{ $period->payroll->funding_resource->code }}] {{ $period->payroll->funding_resource->name }}</td>
+                        <td>: [{{ $period->payroll->funding_resource->code }}]
+                            {{ $period->payroll->funding_resource->name }}</td>
                     </tr>
                 </table>
             </td>
         </tr>
     </table>
     <hr style="border-bottom: 1px solid ">
-    
+
+    @php
+        $total_final_basic = 0;
+        $total_final_aguinaldo = 0;
+        $total_final_refound = 0;
+        $total_final_remuneration = 0;
+
+        $total_final_onp = 0;
+        $total_final_afp_jub = 0;
+        $total_final_afp_c_v = 0;
+        $total_final_afp_inva = 0;
+        $total_final_judicial = 0;
+        $total_final_others = 0;
+        $total_final_discount = 0;
+
+        $total_final_essalud = 0;
+        $total_final_contribution = 0;
+
+        $total_final_net_pay = 0;
+    @endphp
     @foreach ($results as $result)
         <div style="margin-top: 20px; margin-left: 3px;" class="text-md"><span class="text-bold">FINALIDAD:</span>
             {{ $result->budgetary_objective->name }}</div>
@@ -452,7 +472,7 @@
                     <td colspan="{{ $period->mounth === 7 || $period->mounth === 12 ? '4' : '3' }}">
                         <table class="w-full">
                             <tr>
-                                <td class="text-bold">TOTAL FINAL</td>
+                                <td class="text-bold">TOTAL SECCIÓN</td>
                                 <td class="text-right text-bold">
                                     {{ number_format($total_essalud + $total_remuneration, 2, '.', '') }}
                                 </td>
@@ -465,9 +485,156 @@
         @if (!$loop->last)
             <div style="page-break-after:always;"></div> <!-- SALTO DE PÁG.-->
         @endif
+        @php
+            $total_final_basic += $total_basic;
+            $total_final_aguinaldo += $total_aguinaldo;
+            $total_final_refound += $total_refound;
+            $total_final_remuneration += $total_remuneration;
+
+            $total_final_onp += $total_onp;
+            $total_final_afp_jub += $total_afp_jub;
+            $total_final_afp_c_v += $total_afp_c_v;
+            $total_final_afp_inva += $total_afp_inva;
+            $total_final_judicial += $total_judicial;
+            $total_final_others += $total_others;
+            $total_final_discount += $total_discount;
+
+            $total_final_essalud += $total_essalud;
+            $total_final_contribution += $total_contribution;
+
+            $total_final_net_pay += $total_net_pay;
+        @endphp
     @endforeach
     <!-- FIN SECCIÓN -->
-
+    <div style="margin-top: 20px" class="text-bold text-md">TOTAL FINAL</div>
+    <table class="w-full table">
+        <thead>
+            <tr>
+                <th class="cel text-bold" style="width: 100px" rowspan="4" colspan="2">TOTAL</th>
+                <th class="cel text-bold" colspan="2">CAS</th>
+                @if ($period->mounth === 7 || $period->mounth === 12)
+                    <th class="cel text-bold" rowspan="2">AGUINALDO</th>
+                @endif
+                <th class="cel text-bold" rowspan="2">ESSALUD</th>
+            </tr>
+            <tr>
+                <th class="cel text-bold">INGRESOS</th>
+                <th class="cel text-bold">DESCUENTOS</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                {{-- <td class="cel cel-middle text-center text-bold" colspan="2" rowspan="2">TOTAL</td> --}}
+                <td class="cel cel-top">
+                    <table class="w-full">
+                        <tr>
+                            <td>BÁSICO</td>
+                            <td class="text-right">{{ number_format($total_final_basic, 2, '.', '') }}</td>
+                        </tr>
+                        @if ($total_final_refound > 0)
+                            <tr>
+                                <td>REINTEGRO</td>
+                                <td class="text-right">{{ number_format($total_final_refound, 2, '.', '') }}</td>
+                            </tr>
+                        @endif
+                        <tr>
+                            <td class="text-bold">TOTAL</td>
+                            <td class="text-right text-bold">
+                                {{ number_format($total_final_basic + $total_final_refound, 2, '.', '') }}
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+                <td class="cel cel-top">
+                    <table class="w-full">
+                        @if ($total_final_onp > 0)
+                            <tr>
+                                <td>ONP</td>
+                                <td class="text-right">{{ number_format($total_final_onp, 2, '.', '') }}</td>
+                            </tr>
+                        @endif
+                        @if ($total_final_afp_jub > 0)
+                            <tr>
+                                <td>AFP-JUB</td>
+                                <td class="text-right">{{ number_format($total_final_afp_jub, 2, '.', '') }}</td>
+                            </tr>
+                        @endif
+                        @if ($total_final_afp_c_v)
+                            <tr>
+                                <td>AFP-C-V</td>
+                                <td class="text-right">{{ number_format($total_final_afp_c_v, 2, '.', '') }}</td>
+                            </tr>
+                        @endif
+                        @if ($total_final_afp_inva > 0)
+                            <tr>
+                                <td>AFP-INVA</td>
+                                <td class="text-right">{{ number_format($total_final_afp_inva, 2, '.', '') }}</td>
+                            </tr>
+                        @endif
+                        @if ($total_final_judicial > 0)
+                            <tr>
+                                <td>D. JUDICIAL</td>
+                                <td class="text-right">{{ number_format($total_final_judicial, 2, '.', '') }}</td>
+                            </tr>
+                        @endif
+                        @if ($total_final_others > 0)
+                            <tr>
+                                <td>OTROS</td>
+                                <td class="text-right">{{ number_format($total_final_others, 2, '.', '') }}</td>
+                            </tr>
+                        @endif
+                        <tr>
+                            <td class="text-bold">TOTAL</td>
+                            <td class="text-right text-bold">{{ number_format($total_final_discount, 2, '.', '') }}
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+                @if ($period->mounth === 7 || $period->mounth === 12)
+                    <td class="cel cel-top">
+                        <table class="w-full">
+                            <tr>
+                                <td class="text-bold">TOTAL</td>
+                                <td class="text-right text-bold">
+                                    {{ number_format($total_final_aguinaldo, 2, '.', '') }}
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                @endif
+                <td class="cel cel-top">
+                    <table class="w-full">
+                        <tr>
+                            <td class="text-bold">TOTAL</td>
+                            <td class="text-right text-bold">
+                                {{ number_format($total_final_essalud, 2, '.', '') }}
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="{{ $period->mounth === 7 || $period->mounth === 12 ? '4' : '3' }}">
+                    <table class="w-full">
+                        @if ($period->mounth === 7 || $period->mounth === 12)
+                            <tr>
+                                <td class="text-bold">INGRESOS + AGUINALDO</td>
+                                <td class="text-right text-bold">
+                                    {{ number_format($total_final_remuneration, 2, '.', '') }}
+                                </td>
+                            </tr>
+                        @endif
+                        <tr>
+                            <td class="text-bold">TOTAL FINAL</td>
+                            <td class="text-right text-bold">
+                                {{ number_format($total_final_essalud + $total_final_remuneration, 2, '.', '') }}
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </body>
 
 </html>
