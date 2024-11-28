@@ -7,11 +7,6 @@
     <title>Reporte General</title>
 </head>
 <style>
-    @page {
-        margin: 2cm;
-        /* Ajustar los márgenes aquí */
-    }
-
     body {
         margin: 0;
         padding: 0;
@@ -177,16 +172,16 @@
                             <tr>
                                 <td>INGRESOS: </td>
                                 <td class="text-right">
-                                    {{ number_format($result->total_basic + $result->total_refound, 2, '.', '') }}</td>
+                                    {{ number_format($result->total_basic + $result->total_refound, 2) }}</td>
                             </tr>
                             <tr>
                                 <td>DESCUENTOS: </td>
-                                <td class="text-right">{{ $result->total_discount }}</td>
+                                <td class="text-right">{{ number_format($result->total_discount, 2) }}</td>
                             </tr>
                             <tr>
                                 <td>NETOS: </td>
                                 <td class="text-right">
-                                    {{ number_format($result->total_basic + $result->total_refound - $result->total_discount, 2, '.', '') }}
+                                    {{ number_format($result->total_basic + $result->total_refound - $result->total_discount, 2) }}
                                 </td>
                             </tr>
                         </table>
@@ -201,7 +196,7 @@
                             <table class="w-full">
                                 <tr>
                                     <td>TOTAL: </td>
-                                    <td class="text-right">{{ $result->total_aguinaldo ?? 'No aplicable' }}</td>
+                                    <td class="text-right">{{ number_format($result->total_aguinaldo, 2) ?? 'No aplicable' }}</td>
                                 </tr>
                             </table>
                         </div>
@@ -215,7 +210,7 @@
                         <table class="w-full">
                             <tr>
                                 <td>TOTAL: </td>
-                                <td class="text-right">{{ $result->total_essalud }}</td>
+                                <td class="text-right">{{ number_format($result->total_essalud, 2) }}</td>
                             </tr>
                         </table>
                     </div>
@@ -225,26 +220,26 @@
                 <td style="vertical-align: top"
                     colspan="{{ $period->mounth == 7 || $period->mounth == 12 ? '3' : '2' }}">
                     <div class="border text-center text-bold" style="border-bottom: none; padding: 3px;">
-                        NETO
+                        SECCIÓN
                     </div>
                     <div class="border" style="min-height: 100px;">
                         <table class="w-full">
                             <tr>
                                 <td>TOTAL INGRESOS: </td>
-                                <td class="text-right">{{ $result->total_remuneration }}</td>
+                                <td class="text-right">{{ number_format($result->total_remuneration, 2) }}</td>
                             </tr>
                             <tr>
                                 <td>TOTAL DESCUENTOS: </td>
-                                <td class="text-right">{{ $result->total_discount }}</td>
+                                <td class="text-right">{{ number_format($result->total_discount, 2) }}</td>
                             </tr>
                             <tr>
                                 <td>TOTAL APORTES: </td>
-                                <td class="text-right">{{ $result->total_essalud }}</td>
+                                <td class="text-right">{{ number_format($result->total_essalud, 2) }}</td>
                             </tr>
                             <tr>
                                 <td>TOTAL FINAL: </td>
                                 <td class="text-right">
-                                    {{ number_format($result->total_essalud + $result->total_remuneration, 2, '.', '') }}
+                                    {{ number_format($result->total_essalud + $result->total_remuneration, 2) }}
                                 </td>
                             </tr>
                         </table>
@@ -257,7 +252,9 @@
         @endif
     @endforeach
     <div style="page-break-after:always;"></div> <!-- SALTO DE PÁG.-->
-    <div class="text-bold text-md">SUMA TOTAL DE SECCIONES</div>
+    <hr style="margin-bottom: 1px solid">
+    <div class="text-bold text-md" style="margin: 3px">SUMA TOTAL DE SECCIONES</div>
+    <hr style="margin-bottom: 1px solid">
     <table class="w-full text-bold" style="table-layout: fixed;">
         <tr>
             <td style="vertical-align: top">
@@ -269,16 +266,16 @@
                         <tr>
                             <td>INGRESOS: </td>
                             <td class="text-right">
-                                {{ number_format($total_final_basic + $total_final_refound, 2, '.', '') }}</td>
+                                {{ number_format($total_final_basic + $total_final_refound, 2) }}</td>
                         </tr>
                         <tr>
                             <td>DESCUENTOS: </td>
-                            <td class="text-right">{{ $total_final_discount }}</td>
+                            <td class="text-right">{{ number_format($total_final_discount, 2) }}</td>
                         </tr>
                         <tr>
                             <td>NETOS: </td>
                             <td class="text-right">
-                                {{ number_format($total_final_basic + $total_final_refound - $total_final_discount, 2, '.', '') }}
+                                {{ number_format($total_final_basic + $total_final_refound - $total_final_discount, 2) }}
                             </td>
                         </tr>
                     </table>
@@ -293,7 +290,7 @@
                         <table class="w-full">
                             <tr>
                                 <td>TOTAL: </td>
-                                <td class="text-right">{{ $total_final_aguinaldo ?? 'No aplicable' }}</td>
+                                <td class="text-right">{{ number_format($total_final_aguinaldo,2) ?? 'No aplicable' }}</td>
                             </tr>
                         </table>
                     </div>
@@ -307,7 +304,7 @@
                     <table class="w-full">
                         <tr>
                             <td>TOTAL: </td>
-                            <td class="text-right">{{ $total_final_essalud }}</td>
+                            <td class="text-right">{{ number_format($total_final_essalud,2) }}</td>
                         </tr>
                     </table>
                 </div>
@@ -317,26 +314,26 @@
             <td style="vertical-align: top"
                 colspan="{{ $period->mounth == 7 || $period->mounth == 12 ? '3' : '2' }}">
                 <div class="border text-center text-bold" style="border-bottom: none; padding: 3px;">
-                    NETO
+                    FINAL
                 </div>
                 <div class="border" style="min-height: 100px;">
                     <table class="w-full">
                         <tr>
                             <td>TOTAL INGRESOS: </td>
-                            <td class="text-right">{{ $total_final_remuneration }}</td>
+                            <td class="text-right">{{ number_format($total_final_remuneration, 2) }}</td>
                         </tr>
                         <tr>
                             <td>TOTAL DESCUENTOS: </td>
-                            <td class="text-right">{{ $total_final_discount }}</td>
+                            <td class="text-right">{{ number_format($total_final_discount, 2) }}</td>
                         </tr>
                         <tr>
                             <td>TOTAL APORTES: </td>
-                            <td class="text-right">{{ $total_final_essalud }}</td>
+                            <td class="text-right">{{ number_format($total_final_essalud, 2) }}</td>
                         </tr>
                         <tr>
                             <td>TOTAL FINAL: </td>
                             <td class="text-right">
-                                {{ number_format($total_final_essalud + $total_final_remuneration, 2, '.', '') }}
+                                {{ number_format($total_final_essalud + $total_final_remuneration, 2) }}
                             </td>
                         </tr>
                     </table>
