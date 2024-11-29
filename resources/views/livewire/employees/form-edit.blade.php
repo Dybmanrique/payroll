@@ -480,8 +480,8 @@
                 <div class="shadow-sm rounded border mb-2 p-3 row align-items-center" wire:key='{{ $contract->id }}'>
                     <div class="col-md-8">
                         <div><span class="font-weight-bold">VIGENCIA:</span>
-                            Desde el {{ date('d-m-Y', strtotime($contract->start_validity)) }} hasta el
-                            {{ date('d-m-Y', strtotime($contract->end_validity)) }}
+                            Desde el <span class="font-weight-bold">{{ date('d-m-Y', strtotime($contract->start_validity)) }}</span> hasta el
+                            <span class="font-weight-bold">{{ date('d-m-Y', strtotime($contract->end_validity)) }}</span>
                         </div>
                         <div class="row">
                             <div class="col-md-4"><span class="font-weight-bold">REMUNERACIÓN:</span>
