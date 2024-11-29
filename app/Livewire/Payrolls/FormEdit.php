@@ -174,43 +174,55 @@ class FormEdit extends Component
     {
         $this->afp_net_list = [];
         $count = 0;
-        $period = Period::find($this->selected_period);
-        foreach ($period->payments as $payment) {
-            if ($payment->afp_discount) {
-                $identity_type = array_search($payment->contract->employee->identity_type->name, $this->type_id_afp);
+        try {
+            $period = Period::find($this->selected_period);
+            foreach ($period->payments as $payment) {
+                if ($payment->afp_discount) {
+                    $identity_type = array_search($payment->contract->employee->identity_type->name, $this->type_id_afp);
 
-                $count++;
-                array_push($this->afp_net_list, [
-                    $count,
-                    $payment->contract->employee->afp_code,
-                    ($identity_type !== false) ? ((string) $identity_type) : "0",
-                    $payment->contract->employee->identity_number,
-                    $payment->contract->employee->last_name,
-                    $payment->contract->employee->second_last_name,
-                    $payment->contract->employee->name,
-                    'S',
-                    'N',
-                    'N',
-                    null,
-                    $payment->basic + $payment->refound,
-                    "0",
-                    "0",
-                    "0",
-                    "N",
-                    null,
-                ]);
+                    $count++;
+                    array_push($this->afp_net_list, [
+                        'employee' => $payment->contract->employee,
+                        'afp_atributes' => [
+                            $count,
+                            $payment->contract->employee->afp_code,
+                            ($identity_type !== false) ? ((string) $identity_type) : "0",
+                            $payment->contract->employee->identity_number,
+                            $payment->contract->employee->last_name,
+                            $payment->contract->employee->second_last_name,
+                            $payment->contract->employee->name,
+                            'S',
+                            'N',
+                            'N',
+                            null,
+                            $payment->basic + $payment->refound,
+                            "0",
+                            "0",
+                            "0",
+                            "N",
+                            null,
+                        ]
+                    ]);
+                }
             }
+        } catch (\Exception $th) {
+            $this->dispatch('message', code: '500', content: 'Algo salió mal');
         }
     }
 
     public function changeValueAfp($index, $row, $value)
     {
-        $this->afp_net_list[$index][$row] = $value;
+        $this->afp_net_list[$index]['afp_atributes'][$row] = $value;
     }
 
-    public function exportAfpNet(){
-        // return redirect()->route('payrolls.afp_net', $this->afp_net_list);
-        return (new AfpNetExport)->forList($this->afp_net_list)->download('afp_net.xlsx');
+    public function exportAfpNet()
+    {
+        try {
+            $only_values = array_map(fn($item) => $item['afp_atributes'], $this->afp_net_list);
+            return (new AfpNetExport)->forList($only_values)->download('afp_net.xlsx');
+        } catch (\Exception $th) {
+            $this->dispatch('message', code: '500', content: 'Algo salió mal');
+        }
     }
 
     public function save()

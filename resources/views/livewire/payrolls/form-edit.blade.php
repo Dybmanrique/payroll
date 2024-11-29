@@ -289,38 +289,57 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <div class="table-responsive text-nowrap">
+                        <div class="card d-none opacity-low" wire:loading.class='d-block opacity-full' wire:target="prepare_afp_net">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-center justify-items-center">
+                                    <div class="spinner-border" role="status">
+                                        <span class="sr-only">Loading...</span>
+                                    </div>
+                                    <span class="text-md ml-2 font-weight-bold">BUSCANDO...</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table-responsive text-nowrap" wire:loading.class='d-none' wire:target="prepare_afp_net">
                             <table class="table table-sm">
                                 <thead class="thead-dark">
                                     <tr>
-                                        <th scope="col">N°</th>
-                                        <th scope="col">CUSPP</th>
-                                        <th scope="col">TIPO ID</th>
-                                        <th scope="col">N° ID</th>
-                                        <th scope="col">APELLIDO P.</th>
-                                        <th scope="col">APELLIDO M.</th>
-                                        <th scope="col">NOMBRES</th>
-                                        <th scope="col">RELACIÓN L.</th>
-                                        <th scope="col">INICIO RL</th>
-                                        <th scope="col">CESE RL</th>
-                                        <th scope="col">EXCEPCIÓN DE APORTAR</th>
-                                        <th scope="col">REMUNERACIÓN</th>
-                                        <th scope="col">APORTE VOLUNTARIO CFP</th>
-                                        <th scope="col">APORTE VOLUNTARIO SFP</th>
-                                        <th scope="col">APORTE VOLUNTARIO EMPL</th>
-                                        <th scope="col">TIPO TRABAJO</th>
+                                        <th scope="col" class="align-middle" class="align-middle" rowspan="2">ACCIONES</th>
+                                        <th scope="col" class="align-middle" class="align-middle" rowspan="2">N°</th>
+                                        <th scope="col" class="align-middle" rowspan="2">CUSPP</th>
+                                        <th scope="col" class="align-middle" rowspan="2" colspan="2">IDENTIFICACIÓN</th>
+                                        <th scope="col" class="align-middle" rowspan="2">APELLIDO P.</th>
+                                        <th scope="col" class="align-middle" rowspan="2">APELLIDO M.</th>
+                                        <th scope="col" class="align-middle" rowspan="2">NOMBRES</th>
+                                        <th scope="col" class="align-middle" rowspan="2" style="min-width: 110px" title="RELACIÓN LABORAL">RELACIÓN L.</th>
+                                        <th scope="col" class="align-middle" rowspan="2" style="min-width: 110px" title="INICIO DE RELACIÓN LABORAL">INICIO R.L.</th>
+                                        <th scope="col" class="align-middle" rowspan="2" style="min-width: 110px" title="CESE DE RELACIÓN LABORAL">CESE R.L.</th>
+                                        <th scope="col" class="align-middle" rowspan="2">EXCEPCIÓN DE APORTAR</th>
+                                        <th scope="col" class="align-middle" rowspan="2">REMUNERACIÓN</th>
+                                        <th scope="col" class="text-center" colspan="3">APORTES VOLUNTARIOS</th>
+                                        <th scope="col" class="align-middle" rowspan="2" style="min-width: 250px">TIPO TRABAJO</th>
+                                    </tr>
+                                    <tr>
+                                        <th scope="col" title="APORTE VOLUNTARIO DEL AFILIADO CON FIN PREVISIONAL">DEL AFILIADO C.F.P.</th>
+                                        <th scope="col" title="APORTE VOLUNTARIO DEL AFILIADO SIN FIN PREVISIONAL">DEL AFILIADO S.N.P.</th>
+                                        <th scope="col">DEL EMPLEADOR</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($afp_net_list as $index => $item)
                                         <tr>
-                                            <th scope="row">{{ $item[0] }}</th>
-                                            <td scope="col">{{ $item[1] }}</td>
-                                            <td scope="col">{{ $type_id_afp[$item[2]] }}</td>
-                                            <td scope="col">{{ $item[3] }}</td>
-                                            <td scope="col">{{ $item[4] }}</td>
-                                            <td scope="col">{{ $item[5] }}</td>
-                                            <td scope="col">{{ $item[6] }}</td>
+                                            <th scope="row">
+                                                <a href="{{ route('employees.edit',$item['employee']) }}#contratos" target="_blank"
+                                                class="btn btn-sm btn-outline-primary">
+                                                    <i class="fas fa-eye"></i> VER CONTRATOS
+                                                </a>
+                                            </th>
+                                            <th scope="row">{{ $item['afp_atributes'][0] }}</th>
+                                            <td scope="col">{{ $item['afp_atributes'][1] }}</td>
+                                            <td scope="col">{{ $type_id_afp[$item['afp_atributes'][2]] }}</td>
+                                            <td scope="col">{{ $item['afp_atributes'][3] }}</td>
+                                            <td scope="col">{{ $item['afp_atributes'][4] }}</td>
+                                            <td scope="col">{{ $item['afp_atributes'][5] }}</td>
+                                            <td scope="col">{{ $item['afp_atributes'][6] }}</td>
                                             <td scope="col">
                                                 <select onchange="changeValueAfp({{ $index }}, 7, this.value)"
                                                     class="form-control">
@@ -354,7 +373,10 @@
                                                     <option value="O">OTRO MOTIVO</option>
                                                 </select>
                                             </td>
-                                            <td scope="col">{{ number_format($item[11], 2) }}</td>
+                                            <td scope="col">
+                                                <input type="number" value="{{ number_format($item['afp_atributes'][11], 2, '.', '') }}" step="0.01" class="form-control"
+                                                    onchange="changeValueAfp({{ $index }}, 11, this.value)">
+                                            </td>
                                             <td scope="col">
                                                 <input type="number" value="0" class="form-control"
                                                     onchange="changeValueAfp({{ $index }}, 12, this.value)">
@@ -384,7 +406,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">CERRAR</button>
-                        <button type="submit" class="btn btn-primary">EXPORTAR</button>
+                        <button type="submit" class="btn btn-primary" wire:loading.attr='disabled' >EXPORTAR</button>
                     </div>
                 </form>
             </div>
