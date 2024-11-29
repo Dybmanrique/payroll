@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Payrolls;
 
+use App\Exports\AfpNetExport;
 use App\Models\Contract;
 use App\Models\Employee;
 use App\Models\FundingResource;
@@ -153,6 +154,63 @@ class FormEdit extends Component
     private function has_employees()
     {
         return (count($this->payments_list) >= 1);
+    }
+
+    public $afp_net_list = [];
+    public $type_id_afp = [
+        0 => "D.N.I.",
+        1 => "C.E.",
+        2 => "Carnet Militar y Policial",
+        3 => "Libreta Adolecentes Trabajador",
+        4 => "Pasaporte",
+        5 => "Inexistente/Afilia",
+        6 => "P.T.P.",
+        7 => "Carné de Relaciones Exteriores",
+        8 => "Cedula Identidad de Extranjero",
+        9 => "Carné Solicitante de Refugio",
+        10 => "C.P.P",
+    ];
+    public function prepare_afp_net()
+    {
+        $this->afp_net_list = [];
+        $count = 0;
+        $period = Period::find($this->selected_period);
+        foreach ($period->payments as $payment) {
+            if ($payment->afp_discount) {
+                $identity_type = array_search($payment->contract->employee->identity_type->name, $this->type_id_afp);
+
+                $count++;
+                array_push($this->afp_net_list, [
+                    $count,
+                    $payment->contract->employee->afp_code,
+                    ($identity_type !== false) ? ((string) $identity_type) : "0",
+                    $payment->contract->employee->identity_number,
+                    $payment->contract->employee->last_name,
+                    $payment->contract->employee->second_last_name,
+                    $payment->contract->employee->name,
+                    'S',
+                    'N',
+                    'N',
+                    null,
+                    $payment->basic + $payment->refound,
+                    "0",
+                    "0",
+                    "0",
+                    "N",
+                    null,
+                ]);
+            }
+        }
+    }
+
+    public function changeValueAfp($index, $row, $value)
+    {
+        $this->afp_net_list[$index][$row] = $value;
+    }
+
+    public function exportAfpNet(){
+        // return redirect()->route('payrolls.afp_net', $this->afp_net_list);
+        return (new AfpNetExport)->forList($this->afp_net_list)->download('afp_net.xlsx');
     }
 
     public function save()
