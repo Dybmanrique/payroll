@@ -60,4 +60,12 @@ class AfpNetService
             return [];
         }
     }
+
+    public function getTypesId() : array {
+        return $this->type_id_afp;
+    }
+
+    public function onlyValuesAfpNet($afp_net_list) : array{
+        return array_map(fn($item) => $item['afp_atributes'], $afp_net_list);
+    }
 }

@@ -154,19 +154,7 @@ class FormEdit extends Component
     }
 
     public $afp_net_list = [];
-    public $type_id_afp = [
-        0 => "D.N.I.",
-        1 => "C.E.",
-        2 => "Carnet Militar y Policial",
-        3 => "Libreta Adolecentes Trabajador",
-        4 => "Pasaporte",
-        5 => "Inexistente/Afilia",
-        6 => "P.T.P.",
-        7 => "Carné de Relaciones Exteriores",
-        8 => "Cedula Identidad de Extranjero",
-        9 => "Carné Solicitante de Refugio",
-        10 => "C.P.P",
-    ];
+    public $type_id_afp = [];
     public function prepare_afp_net()
     {
         $this->afp_net_list = $this->afp_net_service->generateAfpArray($this->selected_period);
@@ -180,8 +168,7 @@ class FormEdit extends Component
     public function exportAfpNet()
     {
         try {
-            $only_values = array_map(fn($item) => $item['afp_atributes'], $this->afp_net_list);
-            return (new AfpNetExport)->forList($only_values)->download('afp_net.xlsx');
+            return (new AfpNetExport)->forList($this->afp_net_service->onlyValuesAfpNet($this->afp_net_list))->download('afp_net.xlsx');
         } catch (\Exception $th) {
             $this->dispatch('message', code: '500', content: 'Algo salió mal');
         }
@@ -222,11 +209,12 @@ class FormEdit extends Component
             $this->dispatch('message', code: '200', content: 'Se realizaron los calculos');
         } else {
             $this->dispatch('message', code: '500', content: 'Algo salió mal');
-        };
+        }
     }
 
     public function mount()
     {
+        $this->type_id_afp = $this->afp_net_service->getTypesId();
         $this->payroll_types = PayrollType::all();
         $this->funding_resources = FundingResource::all();
         $this->employees = Employee::all();
