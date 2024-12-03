@@ -11,6 +11,7 @@ use App\Models\Payment;
 use App\Models\PayrollType;
 use App\Models\Period;
 use App\Models\Setting;
+use App\Services\Payroll\AfpNetService;
 use App\Services\Payroll\PaymentService;
 use Carbon\Carbon;
 use Livewire\Component;
@@ -168,42 +169,7 @@ class FormEdit extends Component
     ];
     public function prepare_afp_net()
     {
-        $this->afp_net_list = [];
-        $count = 0;
-        try {
-            $period = Period::find($this->selected_period);
-            foreach ($period->payments as $payment) {
-                if ($payment->afp_discount) {
-                    $identity_type = array_search($payment->contract->employee->identity_type->name, $this->type_id_afp);
-
-                    $count++;
-                    array_push($this->afp_net_list, [
-                        'employee' => $payment->contract->employee,
-                        'afp_atributes' => [
-                            $count,
-                            $payment->contract->employee->afp_code,
-                            ($identity_type !== false) ? ((string) $identity_type) : "0",
-                            $payment->contract->employee->identity_number,
-                            $payment->contract->employee->last_name,
-                            $payment->contract->employee->second_last_name,
-                            $payment->contract->employee->name,
-                            'S',
-                            'N',
-                            'N',
-                            null,
-                            $payment->basic + $payment->refound,
-                            "0",
-                            "0",
-                            "0",
-                            "N",
-                            null,
-                        ]
-                    ]);
-                }
-            }
-        } catch (\Exception $th) {
-            $this->dispatch('message', code: '500', content: 'Algo salió mal');
-        }
+        $this->afp_net_list = $this->afp_net_service->generateAfpArray($this->selected_period);
     }
 
     public function changeValueAfp($index, $row, $value)
@@ -251,10 +217,10 @@ class FormEdit extends Component
 
     public function calculate()
     {
-        if($this->payment_service->calculate($this->selected_period)){
+        if ($this->payment_service->calculate($this->selected_period)) {
             $this->payments_list = Payment::where('period_id', $this->selected_period)->get();
             $this->dispatch('message', code: '200', content: 'Se realizaron los calculos');
-        } else{
+        } else {
             $this->dispatch('message', code: '500', content: 'Algo salió mal');
         };
     }
@@ -274,9 +240,11 @@ class FormEdit extends Component
     }
 
     protected $payment_service;
+    protected $afp_net_service;
     public function __construct()
     {
         $this->payment_service = new PaymentService;
+        $this->afp_net_service = new AfpNetService;
     }
 
     public function render()
