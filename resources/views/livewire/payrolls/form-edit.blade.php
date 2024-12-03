@@ -289,7 +289,8 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <div class="card d-none opacity-low" wire:loading.class='d-block opacity-full' wire:target="prepare_afp_net">
+                        <div class="card d-none opacity-low" wire:loading.class='d-block opacity-full'
+                            wire:target="prepare_afp_net">
                             <div class="card-body">
                                 <div class="d-flex justify-content-center justify-items-center">
                                     <div class="spinner-border" role="status">
@@ -299,114 +300,146 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="table-responsive text-nowrap" wire:loading.class='d-none' wire:target="prepare_afp_net">
-                            <table class="table table-sm">
-                                <thead class="thead-dark">
-                                    <tr>
-                                        <th scope="col" class="align-middle" class="align-middle" rowspan="2">ACCIONES</th>
-                                        <th scope="col" class="align-middle" class="align-middle" rowspan="2">N°</th>
-                                        <th scope="col" class="align-middle" rowspan="2">CUSPP</th>
-                                        <th scope="col" class="align-middle" rowspan="2" colspan="2">IDENTIFICACIÓN</th>
-                                        <th scope="col" class="align-middle" rowspan="2">APELLIDO P.</th>
-                                        <th scope="col" class="align-middle" rowspan="2">APELLIDO M.</th>
-                                        <th scope="col" class="align-middle" rowspan="2">NOMBRES</th>
-                                        <th scope="col" class="align-middle" rowspan="2" style="min-width: 110px" title="RELACIÓN LABORAL">RELACIÓN L.</th>
-                                        <th scope="col" class="align-middle" rowspan="2" style="min-width: 110px" title="INICIO DE RELACIÓN LABORAL">INICIO R.L.</th>
-                                        <th scope="col" class="align-middle" rowspan="2" style="min-width: 110px" title="CESE DE RELACIÓN LABORAL">CESE R.L.</th>
-                                        <th scope="col" class="align-middle" rowspan="2">EXCEPCIÓN DE APORTAR</th>
-                                        <th scope="col" class="align-middle" rowspan="2">REMUNERACIÓN</th>
-                                        <th scope="col" class="text-center" colspan="3">APORTES VOLUNTARIOS</th>
-                                        <th scope="col" class="align-middle" rowspan="2" style="min-width: 250px">TIPO TRABAJO</th>
-                                    </tr>
-                                    <tr>
-                                        <th scope="col" title="APORTE VOLUNTARIO DEL AFILIADO CON FIN PREVISIONAL">DEL AFILIADO C.F.P.</th>
-                                        <th scope="col" title="APORTE VOLUNTARIO DEL AFILIADO SIN FIN PREVISIONAL">DEL AFILIADO S.N.P.</th>
-                                        <th scope="col">DEL EMPLEADOR</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($afp_net_list as $index => $item)
+                        <div class="table-responsive text-nowrap" wire:loading.class='d-none'
+                            wire:target="prepare_afp_net">
+                            @if (count($afp_net_list) > 1)
+                                <table class="table table-sm">
+                                    <thead class="thead-dark">
                                         <tr>
-                                            <th scope="row">
-                                                <a href="{{ route('employees.edit',$item['employee']) }}#contratos" target="_blank"
-                                                class="btn btn-sm btn-outline-primary">
-                                                    <i class="fas fa-eye"></i> VER CONTRATOS
-                                                </a>
+                                            <th scope="col" class="align-middle" class="align-middle"
+                                                rowspan="2">ACCIONES</th>
+                                            <th scope="col" class="align-middle" class="align-middle"
+                                                rowspan="2">N°</th>
+                                            <th scope="col" class="align-middle" rowspan="2">CUSPP</th>
+                                            <th scope="col" class="align-middle" rowspan="2" colspan="2">
+                                                IDENTIFICACIÓN</th>
+                                            <th scope="col" class="align-middle" rowspan="2">APELLIDO P.</th>
+                                            <th scope="col" class="align-middle" rowspan="2">APELLIDO M.</th>
+                                            <th scope="col" class="align-middle" rowspan="2">NOMBRES</th>
+                                            <th scope="col" class="align-middle" rowspan="2"
+                                                style="min-width: 110px" title="RELACIÓN LABORAL">RELACIÓN L.</th>
+                                            <th scope="col" class="align-middle" rowspan="2"
+                                                style="min-width: 110px" title="INICIO DE RELACIÓN LABORAL">INICIO
+                                                R.L.</th>
+                                            <th scope="col" class="align-middle" rowspan="2"
+                                                style="min-width: 110px" title="CESE DE RELACIÓN LABORAL">CESE R.L.
                                             </th>
-                                            <th scope="row">{{ $item['afp_atributes'][0] }}</th>
-                                            <td scope="col">{{ $item['afp_atributes'][1] }}</td>
-                                            <td scope="col">{{ $type_id_afp[$item['afp_atributes'][2]] }}</td>
-                                            <td scope="col">{{ $item['afp_atributes'][3] }}</td>
-                                            <td scope="col">{{ $item['afp_atributes'][4] }}</td>
-                                            <td scope="col">{{ $item['afp_atributes'][5] }}</td>
-                                            <td scope="col">{{ $item['afp_atributes'][6] }}</td>
-                                            <td scope="col">
-                                                <select onchange="changeValueAfp({{ $index }}, 7, this.value)"
-                                                    class="form-control">
-                                                    <option value="S" selected>SI</option>
-                                                    <option value="N">NO</option>
-                                                </select>
-                                            </td>
-                                            <td scope="col">
-                                                <select onchange="changeValueAfp({{ $index }}, 8, this.value)"
-                                                    class="form-control">
-                                                    <option value="S">SI</option>
-                                                    <option value="N" selected>NO</option>
-                                                </select>
-                                            </td>
-                                            <td scope="col">
-                                                <select onchange="changeValueAfp({{ $index }}, 9, this.value)"
-                                                    class="form-control">
-                                                    <option value="S">SI</option>
-                                                    <option value="N" selected>NO</option>
-                                                </select>
-                                            </td>
-                                            <td scope="col">
-                                                <select onchange="changeValueAfp({{ $index }}, 10, this.value)"
-                                                    class="form-control">
-                                                    <option value="" selected>SI APORTA</option>
-                                                    <option value="L">LICENCIA SIN GOCE DE HABER</option>
-                                                    <option value="U">SUBSIDIO POR ESSALUD</option>
-                                                    <option value="J">AFILIADO PENSIONADO POR JUBILACIÓN</option>
-                                                    <option value="I">AFILIADO PENSIONADO POR INVALIDEZ</option>
-                                                    <option value="P">APORTE POSTERGADO POR INICIO DE RL</option>
-                                                    <option value="O">OTRO MOTIVO</option>
-                                                </select>
-                                            </td>
-                                            <td scope="col">
-                                                <input type="number" value="{{ number_format($item['afp_atributes'][11], 2, '.', '') }}" step="0.01" class="form-control"
-                                                    onchange="changeValueAfp({{ $index }}, 11, this.value)">
-                                            </td>
-                                            <td scope="col">
-                                                <input type="number" value="0" class="form-control"
-                                                    onchange="changeValueAfp({{ $index }}, 12, this.value)">
-                                            </td>
-                                            <td scope="col">
-                                                <input type="number" value="0" class="form-control"
-                                                    onchange="changeValueAfp({{ $index }}, 13, this.value)">
-                                            </td>
-                                            <td scope="col">
-                                                <input type="number" value="0" class="form-control"
-                                                    onchange="changeValueAfp({{ $index }}, 14, this.value)">
-                                            </td>
-                                            <td scope="col">
-                                                <select onchange="changeValueAfp({{ $index }}, 15, this.value)"
-                                                    class="form-control">
-                                                    <option value="N" selected>DEPENDIENTE NORMAL</option>
-                                                    <option value="C">DEPENDIENTE CONSTRUCCIÓN</option>
-                                                    <option value="M">DEPENDIENTE MINERÍA</option>
-                                                    <option value="P">PESQUERO</option>
-                                                </select>
-                                            </td>
+                                            <th scope="col" class="align-middle" rowspan="2">EXCEPCIÓN DE
+                                                APORTAR</th>
+                                            <th scope="col" class="align-middle" rowspan="2">REMUNERACIÓN</th>
+                                            <th scope="col" class="text-center" colspan="3">APORTES VOLUNTARIOS
+                                            </th>
+                                            <th scope="col" class="align-middle" rowspan="2"
+                                                style="min-width: 250px">TIPO TRABAJO</th>
                                         </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
+                                        <tr>
+                                            <th scope="col"
+                                                title="APORTE VOLUNTARIO DEL AFILIADO CON FIN PREVISIONAL">DEL AFILIADO
+                                                C.F.P.</th>
+                                            <th scope="col"
+                                                title="APORTE VOLUNTARIO DEL AFILIADO SIN FIN PREVISIONAL">DEL AFILIADO
+                                                S.N.P.</th>
+                                            <th scope="col">DEL EMPLEADOR</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($afp_net_list as $index => $item)
+                                            <tr>
+                                                <th scope="row">
+                                                    <a href="{{ route('employees.edit', $item['employee']) }}#contratos"
+                                                        target="_blank" class="btn btn-sm btn-outline-primary">
+                                                        <i class="fas fa-eye"></i> VER CONTRATOS
+                                                    </a>
+                                                </th>
+                                                <th scope="row">{{ $item['afp_atributes'][0] }}</th>
+                                                <td scope="col">{{ $item['afp_atributes'][1] }}</td>
+                                                <td scope="col">{{ $type_id_afp[$item['afp_atributes'][2]] }}</td>
+                                                <td scope="col">{{ $item['afp_atributes'][3] }}</td>
+                                                <td scope="col">{{ $item['afp_atributes'][4] }}</td>
+                                                <td scope="col">{{ $item['afp_atributes'][5] }}</td>
+                                                <td scope="col">{{ $item['afp_atributes'][6] }}</td>
+                                                <td scope="col">
+                                                    <select
+                                                        onchange="changeValueAfp({{ $index }}, 7, this.value)"
+                                                        class="form-control">
+                                                        <option value="S" selected>SI</option>
+                                                        <option value="N">NO</option>
+                                                    </select>
+                                                </td>
+                                                <td scope="col">
+                                                    <select
+                                                        onchange="changeValueAfp({{ $index }}, 8, this.value)"
+                                                        class="form-control">
+                                                        <option value="S">SI</option>
+                                                        <option value="N" selected>NO</option>
+                                                    </select>
+                                                </td>
+                                                <td scope="col">
+                                                    <select
+                                                        onchange="changeValueAfp({{ $index }}, 9, this.value)"
+                                                        class="form-control">
+                                                        <option value="S">SI</option>
+                                                        <option value="N" selected>NO</option>
+                                                    </select>
+                                                </td>
+                                                <td scope="col">
+                                                    <select
+                                                        onchange="changeValueAfp({{ $index }}, 10, this.value)"
+                                                        class="form-control">
+                                                        <option value="" selected>SI APORTA</option>
+                                                        <option value="L">LICENCIA SIN GOCE DE HABER</option>
+                                                        <option value="U">SUBSIDIO POR ESSALUD</option>
+                                                        <option value="J">AFILIADO PENSIONADO POR JUBILACIÓN
+                                                        </option>
+                                                        <option value="I">AFILIADO PENSIONADO POR INVALIDEZ
+                                                        </option>
+                                                        <option value="P">APORTE POSTERGADO POR INICIO DE RL
+                                                        </option>
+                                                        <option value="O">OTRO MOTIVO</option>
+                                                    </select>
+                                                </td>
+                                                <td scope="col">
+                                                    <input type="number"
+                                                        value="{{ number_format($item['afp_atributes'][11], 2, '.', '') }}"
+                                                        step="0.01" class="form-control"
+                                                        onchange="changeValueAfp({{ $index }}, 11, this.value)">
+                                                </td>
+                                                <td scope="col">
+                                                    <input type="number" value="0" class="form-control"
+                                                        onchange="changeValueAfp({{ $index }}, 12, this.value)">
+                                                </td>
+                                                <td scope="col">
+                                                    <input type="number" value="0" class="form-control"
+                                                        onchange="changeValueAfp({{ $index }}, 13, this.value)">
+                                                </td>
+                                                <td scope="col">
+                                                    <input type="number" value="0" class="form-control"
+                                                        onchange="changeValueAfp({{ $index }}, 14, this.value)">
+                                                </td>
+                                                <td scope="col">
+                                                    <select
+                                                        onchange="changeValueAfp({{ $index }}, 15, this.value)"
+                                                        class="form-control">
+                                                        <option value="N" selected>DEPENDIENTE NORMAL</option>
+                                                        <option value="C">DEPENDIENTE CONSTRUCCIÓN</option>
+                                                        <option value="M">DEPENDIENTE MINERÍA</option>
+                                                        <option value="P">PESQUERO</option>
+                                                    </select>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            @else
+                                <div class="text-center rounded-sm shadow-sm m-1 p-2">
+                                    NINGÚN REGISTRO AFP ENCONTRADO
+                                </div>
+                            @endif
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">CERRAR</button>
-                        <button type="submit" class="btn btn-primary" wire:loading.attr='disabled' >EXPORTAR</button>
+                        <button type="submit" class="btn btn-primary" wire:loading.attr='disabled'>EXPORTAR</button>
                     </div>
                 </form>
             </div>
