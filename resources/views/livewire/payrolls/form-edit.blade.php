@@ -302,7 +302,7 @@
                         </div>
                         <div class="table-responsive text-nowrap" wire:loading.class='d-none'
                             wire:target="prepare_afp_net">
-                            @if (count($afp_net_list) > 1)
+                            @if (count($afp_net_list) > 0)
                                 <table class="table table-sm">
                                     <thead class="thead-dark">
                                         <tr>
