@@ -152,11 +152,6 @@ class FormEdit extends Component
         }
     }
 
-    private function has_employees()
-    {
-        return (count($this->payments_list) >= 1);
-    }
-
     public $afp_net_list = [];
     public $type_id_afp = [
         0 => "D.N.I.",
@@ -251,17 +246,11 @@ class FormEdit extends Component
 
     public function mcpp()
     {
-        if (!$this->has_employees()) {
-            return;
-        }
         return redirect()->route('payrolls.mcpp', Period::find($this->selected_period));
     }
 
     public function calculate()
     {
-        if (!$this->has_employees()) {
-            return;
-        }
         if($this->payment_service->calculate($this->selected_period)){
             $this->payments_list = Payment::where('period_id', $this->selected_period)->get();
             $this->dispatch('message', code: '200', content: 'Se realizaron los calculos');
