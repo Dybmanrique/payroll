@@ -288,9 +288,11 @@
                             <table class="details-table">
                                 <tr>
                                     <td class="text-bold">EMPLEADO</td>
-                                    <td>: {{ $payment->contract->employee->name }}
+                                    <td>:
                                         {{ $payment->contract->employee->last_name }}
-                                        {{ $payment->contract->employee->second_last_name }}</td>
+                                        {{ $payment->contract->employee->second_last_name }}
+                                        {{ $payment->contract->employee->name }}
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td class="text-bold">IDENTIFICACIÓN</td>

@@ -228,9 +228,11 @@
                         <table class="details-table">
                             <tr>
                                 <td class="text-bold">EMPLEADO</td>
-                                <td>: {{ $payment->contract->employee->name }}
+                                <td>:
                                     {{ $payment->contract->employee->last_name }}
-                                    {{ $payment->contract->employee->second_last_name }}</td>
+                                    {{ $payment->contract->employee->second_last_name }}
+                                    {{ $payment->contract->employee->name }}
+                                </td>
                             </tr>
                             <tr>
                                 <td class="text-bold">IDENTIFICACIÓN</td>
@@ -282,7 +284,8 @@
                             @endif
                             <tr>
                                 <td class="text-bold">TOTAL</td>
-                                <td class="text-right text-bold">{{ number_format($payment->total_remuneration, 2) }}</td>
+                                <td class="text-right text-bold">{{ number_format($payment->total_remuneration, 2) }}
+                                </td>
                             </tr>
                         </table>
                     </td>
@@ -334,7 +337,8 @@
                             </tr>
                             <tr>
                                 <td class="text-bold">TOTAL</td>
-                                <td class="text-right text-bold">{{ number_format($payment->total_contribution, 2) }}</td>
+                                <td class="text-right text-bold">{{ number_format($payment->total_contribution, 2) }}
+                                </td>
                             </tr>
                         </table>
                     </td>
