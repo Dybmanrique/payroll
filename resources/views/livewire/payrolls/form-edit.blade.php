@@ -5,7 +5,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="modalPeriodLabel">AGREGAR PERIODO</h5>
+                    <h5 class="modal-title font-weight-bold" id="modalPeriodLabel">AGREGAR PERIODO</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -35,7 +35,7 @@
         <div class="modal-dialog modal-xl" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="modalEmployeeLabel">AGREGAR EMPLEADO</h5>
+                    <h5 class="modal-title font-weight-bold" id="modalEmployeeLabel">AGREGAR EMPLEADO</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -156,7 +156,7 @@
             <div class="modal-content">
 
                 <div class="modal-header">
-                    <h5 class="modal-title" id="modalGroupLabel">AGREGAR POR GRUPO</h5>
+                    <h5 class="modal-title font-weight-bold" id="modalGroupLabel">AGREGAR POR GRUPO</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -283,7 +283,7 @@
             <div class="modal-content">
                 <form wire:submit='exportAfpNet()'>
                     <div class="modal-header">
-                        <h5 class="modal-title" id="modalAfpNetLabel">EXPORTAR AFP NET</h5>
+                        <h5 class="modal-title font-weight-bold" id="modalAfpNetLabel">EXPORTAR AFP NET</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -431,7 +431,7 @@
                                     </tbody>
                                 </table>
                             @else
-                                <div class="text-center rounded-sm shadow-sm m-1 p-2">
+                                <div class="font-weight-bold text-center rounded-sm border shadow-sm m-1 p-2">
                                     NINGÚN REGISTRO AFP ENCONTRADO
                                 </div>
                             @endif
