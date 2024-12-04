@@ -42,15 +42,9 @@ class PayrollController extends Controller
     {
         try {
             Payroll::find($request->id)->delete();
-            return response()->json([
-                'message' => 'Eliminado correctamente',
-                'code' => '200'
-            ]);
+            return response()->json(['message' => 'Eliminado correctamente', 'code' => '200']);
         } catch (\Exception $ex) {
-            return response()->json([
-                'message' => 'No se puede eliminar, recuerde que tiene que eliminar todos los periodos asociados para poder eliminar una planilla.',
-                'code' => '500'
-            ]);
+            return response()->json([ 'message' => 'No se puede eliminar, recuerde que tiene que eliminar todos los periodos asociados para poder eliminar una planilla.', 'code' => '500']);
         }
     }
 
@@ -91,7 +85,7 @@ class PayrollController extends Controller
     {
         $periods = config('periods_spanish');
         $results = $this->report_service->generateArraySummaryReport($period);
-        $pdf = Pdf::loadView('admin.reports-templates.summary-report', ['period' => $period, 'periods' => $periods, 'results' => $results])->setPaper('a4','landscape');
+        $pdf = Pdf::loadView('admin.reports-templates.summary-report', ['period' => $period, 'periods' => $periods, 'results' => $results])->setPaper('a4', 'landscape');
         return $pdf->stream();
     }
 }
