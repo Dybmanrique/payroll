@@ -30,15 +30,9 @@ class EmployeeController extends Controller
     {
         try {
             Employee::find($request->id)->delete();
-            return response()->json([
-                'message' => 'Eliminado correctamente',
-                'code' => '200'
-            ]);
+            return response()->json(['message' => 'Eliminado correctamente', 'code' => '200']);
         } catch (\Exception $ex) {
-            return response()->json([
-                'message' => 'No se puede eliminar',
-                'code' => '500'
-            ]);
+            return response()->json(['message' => 'No se puede eliminar', 'code' => '500']);
         }
     }
 }
