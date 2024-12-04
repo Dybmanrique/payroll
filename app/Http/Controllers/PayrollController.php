@@ -2,22 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\BudgetaryObjective;
-use App\Models\Employee;
 use App\Models\Payment;
 use App\Models\Payroll;
 use App\Models\Period;
 use App\Services\Payroll\McppService;
+use App\Services\Payroll\ReportService;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
-use Illuminate\Support\Facades\DB;
 
 class PayrollController extends Controller
 {
     private $mcpp_service;
+    private $report_service;
     public function __construct()
     {
         $this->mcpp_service = new McppService;
+        $this->report_service = new ReportService;
     }
     public function index()
     {
@@ -77,42 +77,7 @@ class PayrollController extends Controller
     public function general_report(Period $period)
     {
         $periods = config('periods_spanish');
-
-        $payments = $period->payments()->with('contract')->get();
-
-        $payments_classified = collect($payments)->groupBy('contract.budgetary_objective_id');
-
-        $results = [];
-        foreach ($payments_classified as $budgetary_objective_id => $payments) {
-            $total_basic = 0;
-            $total_refound = 0;
-            $total_discount = 0;
-            $total_remuneration = 0;
-            $total_net_pay = 0;
-            $total_aguinaldo = 0;
-            $total_essalud = 0;
-
-            foreach ($payments as $payment) {
-                $total_basic += $payment->basic;
-                $total_refound += $payment->refound;
-                $total_discount += $payment->total_discount;
-                $total_remuneration += $payment->total_remuneration;
-                $total_net_pay += $payment->net_pay;
-                $total_aguinaldo += $payment->aguinaldo;
-                $total_essalud += $payment->essalud;
-            }
-            $objeto = new \stdClass();
-            $objeto->budgetary_objective = BudgetaryObjective::find($budgetary_objective_id);
-            $objeto->total_basic = $total_basic;
-            $objeto->total_refound = $total_refound;
-            $objeto->total_discount = $total_discount;
-            $objeto->total_remuneration = $total_remuneration;
-            $objeto->total_net_pay = $total_net_pay;
-            $objeto->total_aguinaldo = $total_aguinaldo;
-            $objeto->total_essalud = $total_essalud;
-            array_push($results, $objeto);
-        }
-
+        $results = $this->report_service->generateArrayGeneralReport($period);
         $pdf = Pdf::loadView('admin.reports-templates.general-report', ['period' => $period, 'periods' => $periods, 'results' => $results])->setPaper('a4');
         return $pdf->stream();
     }
@@ -125,20 +90,7 @@ class PayrollController extends Controller
     public function payroll_summary(Period $period)
     {
         $periods = config('periods_spanish');
-
-        $payments = $period->payments()->with('contract')->get();
-
-        $payments_classified = collect($payments)->groupBy('contract.budgetary_objective_id');
-
-        $results = [];
-        foreach ($payments_classified as $budgetary_objective_id => $payments) {
-            
-            $objeto = new \stdClass();
-            $objeto->budgetary_objective = BudgetaryObjective::find($budgetary_objective_id);
-            $objeto->payments = $payments;
-            array_push($results, $objeto);
-        }
-
+        $results = $this->report_service->generateArraySummaryReport($period);
         $pdf = Pdf::loadView('admin.reports-templates.summary-report', ['period' => $period, 'periods' => $periods, 'results' => $results])->setPaper('a4','landscape');
         return $pdf->stream();
     }
