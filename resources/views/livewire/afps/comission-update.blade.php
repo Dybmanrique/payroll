@@ -1,6 +1,68 @@
 <div>
     <!-- Modal -->
-    <div wire:ignore.self class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+    <div wire:ignore.self class="modal fade" id="automaticModal" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">ACTUALIZAR COMISIONES</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div wire:loading.class='d-block' class="d-none" wire:target='getComissions'>
+                        <div class="d-flex justify-content-center align-items-center">
+                            <div class="spinner-border" role="status">
+                              <span class="sr-only">Loading...</span>
+                            </div>
+                            <span class="font-weight-bold ml-2"> CARGANDO...</span>
+                        </div>
+                    </div>
+
+                    <div wire:loading.class='d-none' wire:target='getComissions'>
+                        @if ($comissions_result)
+                            <div class="table-responsive">
+                                <table class="table table-sm">
+                                    <thead class="thead-dark">
+                                        <tr>
+                                            <th scope="col">NOMBRE</th>
+                                            <th scope="col">C. VARIABLE</th>
+                                            <th scope="col">S. DE VIDA</th>
+                                            <th scope="col">A. OBLIGATORIO</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($comissions_result as $afp)
+                                            <tr>
+                                                <th scope="row">{{ $afp['AFP'] ?? 'No datos' }}</th>
+                                                <td>{{ $afp['annual_commission_on_balance'] ?? 'No datos' }}</td>
+                                                <td>{{ $afp['insurance_premium'] ?? 'No datos' }}</td>
+                                                <td>{{ $afp['mandatory_contribution'] ?? 'No datos' }}</td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div>
+                                <form wire:submit='updateComissionsAutomatic'>
+                                    <button wire:target='viewComissions' wire:loading.attr='disabled' type="submit"
+                                        class="btn btn-primary w-100">ACTUALIZAR COMISIONES</button>
+                                </form>
+                            </div>
+                        @else
+                            <div class="text-center">NO SE ENCONTRARON COMISIONES</div>
+                        @endif
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div wire:ignore.self class="modal fade" id="manualModal" tabindex="-1" role="dialog"
         aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-xl" role="document">
 
@@ -42,8 +104,8 @@
                         </div>
                         <div class="col-md-6">
                             <div class="card">
-                                <div class="card-body" wire:target='viewComissions' wire:loading.class="opacity-20" 
-                                style="display: relative; transition-property: opacity; transition-duration: 700ms;">
+                                <div class="card-body" wire:target='viewComissions' wire:loading.class="opacity-20"
+                                    style="display: relative; transition-property: opacity; transition-duration: 700ms;">
                                     @if ($afps_list)
                                         <div class="table-responsive">
                                             <table class="table table-sm">
@@ -60,7 +122,7 @@
                                                         <tr>
                                                             <th scope="row">{{ $afp[0] ?? 'No datos' }}</th>
                                                             <td>{{ $afp[2] ?? 'No datos' }}</td>
-                                                            <td>{{ $afp[3] ?? 'No datos'  }}</td>
+                                                            <td>{{ $afp[3] ?? 'No datos' }}</td>
                                                             <td>{{ $afp[4] ?? 'No datos' }}</td>
                                                         </tr>
                                                     @endforeach
@@ -69,7 +131,9 @@
                                         </div>
                                         <div>
                                             <form wire:submit='updateComissions'>
-                                                <button wire:target='viewComissions' wire:loading.attr='disabled' type="submit" class="btn btn-primary w-100">ACTUALIZAR COMISIONES</button>
+                                                <button wire:target='viewComissions' wire:loading.attr='disabled'
+                                                    type="submit" class="btn btn-primary w-100">ACTUALIZAR
+                                                    COMISIONES</button>
                                             </form>
                                         </div>
                                     @else
@@ -86,7 +150,10 @@
     </div>
 
     <button type="button" class="btn btn-success text-uppercase font-weight-bold" data-toggle="modal"
-        data-target="#exampleModal">Actualizar comisiones</button>
+        data-target="#automaticModal" wire:click='getComissions'>Actualizar automáticamente</button>
+
+    <button type="button" class="btn btn-info text-uppercase font-weight-bold" data-toggle="modal"
+        data-target="#manualModal">Actualizar manualmente</button>
 </div>
 @push('js')
     <script>

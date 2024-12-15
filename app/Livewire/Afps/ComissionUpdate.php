@@ -3,6 +3,7 @@
 namespace App\Livewire\Afps;
 
 use App\Models\Afp;
+use Illuminate\Support\Facades\Http;
 use Livewire\Component;
 use Symfony\Component\DomCrawler\Crawler;
 
@@ -11,6 +12,7 @@ class ComissionUpdate extends Component
     public $source_code;
     public $afps_list = [];
 
+    //MANUAL SECTION
     public function viewComissions()
     {
         $this->validate([
@@ -32,7 +34,7 @@ class ComissionUpdate extends Component
              * 0=NAME, 1=COMISIÓN FLUJO, 2=COMISIÓN ANUAL, 3=PRIMA DE SEGUROS, 4=APORTE OBLIGATORIO. 5=REMUNERACIÓN MÁX ASEGURABLE
              */
             foreach ($this->afps_list as $key => $value) {
-                if($value[0] !== 'HABITAT' && $value[0] !== 'INTEGRA' && $value[0] !== 'PRIMA' && $value[0] !== 'PROFUTURO'){
+                if ($value[0] !== 'HABITAT' && $value[0] !== 'INTEGRA' && $value[0] !== 'PRIMA' && $value[0] !== 'PROFUTURO') {
                     unset($this->afps_list[$key]);
                 }
             }
@@ -76,6 +78,48 @@ class ComissionUpdate extends Component
             $this->dispatch('message', code: '500', content: 'Algo salió mal');
         }
     }
+    //MANUAL SECTION
+
+    //AUTOMATIC SECTION
+    public $comissions_result;
+
+    public function getComissions()
+    {
+        try {
+            $response = Http::get('https://magicloops.dev/api/loop/0e952f65-ed6b-4648-a612-cc75bbc9c6a6/run');
+
+            if ($response->successful()) {
+                $this->comissions_result = $response->json()['commissions'];
+            } else {
+                $this->comissions_result = [];
+            }
+        } catch (\Exception $th) {
+            $this->dispatch('message', code: '500', content: 'Algo salió mal');
+        }
+    }
+
+    public function updateComissionsAutomatic()
+    {
+        try {
+            foreach ($this->comissions_result as $key => $value) {
+                $afp = Afp::where('name', $value['AFP'])->first();
+                if ($afp) {
+                    $afp->update([
+                        'obligatory_contribution' => $this->formatPercentage($value['mandatory_contribution']),
+                        'life_insurance' => $this->formatPercentage($value['insurance_premium']),
+                        'variable_commission' => $this->formatPercentage($value['annual_commission_on_balance']),
+                    ]);
+                }
+            }
+
+            $this->dispatch('message', code: '200', content: 'Se actualizaron las comisiones');
+            $this->dispatch('refresh_afps');
+        } catch (\Exception $th) {
+            $this->dispatch('message', code: '500', content: 'Algo salió mal');
+        }
+    }
+
+    //AUTOMATIC SECTION
 
     public function render()
     {
