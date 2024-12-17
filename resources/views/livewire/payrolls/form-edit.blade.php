@@ -446,6 +446,101 @@
         </div>
     </div>
 
+    <!-- Modal AFP NET -->
+    <div wire:ignore.self class="modal fade" id="modalJor" tabindex="-1" role="dialog"
+        aria-labelledby="modalJorLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <form wire:submit='exportJor()'>
+                    <div class="modal-header">
+                        <h5 class="modal-title font-weight-bold" id="modalJorLabel">EXPORTAR DATOS DE JORNADA LABORAL</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="card d-none opacity-low" wire:loading.class='d-block opacity-full'
+                            wire:target="prepare_afp_net">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-center justify-items-center">
+                                    <div class="spinner-border" role="status">
+                                        <span class="sr-only">Loading...</span>
+                                    </div>
+                                    <span class="text-md ml-2 font-weight-bold">CARGANDO...</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-nowrap" wire:loading.class='d-none'
+                            wire:target="prepare_afp_net">
+                            @if (count($jor_list) > 0)
+                                <div class="form-group">
+                                    <label for="formulario_code">Código de formulario:</label>
+                                    <input type="text" class="form-control" wire:model='formulario_code' id="formulario_code" required>
+                                </div>
+                                <div class="table-responsive">
+
+                                    <table class="table table-sm">
+                                        <thead class="thead-dark">
+                                            <tr>
+                                                <th scope="col" class="align-middle" class="align-middle">ACCIONES</th>
+                                                <th scope="col" class="align-middle" class="align-middle">N°</th>
+                                                <th scope="col" class="align-middle" class="align-middle">IDENTIFICACIÓN</th>
+                                                <th scope="col" class="align-middle" class="align-middle">EMPLEADO</th>
+                                                <th scope="col" class="align-middle" class="align-middle">HORAS ORDINARIAS</th>
+                                                <th scope="col" class="align-middle" class="align-middle">MINUTOS ORDINARIOS</th>
+                                                <th scope="col" class="align-middle" class="align-middle">HORAS SOBRETIEMPO</th>
+                                                <th scope="col" class="align-middle" class="align-middle">MINUTOS SOBRETIEMPO</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($jor_list as $index => $item)
+                                                <tr>
+                                                    <th scope="row">
+                                                        <a href="{{ route('employees.edit', $item['employee']) }}#contratos"
+                                                            target="_blank" class="btn btn-sm btn-outline-primary">
+                                                            <i class="fas fa-eye"></i> VER CONTRATOS
+                                                        </a>
+                                                    </th>
+                                                    <th scope="row">{{ $index + 1 }}</th>
+                                                    <td scope="col">{{ $item['employee']->identity_type->name }} {{ $item['jor_atributes'][1] }}</td>
+                                                    <td scope="col">{{ $item['employee']->last_name }} {{ $item['employee']->second_last_name }} {{ $item['employee']->name }}</td>
+                                                    <td scope="col">
+                                                        <input type="number" value="{{ $item['jor_atributes'][2] }}" class="form-control"
+                                                            onchange="changeValueJor({{ $index }}, 2, this.value)">
+                                                    </td>
+                                                    <td scope="col">
+                                                        <input type="number" value="0" class="form-control"
+                                                            onchange="changeValueJor({{ $index }}, 3, this.value)">
+                                                    </td>
+                                                    <td scope="col">
+                                                        <input type="number" value="0" class="form-control"
+                                                            onchange="changeValueJor({{ $index }}, 4, this.value)">
+                                                    </td>
+                                                    <td scope="col">
+                                                        <input type="number" value="0" class="form-control"
+                                                            onchange="changeValueJor({{ $index }}, 5, this.value)">
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            @else
+                                <div class="font-weight-bold text-center rounded-sm border shadow-sm m-1 p-2">
+                                    NINGÚN REGISTRO AFP ENCONTRADO
+                                </div>
+                            @endif
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">CERRAR</button>
+                        <button type="submit" class="btn btn-primary" wire:loading.attr='disabled'>EXPORTAR</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <div class="card">
         <form wire:submit='save'>
             <div class="card-header">
@@ -720,6 +815,13 @@
                                             <i class="fas fa-file-pdf"></i> AFP NET
                                         </button>
                                     </div>
+                                    <div class="col-md-3">
+                                        <button type="button" data-toggle="modal" data-target="#modalJor"
+                                            class="mt-1 font-weight-bold btn btn-secondary w-100"
+                                            wire:click='prepare_jor'>
+                                            <i class="fas fa-file-pdf"></i> JOR
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -801,6 +903,13 @@
                 value = null;
             }
             @this.changeValueAfp(index, row, value);
+        }
+
+        function changeValueJor(index, row, value) {
+            if (value === "") {
+                value = null;
+            }
+            @this.changeValueJor(index, row, value);
         }
 
         function calculate() {

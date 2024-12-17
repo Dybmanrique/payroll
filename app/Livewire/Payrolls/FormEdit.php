@@ -12,6 +12,7 @@ use App\Models\PayrollType;
 use App\Models\Period;
 use App\Models\Setting;
 use App\Services\Payroll\AfpNetService;
+use App\Services\Payroll\JorService;
 use App\Services\Payroll\PaymentService;
 use Carbon\Carbon;
 use Livewire\Component;
@@ -174,6 +175,50 @@ class FormEdit extends Component
         }
     }
 
+    public $jor_list = [];
+    public $formulario_code;
+    protected $type_id_jor = [
+        "01" => "D.N.I.",
+        "02" => "C.E.",
+        "00" => "Carnet Militar y Policial",
+        "00" => "Libreta Adolecentes Trabajador",
+        "07" => "Pasaporte",
+        "00" => "Inexistente/Afilia",
+        "23" => "P.T.P.",
+        "00" => "Carné de Relaciones Exteriores",
+        "24" => "Cedula Identidad de Extranjero",
+        "09" => "Carné Solicitante de Refugio",
+        "26" => "C.P.P",
+    ];
+
+    public function prepare_jor()
+    {
+        $this->jor_list = $this->jor_service->generateJorArray($this->selected_period);
+    }
+
+    public function changeValueJor($index, $row, $value)
+    {
+        $this->jor_list[$index]['jor_atributes'][$row] = $value;
+    }
+
+    public function exportJor()
+    {
+        try {
+            $period = Period::find($this->selected_period);
+            $ruc = Setting::where('key', 'ruc')->value('value');
+            $fileName = "{$this->formulario_code}{$period->payroll->year}{$period->mount}{$ruc}.jor";
+
+            return response()->streamDownload(function () {
+                $data = array_map(fn($item) => $item['jor_atributes'], $this->jor_list);
+                foreach ($data as $row) {
+                    echo implode('|', $row) . "\n";
+                }
+            }, $fileName, ['Content-Type' => 'text/plain']);
+        } catch (\Exception $th) {
+            $this->dispatch('message', code: '500', content: 'Algo salió mal');
+        }
+    }
+
     public function save()
     {
         $this->validate([
@@ -229,10 +274,12 @@ class FormEdit extends Component
 
     protected $payment_service;
     protected $afp_net_service;
+    protected $jor_service;
     public function __construct()
     {
         $this->payment_service = new PaymentService;
         $this->afp_net_service = new AfpNetService;
+        $this->jor_service = new JorService;
     }
 
     public function render()
