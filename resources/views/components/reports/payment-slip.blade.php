@@ -118,7 +118,7 @@
                         @if ($payment->cuarta)
                             <tr>
                                 <td>Desc. 4ta Categoría: </td>
-                                <td class="text-right">{{ number_format($payment->cuarta) }}</td>
+                                <td class="text-right">{{ number_format($payment->cuarta, 2) }}</td>
                             </tr>
                         @endif
                         @if ($payment->fines_discount)
