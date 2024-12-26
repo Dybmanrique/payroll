@@ -21,7 +21,7 @@
                                     <span class="input-group-text">%</span>
                                 </div>
                                 <input type="number" id="obligatory_contribution" wire:model='obligatory_contribution'
-                                    class="form-control" placeholder="Aportación obligatoria" min="1"
+                                    class="form-control" placeholder="Aportación obligatoria" min="0"
                                     max="100" step="0.01" required>
                             </div>
                             @error('obligatory_contribution')
@@ -37,7 +37,7 @@
                                     <span class="input-group-text">%</span>
                                 </div>
                                 <input type="number" id="life_insurance" wire:model='life_insurance'
-                                    class="form-control" placeholder="Aportación obligatoria" min="1"
+                                    class="form-control" placeholder="Aportación obligatoria" min="0"
                                     max="100" step="0.01" required>
                             </div>
                             @error('life_insurance')
@@ -53,7 +53,7 @@
                                     <span class="input-group-text">%</span>
                                 </div>
                                 <input type="number" id="variable_commission" wire:model='variable_commission'
-                                    class="form-control" placeholder="Aportación obligatoria" min="1"
+                                    class="form-control" placeholder="Aportación obligatoria" min="0"
                                     max="100" step="0.01" required>
                             </div>
                             @error('variable_commission')

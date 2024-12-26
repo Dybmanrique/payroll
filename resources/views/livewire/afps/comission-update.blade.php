@@ -37,7 +37,7 @@
                                         @foreach ($comissions_result as $afp)
                                             <tr>
                                                 <th scope="row">{{ $afp['AFP'] ?? 'No datos' }}</th>
-                                                <td>{{ $afp['annual_commission_on_balance'] ?? 'No datos' }}</td>
+                                                <td>{{ $afp['commission_on_flow'] ?? 'No datos' }}</td>
                                                 <td>{{ $afp['insurance_premium'] ?? 'No datos' }}</td>
                                                 <td>{{ $afp['mandatory_contribution'] ?? 'No datos' }}</td>
                                             </tr>
@@ -121,7 +121,7 @@
                                                     @foreach ($afps_list as $afp)
                                                         <tr>
                                                             <th scope="row">{{ $afp[0] ?? 'No datos' }}</th>
-                                                            <td>{{ $afp[2] ?? 'No datos' }}</td>
+                                                            <td>{{ $afp[1] ?? 'No datos' }}</td>
                                                             <td>{{ $afp[3] ?? 'No datos' }}</td>
                                                             <td>{{ $afp[4] ?? 'No datos' }}</td>
                                                         </tr>

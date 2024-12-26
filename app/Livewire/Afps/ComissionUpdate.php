@@ -66,7 +66,7 @@ class ComissionUpdate extends Component
                     $afp->update([
                         'obligatory_contribution' => $this->formatPercentage($value[4]),
                         'life_insurance' => $this->formatPercentage($value[3]),
-                        'variable_commission' => $this->formatPercentage($value[2]),
+                        'variable_commission' => $this->formatPercentage($value[1]),
                     ]);
                 }
             }
@@ -107,7 +107,7 @@ class ComissionUpdate extends Component
                     $afp->update([
                         'obligatory_contribution' => $this->formatPercentage($value['mandatory_contribution']),
                         'life_insurance' => $this->formatPercentage($value['insurance_premium']),
-                        'variable_commission' => $this->formatPercentage($value['annual_commission_on_balance']),
+                        'variable_commission' => $this->formatPercentage($value['commission_on_flow']),
                     ]);
                 }
             }
