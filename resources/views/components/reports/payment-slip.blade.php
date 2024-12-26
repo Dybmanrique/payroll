@@ -124,7 +124,7 @@
                         @if ($payment->fines_discount)
                             <tr>
                                 <td>Multas: </td>
-                                <td class="text-right">{{ number_format($payment->fines_discount) }}</td>
+                                <td class="text-right">{{ number_format($payment->fines_discount, 2) }}</td>
                             </tr>
                         @endif
                         @if ($payment->judicial)
