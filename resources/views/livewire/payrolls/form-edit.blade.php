@@ -822,6 +822,13 @@
                                             <i class="fas fa-file-pdf"></i> JOR
                                         </button>
                                     </div>
+                                    <div class="col-md-3">
+                                        <button type="button"
+                                            class="mt-1 font-weight-bold btn btn-secondary w-100"
+                                            wire:click='export_rem()'>
+                                            <i class="fas fa-file-pdf"></i> REM
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>

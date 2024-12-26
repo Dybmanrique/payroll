@@ -177,19 +177,7 @@ class FormEdit extends Component
 
     public $jor_list = [];
     public $formulario_code;
-    protected $type_id_jor = [
-        "01" => "D.N.I.",
-        "02" => "C.E.",
-        "00" => "Carnet Militar y Policial",
-        "00" => "Libreta Adolecentes Trabajador",
-        "07" => "Pasaporte",
-        "00" => "Inexistente/Afilia",
-        "23" => "P.T.P.",
-        "00" => "Carné de Relaciones Exteriores",
-        "24" => "Cedula Identidad de Extranjero",
-        "09" => "Carné Solicitante de Refugio",
-        "26" => "C.P.P",
-    ];
+    protected $type_id_jor;
 
     public function prepare_jor()
     {
@@ -217,6 +205,11 @@ class FormEdit extends Component
         } catch (\Exception $th) {
             $this->dispatch('message', code: '500', content: 'Algo salió mal');
         }
+    }
+
+    public function export_rem()
+    {
+        return redirect()->route('payrolls.rem', Period::find($this->selected_period));
     }
 
     public function save()
@@ -260,6 +253,7 @@ class FormEdit extends Component
     public function mount()
     {
         $this->type_id_afp = $this->afp_net_service->getTypesId();
+        $this->type_id_jor = $this->jor_service->getTypesId();
         $this->payroll_types = PayrollType::all();
         $this->funding_resources = FundingResource::all();
         $this->employees = Employee::all();

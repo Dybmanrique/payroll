@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Payment;
 use App\Models\Payroll;
 use App\Models\Period;
+use App\Services\Payroll\JorService;
 use App\Services\Payroll\McppService;
 use App\Services\Payroll\ReportService;
+use App\Services\Payroll\RemService;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
 
@@ -14,10 +16,14 @@ class PayrollController extends Controller
 {
     private $mcpp_service;
     private $report_service;
+    private $jor_service;
+    private $rem_service;
     public function __construct()
     {
         $this->mcpp_service = new McppService;
         $this->report_service = new ReportService;
+        $this->jor_service = new JorService;
+        $this->rem_service = new RemService;
     }
     public function index()
     {
@@ -87,5 +93,13 @@ class PayrollController extends Controller
         $results = $this->report_service->generateArraySummaryReport($period);
         $pdf = Pdf::loadView('admin.reports-templates.summary-report', ['period' => $period, 'periods' => $periods, 'results' => $results])->setPaper('a4', 'landscape');
         return $pdf->stream();
+    }
+
+    public function rem(Period $period)
+    {
+        $result = $this->rem_service->generateTemplateRem($period);
+        return response($result['content'])
+            ->header('Content-Type', 'text/plain')
+            ->header('Content-Disposition', 'attachment; filename="' . $result['name'] . '"');
     }
 }
