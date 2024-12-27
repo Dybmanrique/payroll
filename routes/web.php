@@ -23,8 +23,8 @@ Route::get('/ejemplo-de-planilla', function () {
     return $pdf->stream();
 });
 
-Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
-Route::get('/dashboard/estadisticas-pagos', [DashboardController::class, 'get_statistics_payments'])->middleware(['auth', 'verified'])->name('get_statistics_payments');
+Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard.index');
+Route::get('/dashboard/estadisticas-pagos', [DashboardController::class, 'get_statistics_payments'])->middleware(['auth', 'verified'])->name('dashboard.get_statistics_payments');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
