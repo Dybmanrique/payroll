@@ -19,7 +19,8 @@
                 <div class="icon">
                     <i class="fas fa-users"></i>
                 </div>
-                <a href="{{ route('groups.index') }}" class="small-box-footer">Ir a grupos <i class="fas fa-arrow-circle-right"></i></a>
+                <a href="{{ route('groups.index') }}" class="small-box-footer">Ir a grupos <i
+                        class="fas fa-arrow-circle-right"></i></a>
             </div>
         </div>
         <!-- ./col -->
@@ -49,7 +50,8 @@
                 <div class="icon">
                     <i class="fas fa-user-tie"></i>
                 </div>
-                <a href="{{ route('employees.index') }}" class="small-box-footer">Ir a empleados <i class="fas fa-arrow-circle-right"></i></a>
+                <a href="{{ route('employees.index') }}" class="small-box-footer">Ir a empleados <i
+                        class="fas fa-arrow-circle-right"></i></a>
             </div>
         </div>
         <!-- ./col -->
@@ -64,15 +66,15 @@
                 <div class="icon">
                     <i class="fas fa-folder"></i>
                 </div>
-                <a href="{{ route('payrolls.index') }}" class="small-box-footer">Ir a planillas <i class="fas fa-arrow-circle-right"></i></a>
+                <a href="{{ route('payrolls.index') }}" class="small-box-footer">Ir a planillas <i
+                        class="fas fa-arrow-circle-right"></i></a>
             </div>
         </div>
         <!-- ./col -->
     </div>
     <div class="card">
         <div class="card-body">
-            <canvas style="max-height: 400px; width: 100%;" id="myChart"></canvas>
-
+            <canvas id="myChart" style="height: 50vh;"></canvas>
         </div>
     </div>
 @stop
@@ -136,16 +138,25 @@
                     data: dataChart,
                     options: {
                         responsive: true,
+                        maintainAspectRatio: false, // Opcional: Si quieres controlar mejor la relación de aspecto
                         plugins: {
                             legend: {
-                                position: 'top',
-                            },
-                            title: {
                                 display: true,
-                                text: 'GRÁFICO DE PLANILLAS'
+                                position: 'top'
+                            },
+                            tooltip: {
+                                enabled: true
+                            }
+                        },
+                        scales: {
+                            x: {
+                                beginAtZero: true
+                            },
+                            y: {
+                                beginAtZero: true
                             }
                         }
-                    },
+                    }
                 };
                 new Chart(ctx, config);
             })
