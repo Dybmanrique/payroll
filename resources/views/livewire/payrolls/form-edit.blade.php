@@ -473,10 +473,6 @@
                         <div class="text-nowrap" wire:loading.class='d-none'
                             wire:target="prepare_afp_net">
                             @if (count($jor_list) > 0)
-                                <div class="form-group">
-                                    <label for="formulario_code">Código de formulario:</label>
-                                    <input type="text" class="form-control" wire:model='formulario_code' id="formulario_code" required>
-                                </div>
                                 <div class="table-responsive">
 
                                     <table class="table table-sm">

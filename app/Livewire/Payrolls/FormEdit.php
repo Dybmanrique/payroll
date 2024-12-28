@@ -176,7 +176,6 @@ class FormEdit extends Component
     }
 
     public $jor_list = [];
-    public $formulario_code;
     protected $type_id_jor;
 
     public function prepare_jor()
@@ -194,7 +193,8 @@ class FormEdit extends Component
         try {
             $period = Period::find($this->selected_period);
             $ruc = Setting::where('key', 'ruc')->value('value');
-            $fileName = "{$this->formulario_code}{$period->payroll->year}{$period->mount}{$ruc}.jor";
+            $formulario_code = '0601';
+            $fileName = "{$formulario_code}{$period->payroll->year}{$period->mount}{$ruc}.jor";
 
             return response()->streamDownload(function () {
                 $data = array_map(fn($item) => $item['jor_atributes'], $this->jor_list);
