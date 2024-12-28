@@ -146,6 +146,10 @@
                             },
                             tooltip: {
                                 enabled: true
+                            },
+                            title: {
+                                display: true,
+                                text: 'GRÁFICO DE PLANILLAS'
                             }
                         },
                         scales: {
