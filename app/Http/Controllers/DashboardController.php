@@ -26,7 +26,7 @@ class DashboardController extends Controller
     public function get_statistics_payments()
     {
         // Fecha de inicio (hace 12 meses)
-        $start_date = Carbon::now()->subMonths(12)->startOfMonth();
+        $start_date = Carbon::now()->subMonths(8)->startOfMonth();
 
         $payments = Payment::selectRaw(
             'YEAR(created_at) as year, 

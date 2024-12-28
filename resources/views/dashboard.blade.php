@@ -73,7 +73,7 @@
         <!-- ./col -->
     </div>
     <div class="card">
-        <div class="card-body">
+        <div class="card-body overflow-auto">
             <canvas id="myChart" style="height: 50vh;"></canvas>
         </div>
     </div>
