@@ -24,13 +24,13 @@ class McppService
 
             $executing_unit = "001479";
             $year_process = $period->payroll->year;
-            $mounth_process = $period->mounth;
+            $mounth_process = sprintf('%02d', $period->mounth);
             $payroll_type = PAYROLL_TYPE_ACTIVO;
             $payroll_class = PAYROLL_CLASS_CAS;
             $correlative = $period->payroll->number;
             $extension = ".txt";
 
-            $name = "PLL{$executing_unit}{$period->payroll->year}{$period->mounth}{$payroll_type}{$payroll_class}{$correlative}{$extension}";
+            $name = "PLL{$executing_unit}{$period->payroll->year}{$mounth_process}{$payroll_type}{$payroll_class}{$correlative}{$extension}";
 
             $total_income = 0;
             $total_discounts = 0;

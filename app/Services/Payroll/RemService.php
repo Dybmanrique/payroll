@@ -39,7 +39,7 @@ class RemService
 
             $formulario_code = "0601";
             $year_process = $period->payroll->year;
-            $mounth_process = $period->mounth;
+            $mounth_process = sprintf('%02d', $period->mounth);
             $ruc = Setting::where('key', 'ruc')->value('value');
             $extension = ".rem";
 

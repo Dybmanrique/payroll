@@ -194,7 +194,8 @@ class FormEdit extends Component
             $period = Period::find($this->selected_period);
             $ruc = Setting::where('key', 'ruc')->value('value');
             $formulario_code = '0601';
-            $fileName = "{$formulario_code}{$period->payroll->year}{$period->mount}{$ruc}.jor";
+            $mounth = sprintf('%02d', $period->mounth);
+            $fileName = "{$formulario_code}{$period->payroll->year}{$mounth}{$ruc}.jor";
 
             return response()->streamDownload(function () {
                 $data = array_map(fn($item) => $item['jor_atributes'], $this->jor_list);
