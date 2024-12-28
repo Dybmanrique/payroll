@@ -10,10 +10,15 @@
     <div class="card">
 
         <div class="card-header">
-            <div class="d-flex flex-row justify-content-between">
-                <a href="{{ route('afps.create') }}" class="btn btn-primary text-uppercase font-weight-bold">Registrar
-                    nuevo</a>
-                @livewire('afps.comission-update')
+            <div class="row">
+                <div class="col-md-3 pb-1">
+                    <a href="{{ route('afps.create') }}" class="d-flex justify-content-center align-items-center w-100 h-100 btn btn-primary text-uppercase font-weight-bold">Registrar
+                        nuevo</a>
+                </div>
+                <div class="col-md-2"></div>
+                <div class="col-md-7">
+                    @livewire('afps.comission-update')
+                </div>
             </div>
         </div>
 

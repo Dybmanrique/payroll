@@ -149,11 +149,17 @@
         </div>
     </div>
 
-    <button type="button" class="btn btn-success text-uppercase font-weight-bold" data-toggle="modal"
-        data-target="#automaticModal" wire:click='getComissions'>Actualizar automáticamente</button>
+    <div class="row">
+        <div class="col-md-6 pb-1">
+            <button type="button" class="w-100 h-100 btn btn-success text-uppercase font-weight-bold" data-toggle="modal"
+                data-target="#automaticModal" wire:click='getComissions'>Actualizar automáticamente</button>
+        </div>
+        <div class="col-md-6 pb-1">
+            <button type="button" class="w-100 h-100 btn btn-info text-uppercase font-weight-bold" data-toggle="modal"
+                data-target="#manualModal">Actualizar manualmente</button>
+        </div>
+    </div>
 
-    <button type="button" class="btn btn-info text-uppercase font-weight-bold" data-toggle="modal"
-        data-target="#manualModal">Actualizar manualmente</button>
 </div>
 @push('js')
     <script>

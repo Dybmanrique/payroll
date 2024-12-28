@@ -98,7 +98,7 @@
                         }
                         return (
                             `
-                            <div class="d-flex flex-row justify-content-end">
+                            <div class="d-flex flex-row justify-content-end text-nowrap">
                                 <a tabindex="0" class="btn btn-sm btn-success mr-2 font-weight-bold" role="button" data-toggle="popover" data-trigger="focus" data-html="true" 
                                    data-content="
                                    <span class='font-weight-bold'>LISTA DE ASIGNADOS</span>
@@ -142,7 +142,7 @@
                     url: 'https://cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json'
                 },
                 columnDefs: columnDefs,
-                responsive: true
+                responsive: false
             });
 
             $(`#table tbody`).on('click', '.btn-delete', function() {

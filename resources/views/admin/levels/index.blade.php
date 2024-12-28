@@ -67,7 +67,7 @@
                     "data": null,
                     "render": function(data, type, row, meta) {
                         return (
-                            `<div class="d-flex flex-row justify-content-end">
+                            `<div class="d-flex flex-row justify-content-end text-nowrap">
                                 <a class="btn btn-primary btn-sm mr-2 font-weight-bold btn-edit" href="{{ route('levels.edit', ':id') }}"><i class="far fa-edit"></i> EDITAR</a>
                                 <button class="btn btn-sm btn-danger font-weight-bold btn-delete" type="button"><i class=" fas fa-trash"></i> ELIMINAR</button>
                             </div>`.replace(':id', data.id)
