@@ -77,14 +77,17 @@
     </div>
 @stop
 
+@section('footer')
+    <p class="text-center">UGEL - ASUNCIÓN</p>
+@stop
+
 @section('css')
-    {{-- Add here extra stylesheets --}}
-    {{-- <link rel="stylesheet" href="/css/admin_custom.css"> --}}
+
 @stop
 
 @section('js')
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
-    {{-- <script> console.log("Hi, I'm using the Laravel-AdminLTE package!"); </script> --}}
+
     <script>
         fetch('/dashboard/estadisticas-pagos')
             .then(response => {
