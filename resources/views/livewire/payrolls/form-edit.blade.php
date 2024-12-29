@@ -300,7 +300,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="table-responsive text-nowrap" wire:loading.class='d-none'
+                        <div class="table-responsive  text-nowrap" style="max-height: 65vh" wire:loading.class='d-none'
                             wire:target="prepare_afp_net">
                             @if (count($afp_net_list) > 0)
                                 <table class="table table-sm">
@@ -473,7 +473,7 @@
                         </div>
                         <div class="text-nowrap" wire:loading.class='d-none' wire:target="prepare_jor">
                             @if (count($jor_list) > 0)
-                                <div class="table-responsive">
+                                <div class="table-responsive" style="max-height: 65vh">
 
                                     <table class="table table-sm">
                                         <thead class="thead-dark">
