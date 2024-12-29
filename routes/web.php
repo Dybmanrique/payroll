@@ -15,14 +15,6 @@ use App\Http\Controllers\SettingController;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
-Route::get('/ejemplo-de-planilla', function () {
-    $pdf = Pdf::loadView('payroll', [])->setPaper('a4', 'landscape');
-    return $pdf->stream();
-});
-
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard.index');
 Route::get('/dashboard/estadisticas-pagos', [DashboardController::class, 'get_statistics_payments'])->middleware(['auth', 'verified'])->name('dashboard.get_statistics_payments');
 
