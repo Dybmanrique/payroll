@@ -191,7 +191,7 @@ class FormEdit extends Component
     public function exportJor()
     {
         try {
-            $fileName = $this->jor_service->generateFileName(Period::find($this->selected_period));
+            $fileName = $this->jor_service->generateFileName($this->selected_period);
             $content = $this->jor_service->onlyValuesJor($this->jor_list);
 
             return response()->streamDownload(function () use ($content) {

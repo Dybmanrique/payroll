@@ -77,8 +77,9 @@ class JorService
         }
     }
 
-    public function generateFileName(Period $period): string
+    public function generateFileName($period_id): string
     {
+        $period = Period::find($period_id);
         $ruc = Setting::where('key', 'ruc')->value('value');
         $formulario_code = '0601';
         $mounth = sprintf('%02d', $period->mounth);
