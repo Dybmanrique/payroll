@@ -3,6 +3,7 @@
 namespace App\Services\Payroll;
 
 use App\Models\Period;
+use App\Models\Setting;
 use Illuminate\Support\Facades\Response;
 
 class JorService
@@ -57,22 +58,41 @@ class JorService
         return array_map(fn($item) => $item['jor_atributes'], $jor_list);
     }
 
-    public function prepareTemplateJor($jor_list) : string
+    public function prepareTemplateJor($jor_list): string
     {
         try {
             // Contenido del archivo de texto
             $content = "";
-    
+
             $data = array_map(fn($item) => $item['jor_atributes'], $jor_list);
-    
+
             foreach ($data as $row) {
                 $content .= implode('|', $row) . "\n";
             }
-    
+
             // Generar la respuesta de descarga
             return $content;
         } catch (\Exception $th) {
             return "";
         }
+    }
+
+    public function generateFileName(Period $period): string
+    {
+        $ruc = Setting::where('key', 'ruc')->value('value');
+        $formulario_code = '0601';
+        $mounth = sprintf('%02d', $period->mounth);
+
+        return "{$formulario_code}{$period->payroll->year}{$mounth}{$ruc}.jor";
+    }
+
+    public function onlyValuesJor($jor_list): string
+    {
+        $content = "";
+        $data = array_map(fn($item) => $item['jor_atributes'], $jor_list);
+        foreach ($data as $row) {
+            $content .= implode('|', $row) . "\n";
+        }
+        return $content;
     }
 }

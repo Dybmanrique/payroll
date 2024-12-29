@@ -191,17 +191,11 @@ class FormEdit extends Component
     public function exportJor()
     {
         try {
-            $period = Period::find($this->selected_period);
-            $ruc = Setting::where('key', 'ruc')->value('value');
-            $formulario_code = '0601';
-            $mounth = sprintf('%02d', $period->mounth);
-            $fileName = "{$formulario_code}{$period->payroll->year}{$mounth}{$ruc}.jor";
+            $fileName = $this->jor_service->generateFileName(Period::find($this->selected_period));
+            $content = $this->jor_service->onlyValuesJor($this->jor_list);
 
-            return response()->streamDownload(function () {
-                $data = array_map(fn($item) => $item['jor_atributes'], $this->jor_list);
-                foreach ($data as $row) {
-                    echo implode('|', $row) . "\n";
-                }
+            return response()->streamDownload(function () use ($content) {
+                echo $content;
             }, $fileName, ['Content-Type' => 'text/plain']);
         } catch (\Exception $th) {
             $this->dispatch('message', code: '500', content: 'Algo salió mal');
