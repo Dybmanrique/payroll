@@ -446,21 +446,22 @@
         </div>
     </div>
 
-    <!-- Modal AFP NET -->
+    <!-- Modal JOR -->
     <div wire:ignore.self class="modal fade" id="modalJor" tabindex="-1" role="dialog"
         aria-labelledby="modalJorLabel" aria-hidden="true">
         <div class="modal-dialog modal-xl" role="document">
             <div class="modal-content">
                 <form wire:submit='exportJor()'>
                     <div class="modal-header">
-                        <h5 class="modal-title font-weight-bold" id="modalJorLabel">EXPORTAR DATOS DE JORNADA LABORAL</h5>
+                        <h5 class="modal-title font-weight-bold" id="modalJorLabel">EXPORTAR DATOS DE JORNADA LABORAL
+                        </h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
                         <div class="card d-none opacity-low" wire:loading.class='d-block opacity-full'
-                            wire:target="prepare_afp_net">
+                            wire:target="prepare_jor">
                             <div class="card-body">
                                 <div class="d-flex justify-content-center justify-items-center">
                                     <div class="spinner-border" role="status">
@@ -470,22 +471,28 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="text-nowrap" wire:loading.class='d-none'
-                            wire:target="prepare_afp_net">
+                        <div class="text-nowrap" wire:loading.class='d-none' wire:target="prepare_jor">
                             @if (count($jor_list) > 0)
                                 <div class="table-responsive">
 
                                     <table class="table table-sm">
                                         <thead class="thead-dark">
                                             <tr>
-                                                <th scope="col" class="align-middle" class="align-middle">ACCIONES</th>
+                                                <th scope="col" class="align-middle" class="align-middle">ACCIONES
+                                                </th>
                                                 <th scope="col" class="align-middle" class="align-middle">N°</th>
-                                                <th scope="col" class="align-middle" class="align-middle">IDENTIFICACIÓN</th>
-                                                <th scope="col" class="align-middle" class="align-middle">EMPLEADO</th>
-                                                <th scope="col" class="align-middle" class="align-middle">HORAS ORDINARIAS</th>
-                                                <th scope="col" class="align-middle" class="align-middle">MINUTOS ORDINARIOS</th>
-                                                <th scope="col" class="align-middle" class="align-middle">HORAS SOBRETIEMPO</th>
-                                                <th scope="col" class="align-middle" class="align-middle">MINUTOS SOBRETIEMPO</th>
+                                                <th scope="col" class="align-middle" class="align-middle">
+                                                    IDENTIFICACIÓN</th>
+                                                <th scope="col" class="align-middle" class="align-middle">EMPLEADO
+                                                </th>
+                                                <th scope="col" class="align-middle" class="align-middle">HORAS
+                                                    ORDINARIAS</th>
+                                                <th scope="col" class="align-middle" class="align-middle">MINUTOS
+                                                    ORDINARIOS</th>
+                                                <th scope="col" class="align-middle" class="align-middle">HORAS
+                                                    SOBRETIEMPO</th>
+                                                <th scope="col" class="align-middle" class="align-middle">MINUTOS
+                                                    SOBRETIEMPO</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -498,10 +505,14 @@
                                                         </a>
                                                     </th>
                                                     <th scope="row">{{ $index + 1 }}</th>
-                                                    <td scope="col">{{ $item['employee']->identity_type->name }} {{ $item['jor_atributes'][1] }}</td>
-                                                    <td scope="col">{{ $item['employee']->last_name }} {{ $item['employee']->second_last_name }} {{ $item['employee']->name }}</td>
+                                                    <td scope="col">{{ $item['employee']->identity_type->name }}
+                                                        {{ $item['jor_atributes'][1] }}</td>
+                                                    <td scope="col">{{ $item['employee']->last_name }}
+                                                        {{ $item['employee']->second_last_name }}
+                                                        {{ $item['employee']->name }}</td>
                                                     <td scope="col">
-                                                        <input type="number" value="{{ $item['jor_atributes'][2] }}" class="form-control"
+                                                        <input type="number" value="{{ $item['jor_atributes'][2] }}"
+                                                            class="form-control"
                                                             onchange="changeValueJor({{ $index }}, 2, this.value)">
                                                     </td>
                                                     <td scope="col">
@@ -517,6 +528,100 @@
                                                             onchange="changeValueJor({{ $index }}, 5, this.value)">
                                                     </td>
                                                 </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            @else
+                                <div class="font-weight-bold text-center rounded-sm border shadow-sm m-1 p-2">
+                                    NINGÚN REGISTRO AFP ENCONTRADO
+                                </div>
+                            @endif
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">CERRAR</button>
+                        <button type="submit" class="btn btn-primary" wire:loading.attr='disabled'>EXPORTAR</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal REM -->
+    <div wire:ignore.self class="modal fade" id="modalRem" tabindex="-1" role="dialog"
+        aria-labelledby="modalRemLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <form wire:submit='export_rem()'>
+                    <div class="modal-header">
+                        <h5 class="modal-title font-weight-bold" id="modalJorLabel">EXPORTAR DATOS DE INGRESOS,
+                            TRIBUTOS Y DESCUENTOS</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="card d-none opacity-low" wire:loading.class='d-block opacity-full'
+                            wire:target="prepare_rem">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-center justify-items-center">
+                                    <div class="spinner-border" role="status">
+                                        <span class="sr-only">Loading...</span>
+                                    </div>
+                                    <span class="text-md ml-2 font-weight-bold">CARGANDO...</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-nowrap" wire:loading.class='d-none' wire:target="prepare_rem">
+                            @if (count($rem_list) > 0)
+                                <div class="table-responsive" style="max-height: 65vh">
+                                    <table class="table table-sm">
+                                        <thead class="thead-dark">
+                                            <tr>
+                                                <th scope="col" class="align-middle" class="align-middle">ACCIONES
+                                                </th>
+                                                <th scope="col" class="align-middle" class="align-middle">N°</th>
+                                                <th scope="col" class="align-middle" class="align-middle">
+                                                    IDENTIFICACIÓN</th>
+                                                <th scope="col" class="align-middle" class="align-middle">EMPLEADO
+                                                </th>
+                                                <th scope="col" class="align-middle" class="align-middle">CONCEPTO
+                                                </th>
+                                                <th scope="col" class="align-middle" class="align-middle">MONTO
+                                                    DEVENGADO</th>
+                                                <th scope="col" class="align-middle" class="align-middle">MONTO
+                                                    PAGADO</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($rem_list as $index => $item)
+                                                <tr>
+                                                    <th scope="row" rowspan="{{ count($item['rem_items']) }}">
+                                                        <a href="{{ route('employees.edit', $item['employee']) }}#contratos"
+                                                            target="_blank" class="btn btn-sm btn-outline-primary">
+                                                            <i class="fas fa-eye"></i> VER CONTRATOS
+                                                        </a>
+                                                    </th>
+                                                    <th scope="row" rowspan="{{ count($item['rem_items']) }}">
+                                                        {{ $index + 1 }}</th>
+                                                    <td scope="col" rowspan="{{ count($item['rem_items']) }}">
+                                                        {{ $item['employee']->identity_type->name }}
+                                                        {{ $item['employee']->identity_number }}</td>
+                                                    <td scope="col" rowspan="{{ count($item['rem_items']) }}">
+                                                        {{ $item['employee']->last_name }}
+                                                        {{ $item['employee']->second_last_name }}
+                                                        {{ $item['employee']->name }}</td>
+                                                
+                                                @foreach ($item['rem_items'] as $rem_item)
+                                                    @if(!$loop->first)
+                                                        <tr>
+                                                    @endif
+                                                        <td scope="col">({{ $rem_item[2] }}) {{ $rem_codes[$rem_item[2]] }}</td>
+                                                        <td scope="col">{{ $rem_item[3] }}</td>
+                                                        <td scope="col">{{ $rem_item[4] }}</td>
+                                                    </tr>
+                                                @endforeach
                                             @endforeach
                                         </tbody>
                                     </table>
@@ -819,9 +924,9 @@
                                         </button>
                                     </div>
                                     <div class="col-md-3">
-                                        <button type="button"
+                                        <button type="button" data-toggle="modal" data-target="#modalRem"
                                             class="mt-1 font-weight-bold btn btn-secondary w-100"
-                                            wire:click='export_rem()'>
+                                            wire:click='prepare_rem'>
                                             <i class="fas fa-file-pdf"></i> REM
                                         </button>
                                     </div>

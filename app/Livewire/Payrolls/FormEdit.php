@@ -14,6 +14,7 @@ use App\Models\Setting;
 use App\Services\Payroll\AfpNetService;
 use App\Services\Payroll\JorService;
 use App\Services\Payroll\PaymentService;
+use App\Services\Payroll\RemService;
 use Carbon\Carbon;
 use Livewire\Component;
 
@@ -202,9 +203,26 @@ class FormEdit extends Component
         }
     }
 
+    public $rem_list = [];
+    public $rem_codes;
+
+    public function prepare_rem()
+    {
+        $this->rem_list = $this->rem_service->generateRemArray($this->selected_period);
+    }
+
     public function export_rem()
     {
-        return redirect()->route('payrolls.rem', Period::find($this->selected_period));
+        try {
+            $fileName = $this->rem_service->generateFileName($this->selected_period);
+            $content = $this->rem_service->onlyValuesRem($this->rem_list);
+
+            return response()->streamDownload(function () use ($content) {
+                echo $content;
+            }, $fileName, ['Content-Type' => 'text/plain']);
+        } catch (\Exception $th) {
+            $this->dispatch('message', code: '500', content: 'Algo salió mal');
+        }
     }
 
     public function save()
@@ -248,7 +266,7 @@ class FormEdit extends Component
     public function mount()
     {
         $this->type_id_afp = $this->afp_net_service->getTypesId();
-        $this->type_id_jor = $this->jor_service->getTypesId();
+        $this->rem_codes = $this->rem_service->getRemCodes();
         $this->payroll_types = PayrollType::all();
         $this->funding_resources = FundingResource::all();
         $this->employees = Employee::all();
@@ -264,11 +282,13 @@ class FormEdit extends Component
     protected $payment_service;
     protected $afp_net_service;
     protected $jor_service;
+    protected $rem_service;
     public function __construct()
     {
         $this->payment_service = new PaymentService;
         $this->afp_net_service = new AfpNetService;
         $this->jor_service = new JorService;
+        $this->rem_service = new RemService;
     }
 
     public function render()
