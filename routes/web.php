@@ -86,13 +86,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/planillas/crear', [PayrollController::class, 'create'])->name('payrolls.create');
     Route::get('/planillas/{payroll}/editar', [PayrollController::class, 'edit'])->name('payrolls.edit');
     Route::post('/planillas/eliminar', [PayrollController::class, 'destroy'])->name('payrolls.destroy');
-    Route::get('/planillas/{period}/generar-mcpp', [PayrollController::class, 'mcpp'])->name('payrolls.mcpp');
     Route::get('/planillas/{payment}/boleta-de-pago', [PayrollController::class, 'generate_payment_slip'])->name('payrolls.generate_payment_slip');
     Route::get('/planillas/{period}/boletas-de-pago', [PayrollController::class, 'generate_payment_slips_period'])->name('payrolls.generate_payment_slips_period');
     Route::get('/planillas/{period}/reporte-general', [PayrollController::class, 'general_report'])->name('payrolls.general_report');
     Route::get('/planillas/{period}/imprimir-planilla', [PayrollController::class, 'payroll_report'])->name('payrolls.payroll_report');
     Route::get('/planillas/{period}/resumen-planilla', [PayrollController::class, 'payroll_summary'])->name('payrolls.payroll_summary');
-    Route::get('/planillas/{period}/generar-rem', [PayrollController::class, 'rem'])->name('payrolls.rem');
 
     Route::get('/parametros', [SettingController::class, 'index'])->name('settings.index');
 });

@@ -15,6 +15,7 @@ use App\Services\Payroll\AfpNetService;
 use App\Services\Payroll\JorService;
 use App\Services\Payroll\PaymentService;
 use App\Services\Payroll\RemService;
+use App\Services\Payroll\McppService;
 use Carbon\Carbon;
 use Livewire\Component;
 
@@ -248,9 +249,29 @@ class FormEdit extends Component
         }
     }
 
-    public function mcpp()
+    public $mcpp_list = [];
+    public $funding_resources_array = [];
+    public $mcpp_concepts = [];
+
+    public function prepare_mcpp()
     {
-        return redirect()->route('payrolls.mcpp', Period::find($this->selected_period));
+        $this->mcpp_list = McppService::generateMcppArray($this->selected_period);
+    }
+
+    public function export_mcpp()
+    {
+        try {
+            $fileName = McppService::generateFileName($this->selected_period);
+            $header = implode('|', $this->mcpp_list['header']);
+            $body = McppService::onlyValuesMcpp($this->mcpp_list['mcpp_list']);
+            $content = "{$header}\n{$body}";
+
+            return response()->streamDownload(function () use ($content) {
+                echo $content;
+            }, $fileName, ['Content-Type' => 'text/plain']);
+        } catch (\Exception $th) {
+            $this->dispatch('message', code: '500', content: 'Algo salió mal');
+        }
     }
 
     public function calculate()
@@ -277,6 +298,9 @@ class FormEdit extends Component
         $this->year = $this->payroll->year;
         $this->payroll_type_id = $this->payroll->payroll_type_id;
         $this->funding_resource_id = $this->payroll->funding_resource_id;
+
+        $this->funding_resources_array = FundingResource::pluck('name', 'code');
+        $this->mcpp_concepts = config('mcpp_concepts');
     }
 
     protected $payment_service;

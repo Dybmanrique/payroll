@@ -54,14 +54,6 @@ class PayrollController extends Controller
         }
     }
 
-    public function mcpp(Period $period)
-    {
-        $result = $this->mcpp_service->generateTemplateMcpp($period);
-        return response($result['content'])
-            ->header('Content-Type', 'text/plain')
-            ->header('Content-Disposition', 'attachment; filename="' . $result['name'] . '"');
-    }
-
     public function generate_payment_slip(Payment $payment)
     {
         $periods = config('periods_spanish');
@@ -93,13 +85,5 @@ class PayrollController extends Controller
         $results = $this->report_service->generateArraySummaryReport($period);
         $pdf = Pdf::loadView('admin.reports-templates.summary-report', ['period' => $period, 'periods' => $periods, 'results' => $results])->setPaper('a4', 'landscape');
         return $pdf->stream();
-    }
-
-    public function rem(Period $period)
-    {
-        $result = $this->rem_service->generateTemplateRem($period);
-        return response($result['content'])
-            ->header('Content-Type', 'text/plain')
-            ->header('Content-Disposition', 'attachment; filename="' . $result['name'] . '"');
     }
 }

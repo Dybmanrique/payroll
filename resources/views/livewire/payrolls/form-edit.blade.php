@@ -642,6 +642,109 @@
         </div>
     </div>
 
+    <!-- Modal MCPP -->
+    <div wire:ignore.self class="modal fade" id="modalMcpp" tabindex="-1" role="dialog"
+        aria-labelledby="modalMcppLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <form wire:submit='export_mcpp()'>
+                    <div class="modal-header">
+                        <h5 class="modal-title font-weight-bold" id="modalJorLabel">EXPORTAR DATOS MCPP</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="card d-none opacity-low" wire:loading.class='d-block opacity-full'
+                            wire:target="prepare_mcpp">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-center justify-items-center">
+                                    <div class="spinner-border" role="status">
+                                        <span class="sr-only">Loading...</span>
+                                    </div>
+                                    <span class="text-md ml-2 font-weight-bold">CARGANDO...</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-nowrap" wire:loading.class='d-none' wire:target="prepare_mcpp">
+                            @if (count($mcpp_list) > 0)
+                                <div class="table-responsive" style="max-height: 65vh">
+                                    <div class="row mb-3">
+                                        <div class="col-md-3"><span class="font-weight-bold">N° FILAS:</span> {{ $mcpp_list['header'][6] }}</div>
+                                        <div class="col-md-3"><span class="font-weight-bold">TOTAL INGRESOS:</span> {{ $mcpp_list['header'][7] }}</div>
+                                        <div class="col-md-3"><span class="font-weight-bold">TOTAL DESCUENTOS:</span> {{ $mcpp_list['header'][8] }}</div>
+                                        <div class="col-md-3"><span class="font-weight-bold">TOTAL APORTES:</span> {{ $mcpp_list['header'][9] }}</div>
+                                    </div>
+                                    <table class="table table-sm">
+                                        <thead class="thead-dark">
+                                            <tr>
+                                                <th scope="col" class="align-middle" class="align-middle">ACCIONES
+                                                </th>
+                                                <th scope="col" class="align-middle" class="align-middle">N°</th>
+                                                <th scope="col" class="align-middle" class="align-middle">
+                                                    IDENTIFICACIÓN</th>
+                                                <th scope="col" class="align-middle" class="align-middle">EMPLEADO
+                                                </th>
+                                                <th scope="col" class="align-middle" class="align-middle">F. FINANCIAMIENTO
+                                                </th>
+                                                <th scope="col" class="align-middle" class="align-middle">TIPO CONCEPTO</th>
+                                                <th scope="col" class="align-middle" class="align-middle">CONCEPTO</th>
+                                                <th scope="col" class="align-middle" class="align-middle">MONTO</th>
+                                                <th scope="col" class="align-middle" class="align-middle">TIPO REGISTRO</th>
+                                                <th scope="col" class="align-middle" class="align-middle">COD. AIRHSP</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($mcpp_list['mcpp_list'] as $index => $item)
+                                                <tr>
+                                                    <th scope="row" rowspan="{{ count($item['mcpp_items']) }}">
+                                                        <a href="{{ route('employees.edit', $item['employee']) }}#contratos"
+                                                            target="_blank" class="btn btn-sm btn-outline-primary">
+                                                            <i class="fas fa-eye"></i> VER CONTRATOS
+                                                        </a>
+                                                    </th>
+                                                    <th scope="row" rowspan="{{ count($item['mcpp_items']) }}">
+                                                        {{ $index + 1 }}</th>
+                                                    <td scope="col" rowspan="{{ count($item['mcpp_items']) }}">
+                                                        {{ $item['employee']->identity_type->name }}
+                                                        {{ $item['employee']->identity_number }}</td>
+                                                    <td scope="col" rowspan="{{ count($item['mcpp_items']) }}">
+                                                        {{ $item['employee']->last_name }}
+                                                        {{ $item['employee']->second_last_name }}
+                                                        {{ $item['employee']->name }}</td>
+                                                
+                                                @foreach ($item['mcpp_items'] as $rem_item)
+                                                    @if(!$loop->first)
+                                                        <tr>
+                                                    @endif
+                                                        <td scope="col">({{ $rem_item[2] }}) {{ $funding_resources_array[$rem_item[2]] }}</td>
+                                                        <td scope="col">({{ $rem_item[3] }}) {{ $mcpp_concepts['TIPO_CONCEPTO']['BY_CODE'][$rem_item[3]] }}</td>
+                                                        <td scope="col">({{ $rem_item[4] }}) {{ $rem_item[5] }}</td>
+                                                        <td scope="col" class="text-right">{{ $rem_item[6] }}</td>
+                                                        <td scope="col" class="text-center">{{ $mcpp_concepts['CODIGOS_TIPO_REGISTRO']['BY_CODE'][$rem_item[7]] }}</td>
+                                                        <td scope="col">{{ $rem_item[8] ?? '-' }}</td>
+                                                    </tr>
+                                                @endforeach
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            @else
+                                <div class="font-weight-bold text-center rounded-sm border shadow-sm m-1 p-2">
+                                    NINGÚN REGISTRO AFP ENCONTRADO
+                                </div>
+                            @endif
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">CERRAR</button>
+                        <button type="submit" class="btn btn-primary" wire:loading.attr='disabled'>EXPORTAR</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <div class="card">
         <form wire:submit='save'>
             <div class="card-header">
@@ -880,8 +983,11 @@
                                         </button>
                                     </div>
                                     <div class="col-md-3">
-                                        <button type="button" class="mt-1 font-weight-bold btn btn-info w-100"
-                                            wire:click='mcpp()'><i class="fas fa-file-alt"></i> INTERFAZ MCPP</button>
+                                        <button type="button" data-toggle="modal" data-target="#modalMcpp"
+                                            class="mt-1 font-weight-bold btn btn-secondary w-100"
+                                            wire:click='prepare_mcpp'>
+                                            <i class="fas fa-file-pdf"></i> INTERFAZ MCPP
+                                        </button>
                                     </div>
                                     <div class="col-md-3">
                                         <a href="{{ route('payrolls.generate_payment_slips_period', $selected_period) }}"
