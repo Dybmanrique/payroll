@@ -11,6 +11,7 @@ use App\Http\Controllers\LevelController;
 use App\Http\Controllers\PayrollController;
 use App\Http\Controllers\PayrollTypeController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\UserController;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -92,6 +93,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/usuarios/crear', [UserController::class, 'create'])->name('users.create');
     Route::get('/usuarios/{user}/editar', [UserController::class, 'edit'])->name('users.edit');
     Route::post('/usuarios/eliminar', [UserController::class, 'destroy'])->name('users.destroy');
+
+    Route::get('/roles', [RoleController::class, 'index'])->name('roles.index');
+    Route::get('/roles/data', [RoleController::class, 'data'])->name('roles.data');
+    Route::get('/roles/crear', [RoleController::class, 'create'])->name('roles.create');
+    Route::get('/roles/{role}/editar', [RoleController::class, 'edit'])->name('roles.edit');
+    Route::post('/roles/eliminar', [RoleController::class, 'destroy'])->name('roles.destroy');
 });
 
 

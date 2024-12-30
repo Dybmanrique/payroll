@@ -390,6 +390,12 @@ return [
             'icon' => 'fas fa-fw fa-user-cog',
             'active' => ['usuarios/*'],
         ],
+        [
+            'text' => 'Roles',
+            'route' => 'roles.index',
+            'icon' => 'fas fa-fw fa-key',
+            'active' => ['roles/*'],
+        ],
     ],
 
     /*
