@@ -54,7 +54,7 @@
                     </tr>
                     <tr>
                         <td class="text-bold">SIS. PENSIÓN</td>
-                        <td>: {{ $payment->onp_discount ? 'ONP' : 'AFP (' . strtoupper($payment->contract->employee->afp_commission_type) . ')'  }}</td>
+                        <td>: {{ $payment->onp_discount ? 'ONP' : $payment->contract->employee->afp->name . " (". strtoupper($payment->contract->employee->afp_commission_type) . ")"  }}</td>
                     </tr>
                 </table>
             </td>
