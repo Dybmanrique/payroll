@@ -369,7 +369,7 @@
                         <div wire:ignore.self class="border rounded p-2" id="contenidoExtraAfp"
                             style='{{ $pension_system === 'onp' ? 'display: none;' : '' }}'>
                             <div class="row">
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="afp_id">Tipo AFP*:</label>
                                         <select wire:model="afp_id" id="afp_id" class="form-control">
@@ -383,7 +383,7 @@
                                         @enderror
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="afp_code">Código AFP*:</label>
                                         <input type="text" wire:model='afp_code' id="afp_code"
@@ -394,12 +394,30 @@
                                         @enderror
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <div class="form-group">
-                                        <label for="afp_fing">AFP fing*:</label>
+                                        <label for="afp_fing">AFP F. Ingreso*:</label>
                                         <input type="date" wire:model='afp_fing' id="afp_fing"
                                             class="form-control" placeholder="Ingrese el nombre del grupo">
                                         @error('afp_fing')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Tipo comisión*:</label>
+                                        <div class="rounded p-2" style="max-height: 38px; border: 1px solid #ced4da;">
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" wire:model="afp_commission_type" id="afp_flujo" value="flujo">
+                                                <label class="form-check-label" for="afp_flujo">Flujo</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" wire:model="afp_commission_type" id="afp_fondo" value="fondo">
+                                                <label class="form-check-label" for="afp_fondo">Mixta</label>
+                                            </div>
+                                        </div>
+                                        @error('afp_commission_type')
                                             <span class="text-danger">{{ $message }}</span>
                                         @enderror
                                     </div>

@@ -30,7 +30,7 @@ class FormCreate extends Component
     $gender,
     $pension_system;
 
-    public $afp_code, $afp_fing, $afp_id;
+    public $afp_code, $afp_fing, $afp_id, $afp_commission_type;
 
     public function save()
     {
@@ -54,6 +54,7 @@ class FormCreate extends Component
                 'afp_id' => 'required',
                 'afp_code' => 'required',
                 'afp_fing' => 'required',
+                'afp_commission_type' => 'required',
             ]);
         }
 
@@ -79,6 +80,7 @@ class FormCreate extends Component
                     'afp_id'=>$this->afp_id,
                     'afp_code'=>$this->afp_code,
                     'afp_fing'=>$this->afp_fing,
+                    'afp_commission_type'=>$this->afp_commission_type,
                 ]);
             }
     
@@ -95,6 +97,7 @@ class FormCreate extends Component
             'pension_system',
             'afp_code',
             'afp_fing',
+            'afp_commission_type',
             'afp_id');
             $this->cuarta = false;
             $this->identity_type_id = 1;

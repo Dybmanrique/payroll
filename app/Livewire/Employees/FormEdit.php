@@ -36,7 +36,8 @@ class FormEdit extends Component
         $gender,
         $pension_system;
 
-    public $afp_code, $afp_fing, $afp_id;
+
+    public $afp_code, $afp_fing, $afp_id, $afp_commission_type;
 
     //MODAL JUDICIAL DISCOUNTS ATRIBUTES
     public $judicial_name, $judicial_amount, $judicial_discount_type, $judicial_account, $judicial_dni;
@@ -231,6 +232,7 @@ class FormEdit extends Component
                 'afp_id' => 'required',
                 'afp_code' => 'required',
                 'afp_fing' => 'required',
+                'afp_commission_type' => 'required',
             ]);
         }
 
@@ -256,12 +258,14 @@ class FormEdit extends Component
                     'afp_id' => $this->afp_id,
                     'afp_code' => $this->afp_code,
                     'afp_fing' => $this->afp_fing,
+                    'afp_commission_type' => $this->afp_commission_type,
                 ]);
             } else {
                 $this->employee->update([
                     'afp_id' => null,
                     'afp_code' => null,
                     'afp_fing' => null,
+                    'afp_commission_type' => null,
                 ]);
             }
 
@@ -297,6 +301,7 @@ class FormEdit extends Component
             $this->afp_id = $this->employee->afp_id;
             $this->afp_code = $this->employee->afp_code;
             $this->afp_fing = $this->employee->afp_fing;
+            $this->afp_commission_type = $this->employee->afp_commission_type;
         }
 
         $this->judicial_discounts = JudicialDiscount::where('employee_id', $this->employee->id)->where('is_deleted', false)->get();

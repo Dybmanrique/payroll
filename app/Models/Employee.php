@@ -25,6 +25,7 @@ class Employee extends Model
         'afp_code',
         'afp_fing',
         'afp_id',
+        'afp_commission_type',
         'identity_type_id',
     ];
 
