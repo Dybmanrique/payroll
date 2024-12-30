@@ -36,7 +36,9 @@
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
                         </div>
-                        {{-- <p class="text-bold mb-1">Roles:</p>
+                    </div>
+                    <div class="col-md-6">
+                        <p class="text-bold mb-1">Roles:</p>
                         <div class="form-group border p-2 mb-1 rounded">
                             @foreach ($roles as $role)
                                 <div class="form-check form-switch">
@@ -47,7 +49,7 @@
                                     </label>
                                 </div>
                             @endforeach
-                        </div> --}}
+                        </div>
                     </div>
                 </div>
             </div>

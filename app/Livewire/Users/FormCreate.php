@@ -6,6 +6,7 @@ use App\Models\User;
 use Livewire\Component;
 use Illuminate\Validation\Rules;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Role;
 
 class FormCreate extends Component
 {
@@ -33,17 +34,24 @@ class FormCreate extends Component
         $this->validate();
 
         try {
-            User::create([
+            $user = User::create([
                 "name" => $this->name,
                 "email" => $this->email,
                 "password" => Hash::make($this->password),
             ]);
+
+            $user->roles()->sync($this->user_roles);
     
-            $this->reset('email', 'password', 'password_confirmation', 'name');
+            $this->reset('user_roles','email', 'password', 'password_confirmation', 'name');
             $this->dispatch('message', code: '200', content: 'Se ha creado el usuario');
         } catch (\Exception $ex) {
             $this->dispatch('message', code: '500', content: 'No se pudo crear el usuario, quizá ya está registrado');
         }
+    }
+
+    public function mount()
+    {
+        $this->roles = Role::all();
     }
     
     public function render()

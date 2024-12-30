@@ -5,6 +5,7 @@ namespace App\Livewire\Users;
 use Livewire\Component;
 use Illuminate\Validation\Rules;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Role;
 
 class FormEdit extends Component
 {
@@ -23,12 +24,12 @@ class FormEdit extends Component
 
     public function mount()
     {
-        // $this->roles = Role::all();
+        $this->roles = Role::all();
         $this->name = $this->user->name;
         $this->email = $this->user->email;
-        // foreach ($this->user->roles as $role) {
-        //     array_push($this->user_roles, $role->id);
-        // }
+        foreach ($this->user->roles as $role) {
+            array_push($this->user_roles, $role->id);
+        }
     }
 
     public function save()
@@ -59,7 +60,7 @@ class FormEdit extends Component
                 ]);
             }
 
-            // $this->user->roles()->sync($this->user_roles);
+            $this->user->roles()->sync($this->user_roles);
             $this->reset(['password','password_confirmation']);
             $this->dispatch('message', code: '200', content: 'Se ha editado el usuario');
         } catch (\Exception $ex) {

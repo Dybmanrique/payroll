@@ -20,18 +20,6 @@
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
                         </div>
-                        {{-- <p class="text-bold mb-1">Roles:</p>
-                        <div class="form-group border p-2 mb-2 rounded">
-                            @foreach ($roles as $role)
-                                <div class="form-check form-switch">
-                                    <label class="form-check-label">
-                                        <input class="form-check-input" type="checkbox" wire:model='user_roles'
-                                            value="{{ $role->id }}">
-                                        {{ $role->name }}
-                                    </label>
-                                </div>
-                            @endforeach
-                        </div> --}}
 
                         <button class="btn btn-info mt-2 mb-2" type="button" data-toggle="collapse"
                             data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
@@ -57,6 +45,20 @@
                                     @enderror
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <p class="text-bold mb-1">Roles:</p>
+                        <div class="form-group border p-2 mb-2 rounded">
+                            @foreach ($roles as $role)
+                                <div class="form-check form-switch">
+                                    <label class="form-check-label">
+                                        <input class="form-check-input" type="checkbox" wire:model='user_roles'
+                                            value="{{ $role->id }}">
+                                        {{ $role->name }}
+                                    </label>
+                                </div>
+                            @endforeach
                         </div>
                     </div>
                 </div>
