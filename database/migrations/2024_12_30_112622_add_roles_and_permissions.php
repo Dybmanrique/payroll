@@ -14,57 +14,60 @@ return new class extends Migration
         'afps.index',
         'afps.create',
         'afps.edit',
-        'afps.destroy',
+        'afps.delete',
         //budgetary_objectives
         'budgetary_objectives.index',
         'budgetary_objectives.create',
         'budgetary_objectives.edit',
-        'budgetary_objectives.destroy',
+        'budgetary_objectives.delete',
         //groups
         'groups.index',
         'groups.create',
         'groups.edit',
-        'groups.destroy',
+        'groups.delete',
         //job_positions
         'job_positions.index',
         'job_positions.create',
         'job_positions.edit',
-        'job_positions.destroy',
+        'job_positions.delete',
         //levels
         'levels.index',
         'levels.create',
         'levels.edit',
-        'levels.destroy',
+        'levels.delete',
         //employees
         'employees.index',
         'employees.create',
         'employees.edit',
-        'employees.destroy',
+        'employees.delete',
         //payroll_types
         'payroll_types.index',
         'payroll_types.create',
         'payroll_types.edit',
-        'payroll_types.destroy',
+        'payroll_types.delete',
         //funding_resources
         'funding_resources.index',
         'funding_resources.create',
         'funding_resources.edit',
-        'funding_resources.destroy',
+        'funding_resources.delete',
         //payrolls
         'payrolls.index',
         'payrolls.create',
         'payrolls.edit',
-        'payrolls.destroy',
+        'payrolls.delete',
         //settings
         'settings.index',
-        'settings.create',
         'settings.edit',
-        'settings.destroy',
-        //settings
+        //users
         'users.index',
         'users.create',
         'users.edit',
-        'users.destroy',
+        'users.delete',
+        //roles
+        'roles.index',
+        'roles.create',
+        'roles.edit',
+        'roles.delete',
     ];
     /**
      * Run the migrations.
