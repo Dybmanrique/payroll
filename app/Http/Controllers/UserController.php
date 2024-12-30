@@ -14,7 +14,7 @@ class UserController extends Controller
 
     public function data()
     {
-        return User::all();
+        return User::with('roles:id,name')->get();
     }
 
     public function create()

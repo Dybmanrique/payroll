@@ -22,6 +22,7 @@
                             <th scope="col">#</th>
                             <th scope="col">USUARIO</th>
                             <th scope="col">EMAIL</th>
+                            <th scope="col">ROLES</th>
                             <th scope="col">ACCIONES</th>
                         </tr>
                     </thead>
@@ -90,6 +91,21 @@
                     "data": "email",
                 },
                 {
+                    "data": "roles",
+                    "render": function(data, type, row, meta) {
+                        roles = '<ul style="list-style: none;" class="ml-0 pl-0">';
+                        if (Object.keys(data).length > 0) {
+                            data.forEach(role => {
+                                roles += `<li>${role.name}</li>`;
+                            });
+                        } else {
+                            roles += `<li> Ninguno </li>`;
+                        }
+                        roles += '</ul>';
+                        return roles;
+                    }
+                },
+                {
                     "data": null,
                     "render": function(data, type, row, meta) {
                         return (
@@ -104,11 +120,11 @@
 
             columnDefs = [{
                     className: 'text-left text-nowrap',
-                    targets: [0, 1, 2]
+                    targets: [0, 1, 2, 3]
                 },
                 {
                     className: 'text-right',
-                    targets: [3]
+                    targets: [4]
                 },
             ];
 
