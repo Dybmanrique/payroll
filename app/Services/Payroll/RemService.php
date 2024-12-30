@@ -74,9 +74,12 @@ class RemService
 
                 //FALTAS Y TARDANZAS
                 if ($payment->fines_discount !== null) {
-                    //0704	TARDANZAS
-                    //0705	INASISTENCIAS
-                    array_push($rem_item, [$identity_document_type, $employee->identity_number, '0704', $payment->total_remuneration, $payment->fines_discount]);
+                    //0705	INASISTENCIAS -- 0704	TARDANZAS
+                    if($payment->days_discount !== null){
+                        array_push($rem_item, [$identity_document_type, $employee->identity_number, '0705', $payment->total_remuneration, $payment->fines_discount]);
+                    } else {
+                        array_push($rem_item, [$identity_document_type, $employee->identity_number, '0704', $payment->total_remuneration, $payment->fines_discount]);
+                    }
                 }
 
                 //DESCUENTO JUDICIAL
