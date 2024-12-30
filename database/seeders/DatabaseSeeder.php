@@ -20,7 +20,7 @@ class DatabaseSeeder extends Seeder
         User::factory()->create([
             'name' => 'Deyber Manrique',
             'email' => 'dbrmanrique@gmail.com',
-        ]);
+        ])->assignRole('Administrador');
 
         Setting::create(['key' => 'institution_name', 'value' => 'UGEL - ASUNCIÓN']);
         Setting::create(['key' => 'ruc', 'value' => '20571443784']);
