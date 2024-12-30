@@ -329,6 +329,12 @@ return [
             'active' => ['afps/*'],
         ],
         [
+            'text' => 'Tipos Identificación',
+            'route' => 'identity_types.index',
+            'icon' => 'fas fa-fw fa-id-card',
+            'active' => ['metas-presupuestales/*'],
+        ],
+        [
             'text' => 'Metas Presupuestales',
             'route' => 'budgetary_objectives.index',
             'icon' => 'fas fa-fw fa-th-list',
@@ -343,7 +349,7 @@ return [
         [
             'text' => 'Cargos laborales',
             'route' => 'job_positions.index',
-            'icon' => 'fas fa-fw fa-address-card',
+            'icon' => 'fas fa-fw fa-id-card-alt',
             'active' => ['cargos-laborales/*'],
         ],
         [
