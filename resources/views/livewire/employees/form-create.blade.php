@@ -211,8 +211,8 @@
                                                 <label class="form-check-label" for="afp_flujo">Flujo</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" wire:model="afp_commission_type" id="afp_fondo" value="fondo">
-                                                <label class="form-check-label" for="afp_fondo">Mixta</label>
+                                                <input class="form-check-input" type="radio" wire:model="afp_commission_type" id="afp_mixto" value="mixto">
+                                                <label class="form-check-label" for="afp_mixto">Mixto</label>
                                             </div>
                                         </div>
                                         @error('afp_commission_type')

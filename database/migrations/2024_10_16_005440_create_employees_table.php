@@ -28,7 +28,7 @@ return new class extends Migration
             $table->string('afp_code')->nullable();
             $table->string('afp_fing')->nullable();
             $table->foreignId('afp_id')->nullable()->constrained();
-            $table->enum('afp_commission_type', ['flujo', 'fondo'])->nullable();
+            $table->enum('afp_commission_type', ['flujo', 'mixto'])->nullable();
             $table->foreignId('identity_type_id')->constrained();
             $table->timestamps();
         });
