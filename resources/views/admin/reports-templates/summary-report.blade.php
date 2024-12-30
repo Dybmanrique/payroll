@@ -332,10 +332,12 @@
                                         <td>AFP-JUB</td>
                                         <td class="text-right">{{ number_format($payment->obligatory_afp, 2) }}</td>
                                     </tr>
+                                    @if ($payment->variable_afp)
                                     <tr>
                                         <td>AFP-C-V</td>
                                         <td class="text-right">{{ number_format($payment->variable_afp, 2) }}</td>
                                     </tr>
+                                    @endif
                                     <tr>
                                         <td>AFP-INVA</td>
                                         <td class="text-right">{{ number_format($payment->life_insurance_afp, 2) }}</td>
