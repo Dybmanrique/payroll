@@ -27,7 +27,11 @@ class PaymentService
                 if ($employee->pension_system === 'afp') {
                     $payment->obligatory_afp = ($payment->basic + $payment->refound) * ($employee->afp->obligatory_contribution / 100);
                     $payment->life_insurance_afp = ($payment->basic + $payment->refound) * ($employee->afp->life_insurance / 100);
-                    $payment->variable_afp = ($payment->basic + $payment->refound) * ($employee->afp->variable_commission / 100);
+                    if($employee->afp_commission_type === 'flujo'){
+                        $payment->variable_afp = ($payment->basic + $payment->refound) * ($employee->afp->variable_commission / 100);
+                    } else {
+                        $payment->variable_afp = null;
+                    }
 
                     $payment->afp_discount = $payment->obligatory_afp + $payment->life_insurance_afp + $payment->variable_afp;
                     $payment->afp_id = $payment->contract->employee->afp_id;
