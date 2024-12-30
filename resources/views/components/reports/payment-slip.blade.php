@@ -54,7 +54,7 @@
                     </tr>
                     <tr>
                         <td class="text-bold">SIS. PENSIÓN</td>
-                        <td>: {{ $payment->onp_discount ? 'ONP' : 'AFP' }}</td>
+                        <td>: {{ $payment->onp_discount ? 'ONP' : 'AFP (' . strtoupper($payment->contract->employee->afp_commission_type) . ')'  }}</td>
                     </tr>
                 </table>
             </td>
@@ -106,10 +106,12 @@
                                 <td>AFP - Jubilación: </td>
                                 <td class="text-right">{{ number_format($payment->obligatory_afp, 2) }}</td>
                             </tr>
-                            <tr>
-                                <td>AFP - Comisión variable: </td>
-                                <td class="text-right">{{ number_format($payment->variable_afp, 2) }}</td>
-                            </tr>
+                            @if ($payment->variable_afp)
+                                <tr>
+                                    <td>AFP - Comisión variable: </td>
+                                    <td class="text-right">{{ number_format($payment->variable_afp, 2) }}</td>
+                                </tr>
+                            @endif
                             <tr>
                                 <td>AFP - Invalidez: </td>
                                 <td class="text-right">{{ number_format($payment->life_insurance_afp, 2) }}</td>
