@@ -384,6 +384,12 @@ return [
             'icon' => 'fas fa-fw fa-cog',
             'active' => ['parametros/*'],
         ],
+        [
+            'text' => 'Usuarios',
+            'route' => 'users.index',
+            'icon' => 'fas fa-fw fa-user-cog',
+            'active' => ['usuarios/*'],
+        ],
     ],
 
     /*

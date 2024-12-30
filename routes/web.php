@@ -12,6 +12,7 @@ use App\Http\Controllers\PayrollController;
 use App\Http\Controllers\PayrollTypeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SettingController;
+use App\Http\Controllers\UserController;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Route;
 
@@ -85,6 +86,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/planillas/{period}/resumen-planilla', [PayrollController::class, 'payroll_summary'])->name('payrolls.payroll_summary');
 
     Route::get('/parametros', [SettingController::class, 'index'])->name('settings.index');
+
+    Route::get('/usuarios', [UserController::class, 'index'])->name('users.index');
+    Route::get('/usuarios/data', [UserController::class, 'data'])->name('users.data');
+    Route::get('/usuarios/crear', [UserController::class, 'create'])->name('users.create');
+    Route::get('/usuarios/{user}/editar', [UserController::class, 'edit'])->name('users.edit');
+    Route::post('/usuarios/eliminar', [UserController::class, 'destroy'])->name('users.destroy');
 });
 
 
