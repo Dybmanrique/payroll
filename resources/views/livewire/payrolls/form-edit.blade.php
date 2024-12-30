@@ -986,7 +986,7 @@
                                         <button type="button" data-toggle="modal" data-target="#modalMcpp"
                                             class="mt-1 font-weight-bold btn btn-secondary w-100"
                                             wire:click='prepare_mcpp'>
-                                            <i class="fas fa-file-pdf"></i> INTERFAZ MCPP
+                                            <i class="fas fa-file-alt"></i> INTERFAZ MCPP
                                         </button>
                                     </div>
                                     <div class="col-md-3">
@@ -1019,21 +1019,21 @@
                                         <button type="button" data-toggle="modal" data-target="#modalAfpNet"
                                             class="mt-1 font-weight-bold btn btn-secondary w-100"
                                             wire:click='prepare_afp_net'>
-                                            <i class="fas fa-file-pdf"></i> AFP NET
+                                            <i class="fas fa-file-excel"></i> AFP NET
                                         </button>
                                     </div>
                                     <div class="col-md-3">
                                         <button type="button" data-toggle="modal" data-target="#modalJor"
                                             class="mt-1 font-weight-bold btn btn-secondary w-100"
                                             wire:click='prepare_jor'>
-                                            <i class="fas fa-file-pdf"></i> JOR
+                                            <i class="fas fa-file-alt"></i> JOR
                                         </button>
                                     </div>
                                     <div class="col-md-3">
                                         <button type="button" data-toggle="modal" data-target="#modalRem"
                                             class="mt-1 font-weight-bold btn btn-secondary w-100"
                                             wire:click='prepare_rem'>
-                                            <i class="fas fa-file-pdf"></i> REM
+                                            <i class="fas fa-file-alt"></i> REM
                                         </button>
                                     </div>
                                 </div>
