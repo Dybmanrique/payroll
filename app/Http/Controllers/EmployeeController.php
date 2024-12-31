@@ -31,7 +31,7 @@ class EmployeeController extends Controller implements HasMiddleware
 
     public function data()
     {
-        return Employee::with('identity_type')->get();
+        return Employee::with('identity_type')->orderBy('last_name')->get();
     }
 
     public function get_permissions()
