@@ -9,13 +9,13 @@ class PaymentService
 {
     public function calculate(int $period_id) : bool
     {
-        define("ONP_COMISSION", ((float) Setting::where('key', 'onp_percent')->first()->value) / 100);
-        define("ESSALUD", ((float) Setting::where('key', 'essalud_percent')->first()->value) / 100);
-        define("CUARTA", 0.08);
-        define("WORKING_HOURS", ((int) Setting::where('key', 'working_hours')->first()->value));
-        define("WORKING_MINUTES", ((int) Setting::where('key', 'working_hours')->first()->value) * 60);
-        define("UIT", ((float) Setting::where('key', 'uit')->first()->value));
-        define("MAX_AMOUNT_ESSALUD", ((float) Setting::where('key', 'max_amount_essalud_percent')->first()->value) / 100);
+        define("ONP_COMISSION", ((float) Setting::where('key', 'onp_percent')->value('value')) / 100);
+        define("ESSALUD", ((float) Setting::where('key', 'essalud_percent')->value('value')) / 100);
+        define("CUARTA", ((float) Setting::where('key', 'cuarta_percent')->value('value')) / 100);
+        define("WORKING_HOURS", ((int) Setting::where('key', 'working_hours')->value('value')));
+        define("WORKING_MINUTES", ((int) Setting::where('key', 'working_hours')->value('value')) * 60);
+        define("UIT", ((float) Setting::where('key', 'uit')->value('value')));
+        define("MAX_AMOUNT_ESSALUD", ((float) Setting::where('key', 'max_amount_essalud_percent')->value('value')) / 100);
 
         try {
             $period = Period::find($period_id);
