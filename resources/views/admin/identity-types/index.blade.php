@@ -10,8 +10,10 @@
     <div class="card">
 
         <div class="card-header">
-            <a href="{{ route('identity_types.create') }}" class="btn btn-primary text-uppercase font-weight-bold">Registrar
-                nuevo</a>
+            @can('identity_types.create')
+                <a href="{{ route('identity_types.create') }}" class="btn btn-primary text-uppercase font-weight-bold">Registrar
+                    nuevo</a>
+            @endcan
         </div>
 
         <div class="card-body">
@@ -23,7 +25,9 @@
                             <th scope="col">COD. AIRHSP</th>
                             <th scope="col">NOMBRE</th>
                             <th scope="col">DESCRIPCIÓN</th>
-                            <th scope="col">ACCIONES</th>
+                            @canany(['identity_types.edit', 'identity_types.delete'])
+                                <th scope="col" class="text-center">ACCIONES</th>
+                            @endcanany
                         </tr>
                     </thead>
                     <tbody>
@@ -46,16 +50,13 @@
 @stop
 
 @section('js')
+    <script src="{{ asset('js/admin/message_forms.js') }}"></script>
+    <script src="{{ asset('js/admin/crud.js') }}"></script>
     <script>
-        var Toast = Swal.mixin({
-            toast: true,
-            position: 'top-end',
-            showConfirmButton: false,
-            timer: 3000
-        });
+        $(`#table`).hide();
 
         $(document).ready(function() {
-
+            let table;
             let columnAttributes = [{
                     "data": "id",
                     "render": function(data, type, row, meta) {
@@ -71,80 +72,37 @@
                 {
                     "data": "description",
                 },
-                {
-                    "data": null,
-                    "render": function(data, type, row, meta) {
-                        return (
-                            `<div class="d-flex flex-row justify-content-end text-nowrap">
-                                <a class="btn btn-primary btn-sm mr-2 font-weight-bold btn-edit" href="{{ route('identity_types.edit', ':id') }}"><i class="far fa-edit"></i> EDITAR</a>
-                                <button class="btn btn-sm btn-danger font-weight-bold btn-delete" type="button"><i class=" fas fa-trash"></i> ELIMINAR</button>
-                            </div>`.replace(':id', data.id)
-                        );
-                    }
-                }
             ];
 
             columnDefs = [{
                     className: 'text-left text-nowrap',
                     targets: [0, 1, 2, 3]
                 },
-                {
-                    className: 'text-right',
-                    targets: [4]
-                },
             ];
 
-            let table = $(`#table`).DataTable({
-                "ajax": {
-                    "url": "{{ route('identity_types.data') }}",
-                    "type": "GET",
-                    "dataSrc": "",
-                },
-                "columns": columnAttributes,
-                language: {
-                    url: 'https://cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json'
-                },
-                columnDefs: columnDefs,
-                responsive: true
+            $.ajax({
+                url: "{{ route('identity_types.get_permissions') }}",
+                type: "GET",
+                dataType: 'json',
+            }).done(function(response) {
+                $(`#table`).fadeIn();
+
+                const permissions = {
+                    can_edit: response.can_edit,
+                    can_delete: response.can_delete,
+                }
+                const buttonsTemplate = {
+                    edit: `<a class="btn btn-primary btn-sm mr-2 font-weight-bold btn-edit" href="{{ route('identity_types.edit', ':id') }}"><i class="far fa-edit"></i> EDITAR</a>`,
+                    delete: `<button class="btn btn-sm btn-danger font-weight-bold btn-delete" type="button"><i class=" fas fa-trash"></i> ELIMINAR</button>`
+                }
+
+                evaluatebuttonPermissions(columnAttributes, permissions, buttonsTemplate);
+                table = applyDataTable('table', `{{ route('identity_types.data') }}`, columnAttributes, columnDefs);
             });
 
             $(`#table tbody`).on('click', '.btn-delete', function() {
                 let data = table.row($(this).parents('tr')).data();
-                Swal.fire({
-                    title: 'Estas seguro?',
-                    text: "Esta acción no se puede revertir!",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#1e40af',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'SÍ, ELIMINAR!',
-                    cancelButtonText: 'CANCELAR'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        $.ajax({
-                            url: "{{ route('identity_types.destroy') }}",
-                            type: "POST",
-                            dataType: 'json',
-                            data: {
-                                "_token": "{{ csrf_token() }}",
-                                id: data["id"],
-                            }
-                        }).done(function(response) {
-                            if (response.code == '200') {
-                                table.ajax.reload();
-                                Toast.fire({
-                                    icon: 'success',
-                                    title: response.message
-                                });
-                            } else if (response.code == '500') {
-                                Toast.fire({
-                                    icon: 'info',
-                                    title: response.message
-                                });
-                            }
-                        });
-                    }
-                })
+                deleteElement("{{ route('identity_types.destroy') }}", "{{ csrf_token() }}", table, data)
             });
         });
     </script>

@@ -107,6 +107,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/tipos-de-identificacion/crear', [IdentityTypeController::class, 'create'])->name('identity_types.create');
     Route::get('/tipos-de-identificacion/{identity_type}/editar', [IdentityTypeController::class, 'edit'])->name('identity_types.edit');
     Route::post('/tipos-de-identificacion/eliminar', [IdentityTypeController::class, 'destroy'])->name('identity_types.destroy');
+    Route::get('/tipos-de-identificacion/permisos', [IdentityTypeController::class, 'get_permissions'])->name('identity_types.get_permissions');
 });
 
 
