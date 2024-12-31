@@ -31,8 +31,8 @@
                 </table>
 
                 <button type="submit" style="position: fixed; bottom: 20px; right: 30px;"
-                    class="btn btn-primary float-right">
-                    <i class="fas fa-save"></i> Editar</button>
+                    class="btn btn-primary float-right font-weight-bold">
+                    <i class="fas fa-save"></i> GUARDAR</button>
             </div>
         </div>
     </form>
