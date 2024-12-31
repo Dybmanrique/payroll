@@ -52,8 +52,7 @@
                                             <option></option>
                                             @foreach ($employees as $employee)
                                                 <option value="{{ $employee->id }}">[{{ $employee->identity_number }}]
-                                                    {{ $employee->last_name }} {{ $employee->second_last_name }}
-                                                    {{ $employee->name }}</option>
+                                                    {{ $employee->last_name }} {{ $employee->second_last_name }} {{ $employee->name }}</option>
                                             @endforeach
                                         </select>
                                     </div>

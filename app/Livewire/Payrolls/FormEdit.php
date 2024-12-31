@@ -290,7 +290,7 @@ class FormEdit extends Component
         $this->rem_codes = $this->rem_service->getRemCodes();
         $this->payroll_types = PayrollType::all();
         $this->funding_resources = FundingResource::all();
-        $this->employees = Employee::all();
+        $this->employees = Employee::orderBy('last_name')->get();
         $this->groups = Group::all();
         $this->periods_payroll = Period::where('payroll_id', $this->payroll->id)->orderBy('mounth')->get();
 
