@@ -28,6 +28,7 @@ class DatabaseSeeder extends Seeder
         Setting::create(['key' => 'onp_percent', 'value' => '13']);
         Setting::create(['key' => 'working_hours', 'value' => '8']);
         Setting::create(['key' => 'essalud_percent', 'value' => '9']);
+        Setting::create(['key' => 'cuarta_percent', 'value' => '8']);
         Setting::create(['key' => 'max_amount_essalud_percent', 'value' => '45']);
         Setting::create(['key' => 'uit', 'value' => '5150']);
 

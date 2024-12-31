@@ -122,15 +122,30 @@
                             @enderror
                         </div>
                     </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="cuarta_percent">Porcentaje cuarta*:</label>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">%</span>
+                                </div>
+                                <input type="number" id="cuarta_percent" wire:model='cuarta_percent'
+                                    class="form-control" placeholder="Aportación obligatoria" min="1"
+                                    max="100" step="0.01" required>
+                                @error('cuarta_percent')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        @can('settings.edit')
-            <button id="back-to-top" class="btn btn-primary back-to-top font-weight-bold" type="submit"
-                aria-label="Scroll to top">
-                <i class="fas fa-save"></i> GUARDAR
-            </button>
-        @endcan
+            @can('settings.edit')
+                <button id="back-to-top" class="btn btn-primary back-to-top font-weight-bold" type="submit"
+                    aria-label="Scroll to top">
+                    <i class="fas fa-save"></i> GUARDAR
+                </button>
+            @endcan
     </form>
 </div>
