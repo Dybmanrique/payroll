@@ -110,6 +110,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/roles/crear', [RoleController::class, 'create'])->name('roles.create');
     Route::get('/roles/{role}/editar', [RoleController::class, 'edit'])->name('roles.edit');
     Route::post('/roles/eliminar', [RoleController::class, 'destroy'])->name('roles.destroy');
+    Route::get('/roles/permisos', [RoleController::class, 'get_permissions'])->name('roles.get_permissions');
     
     Route::get('/tipos-de-identificacion', [IdentityTypeController::class, 'index'])->name('identity_types.index');
     Route::get('/tipos-de-identificacion/data', [IdentityTypeController::class, 'data'])->name('identity_types.data');
