@@ -85,10 +85,10 @@
                     "data": null,
                     "render": function(data, type, row, meta) {
                         return ` 
-                        <a href="#" role="button" class="btn-view" data-toggle="modal" data-target="#viewModal">
-                            <i class="fas fa-eye"></i>
+                        <a href="#" role="button" class="btn-view text-dark" data-toggle="modal" data-target="#viewModal">
+                            <i class="fas fa-eye"></i> ${data.name}
                         </a>
-                        ${data.name}`;
+                        `;
                     }
                 }
             ];
