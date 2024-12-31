@@ -68,6 +68,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/empleados/crear', [EmployeeController::class, 'create'])->name('employees.create');
     Route::get('/empleados/{employee}/editar', [EmployeeController::class, 'edit'])->name('employees.edit');
     Route::post('/empleados/eliminar', [EmployeeController::class, 'destroy'])->name('employees.destroy');
+    Route::get('/empleados/permisos', [EmployeeController::class, 'get_permissions'])->name('employees.get_permissions');
     
     Route::get('/tipos-de-planillas', [PayrollTypeController::class, 'index'])->name('payroll_types.index');
     Route::get('/tipos-de-planillas/data', [PayrollTypeController::class, 'data'])->name('payroll_types.data');
