@@ -9,8 +9,9 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="institution_name">Nombre*:</label>
-                            <input type="text" wire:model='institution_name' id="institution_name" class="form-control"
-                                placeholder="Ingrese el código la fuente de financiamiento" required autocomplete="off">
+                            <input type="text" wire:model='institution_name' id="institution_name"
+                                class="form-control" placeholder="Ingrese el código la fuente de financiamiento"
+                                required autocomplete="off">
                             @error('institution_name')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
@@ -53,8 +54,8 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">S/.</span>
                                 </div>
-                                <input type="number" id="uit" wire:model='uit'
-                                    class="form-control" placeholder="Aportación obligatoria" required>
+                                <input type="number" id="uit" wire:model='uit' class="form-control"
+                                    placeholder="Aportación obligatoria" required>
                             </div>
                             @error('uit')
                                 <span class="text-danger">{{ $message }}</span>
@@ -68,9 +69,10 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">%</span>
                                 </div>
-                                <input type="number" id="max_amount_essalud_percent" wire:model='max_amount_essalud_percent'
-                                    class="form-control" placeholder="Aportación obligatoria" min="1"
-                                    max="100" step="0.01" required>
+                                <input type="number" id="max_amount_essalud_percent"
+                                    wire:model='max_amount_essalud_percent' class="form-control"
+                                    placeholder="Aportación obligatoria" min="1" max="100" step="0.01"
+                                    required>
                             </div>
                             @error('max_amount_essalud_percent')
                                 <span class="text-danger">{{ $message }}</span>
@@ -112,8 +114,9 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="working_hours">Horas laborables*:</label>
-                            <input type="number" step="0.1" wire:model='working_hours' id="working_hours" class="form-control"
-                                placeholder="Ingrese el código la fuente de financiamiento" required autocomplete="off">
+                            <input type="number" step="0.1" wire:model='working_hours' id="working_hours"
+                                class="form-control" placeholder="Ingrese el código la fuente de financiamiento"
+                                required autocomplete="off">
                             @error('working_hours')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
@@ -123,8 +126,11 @@
             </div>
         </div>
 
-        <button id="back-to-top" class="btn btn-primary back-to-top font-weight-bold" type="submit" aria-label="Scroll to top">
-            <i class="fas fa-save"></i> GUARDAR
-        </button>
+        @can('settings.edit')
+            <button id="back-to-top" class="btn btn-primary back-to-top font-weight-bold" type="submit"
+                aria-label="Scroll to top">
+                <i class="fas fa-save"></i> GUARDAR
+            </button>
+        @endcan
     </form>
 </div>

@@ -101,7 +101,7 @@ return [
         'description' => 'Parámetros',
         'permissions'=> [
             'settings.index' => 'Visualizar los parámetros',
-            'settings.edit' => 'Crear los parámetros',
+            'settings.edit' => 'Editar los parámetros',
         ],
     ],
     'users' => [
