@@ -82,6 +82,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/fuentes-de-financiamiento/crear', [FundingResourceController::class, 'create'])->name('funding_resources.create');
     Route::get('/fuentes-de-financiamiento/{funding_resource}/editar', [FundingResourceController::class, 'edit'])->name('funding_resources.edit');
     Route::post('/fuentes-de-financiamiento/eliminar', [FundingResourceController::class, 'destroy'])->name('funding_resources.destroy');
+    Route::get('/fuentes-de-financiamiento/permisos', [FundingResourceController::class, 'get_permissions'])->name('funding_resources.get_permissions');
     
     Route::get('/planillas', [PayrollController::class, 'index'])->name('payrolls.index');
     Route::get('/planillas/data', [PayrollController::class, 'data'])->name('payrolls.data');
