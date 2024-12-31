@@ -40,6 +40,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/metas-presupuestales/crear', [BudgetaryObjectiveController::class, 'create'])->name('budgetary_objectives.create');
     Route::get('/metas-presupuestales/{budgetary_objective}/editar', [BudgetaryObjectiveController::class, 'edit'])->name('budgetary_objectives.edit');
     Route::post('/metas-presupuestales/eliminar', [BudgetaryObjectiveController::class, 'destroy'])->name('budgetary_objectives.destroy');
+    Route::get('/metas-presupuestales/permisos', [BudgetaryObjectiveController::class, 'get_permissions'])->name('budgetary_objectives.get_permissions');
     
     Route::get('/grupos', [GroupController::class, 'index'])->name('groups.index');
     Route::get('/grupos/data', [GroupController::class, 'data'])->name('groups.data');
