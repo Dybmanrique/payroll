@@ -9,9 +9,21 @@ use App\Models\Payroll;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 
-class DashboardController extends Controller
+class DashboardController extends Controller implements HasMiddleware
 {
+    /**
+     * Get the middleware that should be assigned to the controller.
+     */
+    public static function middleware(): array
+    {
+        return [
+            'web',
+            new Middleware('can:dashboard.index', only: ['index','get_statistics_payments']),
+        ];
+    }
 
     public function index()
     {

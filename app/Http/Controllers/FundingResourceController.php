@@ -5,13 +5,30 @@ namespace App\Http\Controllers;
 use App\Models\FundingResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 
-class FundingResourceController extends Controller
+class FundingResourceController extends Controller implements HasMiddleware
 {
+    /**
+     * Get the middleware that should be assigned to the controller.
+     */
+    public static function middleware(): array
+    {
+        return [
+            'web',
+            new Middleware('can:funding_resources.index', only: ['index','data']),
+            new Middleware('can:funding_resources.create', only: ['create']),
+            new Middleware('can:funding_resources.edit', only: ['edit']),
+            new Middleware('can:funding_resources.delete', only: ['destroy']),
+        ];
+    }
+
     public function index()
     {
         return view('admin.funding-resources.index');
     }
+
     public function data()
     {
         return FundingResource::all();

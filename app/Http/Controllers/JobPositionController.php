@@ -5,13 +5,30 @@ namespace App\Http\Controllers;
 use App\Models\JobPosition;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 
-class JobPositionController extends Controller
+class JobPositionController extends Controller implements HasMiddleware
 {
+    /**
+     * Get the middleware that should be assigned to the controller.
+     */
+    public static function middleware(): array
+    {
+        return [
+            'web',
+            new Middleware('can:job_positions.index', only: ['index','data']),
+            new Middleware('can:job_positions.create', only: ['create']),
+            new Middleware('can:job_positions.edit', only: ['edit']),
+            new Middleware('can:job_positions.delete', only: ['destroy']),
+        ];
+    }
+
     public function index()
     {
         return view('admin.job-positions.index');
     }
+
     public function data()
     {
         return JobPosition::all();

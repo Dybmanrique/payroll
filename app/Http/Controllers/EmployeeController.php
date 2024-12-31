@@ -5,13 +5,30 @@ namespace App\Http\Controllers;
 use App\Models\Employee;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 
-class EmployeeController extends Controller
+class EmployeeController extends Controller implements HasMiddleware
 {
+    /**
+     * Get the middleware that should be assigned to the controller.
+     */
+    public static function middleware(): array
+    {
+        return [
+            'web',
+            new Middleware('can:employees.index', only: ['index','data']),
+            new Middleware('can:employees.create', only: ['create']),
+            new Middleware('can:employees.edit', only: ['edit']),
+            new Middleware('can:employees.delete', only: ['destroy']),
+        ];
+    }
+
     public function index()
     {
         return view('admin.employees.index');
     }
+
     public function data()
     {
         return Employee::with('identity_type')->get();

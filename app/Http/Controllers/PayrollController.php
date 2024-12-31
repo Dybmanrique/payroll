@@ -12,13 +12,16 @@ use App\Services\Payroll\RemService;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 
-class PayrollController extends Controller
+class PayrollController extends Controller implements HasMiddleware
 {
     private $mcpp_service;
     private $report_service;
     private $jor_service;
     private $rem_service;
+
     public function __construct()
     {
         $this->mcpp_service = new McppService;
@@ -26,10 +29,26 @@ class PayrollController extends Controller
         $this->jor_service = new JorService;
         $this->rem_service = new RemService;
     }
+
+    /**
+     * Get the middleware that should be assigned to the controller.
+     */
+    public static function middleware(): array
+    {
+        return [
+            'web',
+            new Middleware('can:payrolls.index', only: ['index','data']),
+            new Middleware('can:payrolls.create', only: ['create']),
+            new Middleware('can:payrolls.edit', only: ['edit']),
+            new Middleware('can:payrolls.delete', only: ['destroy']),
+        ];
+    }
+
     public function index()
     {
         return view('admin.payrolls.index');
     }
+
     public function data()
     {
         return Payroll::with('payroll_type')->orderByDesc('id')->get();

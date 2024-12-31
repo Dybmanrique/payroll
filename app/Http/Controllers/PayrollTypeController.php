@@ -5,13 +5,30 @@ namespace App\Http\Controllers;
 use App\Models\PayrollType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 
-class PayrollTypeController extends Controller
+class PayrollTypeController extends Controller implements HasMiddleware
 {
+    /**
+     * Get the middleware that should be assigned to the controller.
+     */
+    public static function middleware(): array
+    {
+        return [
+            'web',
+            new Middleware('can:payroll_types.index', only: ['index','data']),
+            new Middleware('can:payroll_types.create', only: ['create']),
+            new Middleware('can:payroll_types.edit', only: ['edit']),
+            new Middleware('can:payroll_types.delete', only: ['destroy']),
+        ];
+    }
+
     public function index()
     {
         return view('admin.payroll-types.index');
     }
+
     public function data()
     {
         return PayrollType::all();

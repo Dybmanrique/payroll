@@ -5,13 +5,30 @@ namespace App\Http\Controllers;
 use App\Models\BudgetaryObjective;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 
-class BudgetaryObjectiveController extends Controller
+class BudgetaryObjectiveController extends Controller implements HasMiddleware
 {
+    /**
+     * Get the middleware that should be assigned to the controller.
+     */
+    public static function middleware(): array
+    {
+        return [
+            'web',
+            new Middleware('can:budgetary_objectives.index', only: ['index','data']),
+            new Middleware('can:budgetary_objectives.create', only: ['create']),
+            new Middleware('can:budgetary_objectives.edit', only: ['edit']),
+            new Middleware('can:budgetary_objectives.delete', only: ['destroy']),
+        ];
+    }
+
     public function index()
     {
         return view('admin.budgetary-objectives.index');
     }
+
     public function data()
     {
         return BudgetaryObjective::orderByDesc('id')->get();

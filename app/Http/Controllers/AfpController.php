@@ -5,9 +5,25 @@ namespace App\Http\Controllers;
 use App\Models\Afp;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 
-class AfpController extends Controller
+class AfpController extends Controller implements HasMiddleware
 {
+    /**
+     * Get the middleware that should be assigned to the controller.
+     */
+    public static function middleware(): array
+    {
+        return [
+            'web',
+            new Middleware('can:afps.index', only: ['index','data']),
+            new Middleware('can:afps.create', only: ['create']),
+            new Middleware('can:afps.edit', only: ['edit']),
+            new Middleware('can:afps.delete', only: ['destroy']),
+        ];
+    }
+
     public function index()
     {
         return view('admin.afps.index');

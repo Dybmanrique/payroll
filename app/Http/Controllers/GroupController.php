@@ -5,13 +5,30 @@ namespace App\Http\Controllers;
 use App\Models\Group;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 
-class GroupController extends Controller
+class GroupController extends Controller implements HasMiddleware
 {
+    /**
+     * Get the middleware that should be assigned to the controller.
+     */
+    public static function middleware(): array
+    {
+        return [
+            'web',
+            new Middleware('can:groups.index', only: ['index','data']),
+            new Middleware('can:groups.create', only: ['create']),
+            new Middleware('can:groups.edit', only: ['edit']),
+            new Middleware('can:groups.delete', only: ['destroy']),
+        ];
+    }
+
     public function index()
     {
         return view('admin.groups.index');
     }
+
     public function data()
     {
         return Group::with('employees')->get();
