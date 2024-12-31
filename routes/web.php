@@ -47,6 +47,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/grupos/crear', [GroupController::class, 'create'])->name('groups.create');
     Route::get('/grupos/{group}/editar', [GroupController::class, 'edit'])->name('groups.edit');
     Route::post('/grupos/eliminar', [GroupController::class, 'destroy'])->name('groups.destroy');
+    Route::get('/grupos/permisos', [GroupController::class, 'get_permissions'])->name('groups.get_permissions');
     
     Route::get('/cargos-laborales', [JobPositionController::class, 'index'])->name('job_positions.index');
     Route::get('/cargos-laborales/data', [JobPositionController::class, 'data'])->name('job_positions.data');
