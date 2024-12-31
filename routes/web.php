@@ -103,6 +103,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/usuarios/crear', [UserController::class, 'create'])->name('users.create');
     Route::get('/usuarios/{user}/editar', [UserController::class, 'edit'])->name('users.edit');
     Route::post('/usuarios/eliminar', [UserController::class, 'destroy'])->name('users.destroy');
+    Route::get('/usuarios/permisos', [UserController::class, 'get_permissions'])->name('users.get_permissions');
 
     Route::get('/roles', [RoleController::class, 'index'])->name('roles.index');
     Route::get('/roles/data', [RoleController::class, 'data'])->name('roles.data');
