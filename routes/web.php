@@ -33,6 +33,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/afps/crear', [AfpController::class, 'create'])->name('afps.create');
     Route::get('/afps/{afp}/editar', [AfpController::class, 'edit'])->name('afps.edit');
     Route::post('/afps/eliminar', [AfpController::class, 'destroy'])->name('afps.destroy');
+    Route::get('/afps/permisos', [AfpController::class, 'get_permissions'])->name('afps.get_permissions');
     
     Route::get('/metas-presupuestales', [BudgetaryObjectiveController::class, 'index'])->name('budgetary_objectives.index');
     Route::get('/metas-presupuestales/data', [BudgetaryObjectiveController::class, 'data'])->name('budgetary_objectives.data');
