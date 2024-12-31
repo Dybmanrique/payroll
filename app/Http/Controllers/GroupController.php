@@ -31,7 +31,9 @@ class GroupController extends Controller implements HasMiddleware
 
     public function data()
     {
-        return Group::with('employees')->get();
+        return Group::with(['employees' => function ($query) {
+            $query->select('id', 'name', 'last_name', 'second_last_name', 'group_id'); // Incluye la clave foránea
+        }])->get();
     }
 
     public function get_permissions()

@@ -7,6 +7,26 @@
 @stop
 
 @section('content')
+    <!-- Modal View Employees -->
+    <div class="modal fade" id="viewModal" tabindex="-1" role="dialog" aria-labelledby="viewModalTitle"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title font-weight-bold" id="viewModalTitle">ASIGNADOS</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <ol id="employees_list" class="list-group list-group-flush overflow-auto" style="max-height: 60vh"></ol>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="card">
 
         <div class="card-header">
@@ -62,15 +82,21 @@
                     }
                 },
                 {
-                    "data": "name",
-                },
+                    "data": null,
+                    "render": function(data, type, row, meta) {
+                        return ` 
+                        <a href="#" role="button" class="btn-view" data-toggle="modal" data-target="#viewModal">
+                            <i class="fas fa-eye"></i>
+                        </a>
+                        ${data.name}`;
+                    }
+                }
             ];
 
             columnDefs = [{
-                    className: 'text-left text-nowrap',
-                    targets: [0, 1]
-                },
-            ];
+                className: 'text-left text-nowrap',
+                targets: [0, 1]
+            }, ];
 
             $.ajax({
                 url: "{{ route('groups.get_permissions') }}",
@@ -95,6 +121,18 @@
             $(`#table tbody`).on('click', '.btn-delete', function() {
                 let data = table.row($(this).parents('tr')).data();
                 deleteElement("{{ route('groups.destroy') }}", "{{ csrf_token() }}", table, data)
+            });
+
+            $(`#table tbody`).on('click', '.btn-view', function() {
+                let data = table.row($(this).parents('tr')).data();
+                const list = document.getElementById('employees_list');
+                list.innerHTML = '';
+                data.employees.forEach((employee, index) => {
+                    item = document.createElement('li');
+                    item.textContent = `${index + 1}. ${employee.last_name} ${employee.second_last_name} ${employee.name}`;
+                    item.classList.add('list-group-item');
+                    list.appendChild(item);
+                });
             });
         });
     </script>
