@@ -14,7 +14,7 @@ function evaluatebuttonPermissions(columnAttributes, permissions, buttonsTemplat
                 }
 
                 return (
-                    `<div class="d-flex flex-row justify-content-center">
+                    `<div class="d-flex flex-row justify-content-center text-nowrap">
                         ${buttons}
                     </div>`
                 );
