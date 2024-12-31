@@ -75,6 +75,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/tipos-de-planillas/crear', [PayrollTypeController::class, 'create'])->name('payroll_types.create');
     Route::get('/tipos-de-planillas/{payroll_type}/editar', [PayrollTypeController::class, 'edit'])->name('payroll_types.edit');
     Route::post('/tipos-de-planillas/eliminar', [PayrollTypeController::class, 'destroy'])->name('payroll_types.destroy');
+    Route::get('/tipos-de-planillas/permisos', [PayrollTypeController::class, 'get_permissions'])->name('payroll_types.get_permissions');
     
     Route::get('/fuentes-de-financiamiento', [FundingResourceController::class, 'index'])->name('funding_resources.index');
     Route::get('/fuentes-de-financiamiento/data', [FundingResourceController::class, 'data'])->name('funding_resources.data');
