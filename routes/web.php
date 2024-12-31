@@ -94,6 +94,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/planillas/{period}/reporte-general', [PayrollController::class, 'general_report'])->name('payrolls.general_report');
     Route::get('/planillas/{period}/imprimir-planilla', [PayrollController::class, 'payroll_report'])->name('payrolls.payroll_report');
     Route::get('/planillas/{period}/resumen-planilla', [PayrollController::class, 'payroll_summary'])->name('payrolls.payroll_summary');
+    Route::get('/planillas/permisos', [PayrollController::class, 'get_permissions'])->name('payrolls.get_permissions');
 
     Route::get('/parametros', [SettingController::class, 'index'])->name('settings.index');
 

@@ -11,6 +11,7 @@ use App\Services\Payroll\ReportService;
 use App\Services\Payroll\RemService;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Auth;
 
 class PayrollController extends Controller
 {
@@ -32,6 +33,23 @@ class PayrollController extends Controller
     public function data()
     {
         return Payroll::with('payroll_type')->orderByDesc('id')->get();
+    }
+
+    public function get_permissions()
+    {
+        /** @var User $user */
+        $user = Auth::user();
+        $can_index = $user->can('payrolls.index');
+        $can_create = $user->can('payrolls.create');
+        $can_edit = $user->can('payrolls.edit');
+        $can_delete = $user->can('payrolls.delete');
+
+        return response()->json([
+            'can_index' => $can_index,
+            'can_create' => $can_create,
+            'can_edit' => $can_edit,
+            'can_delete' => $can_delete,
+        ]);
     }
 
     public function create()
