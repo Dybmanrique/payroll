@@ -16,6 +16,15 @@ return [
             'afps.delete' => 'Eliminar las afps',
         ],
     ],
+    'identity_types' => [
+        'description' => 'Tipos de identificación',
+        'permissions'=> [
+            'identity_types.index' => 'Visualizar los tipos de identificación',
+            'identity_types.create' => 'Crear los tipos de identificación',
+            'identity_types.edit' => 'Editar los tipos de identificación',
+            'identity_types.delete' => 'Eliminar los tipos de identificación',
+        ],
+    ],
     'budgetary_objectives' => [
         'description' => 'Metas presupuestales',
         'permissions'=> [

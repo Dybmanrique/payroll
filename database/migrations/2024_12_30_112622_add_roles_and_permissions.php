@@ -68,6 +68,11 @@ return new class extends Migration
         'roles.create',
         'roles.edit',
         'roles.delete',
+        //identity_types
+        'identity_types.index',
+        'identity_types.create',
+        'identity_types.edit',
+        'identity_types.delete',
     ];
     /**
      * Run the migrations.
