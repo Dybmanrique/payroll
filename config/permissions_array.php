@@ -108,18 +108,18 @@ return [
         'description' => 'Usuarios',
         'permissions'=> [
             'users.index' => 'Visualizar los usuarios',
-            'users.create' => 'Visualizar los usuarios',
-            'users.edit' => 'Visualizar los usuarios',
-            'users.delete' => 'Visualizar los usuarios',
+            'users.create' => 'Crear los usuarios',
+            'users.edit' => 'Editar los usuarios',
+            'users.delete' => 'Eliminar los usuarios',
         ],
     ],
     'roles' => [
         'description' => 'Roles',
         'permissions'=> [
             'roles.index' => 'Visualizar los roles',
-            'roles.create' => 'Visualizar los roles',
-            'roles.edit' => 'Visualizar los roles',
-            'roles.delete' => 'Visualizar los roles',
+            'roles.create' => 'Crear los roles',
+            'roles.edit' => 'Editar los roles',
+            'roles.delete' => 'Eliminar los roles',
         ],
     ],
 ];
