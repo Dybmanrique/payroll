@@ -1,5 +1,9 @@
 <?php
 
+use Illuminate\Validation\Rules\Can;
+
+use function Pest\Laravel\call;
+
 return [
 
     /*
@@ -320,87 +324,101 @@ return [
             'route' => 'dashboard.index',
             'icon' => 'fas fa-fw fa-tachometer-alt',
             'active' => ['dashboard'],
+            'can' => 'dashboard.index',
         ],
-        ['header' => 'EMPLEADOS'],
+        ['header' => 'EMPLEADOS', 'can' => ['afps.index', 'identity_types.index', 'budgetary_objectives.index', 'groups.index', 'job_positions.index', 'levels.index', 'employees.index']],
         [
             'text' => 'AFP',
             'route' => 'afps.index',
             'icon' => 'fas fa-fw fa-hand-holding-usd',
             'active' => ['afps/*'],
+            'can' => 'afps.index',
         ],
         [
             'text' => 'Tipos Identificación',
             'route' => 'identity_types.index',
             'icon' => 'fas fa-fw fa-id-card',
             'active' => ['metas-presupuestales/*'],
+            'can' => 'identity_types.index',
         ],
         [
             'text' => 'Metas Presupuestales',
             'route' => 'budgetary_objectives.index',
             'icon' => 'fas fa-fw fa-th-list',
             'active' => ['metas-presupuestales/*'],
+            'can' => 'budgetary_objectives.index',
         ],
         [
             'text' => 'Grupos',
             'route' => 'groups.index',
             'icon' => 'fas fa-fw fa-user-friends',
             'active' => ['grupos/*'],
+            'can' => 'groups.index',
         ],
         [
             'text' => 'Cargos laborales',
             'route' => 'job_positions.index',
             'icon' => 'fas fa-fw fa-id-card-alt',
             'active' => ['cargos-laborales/*'],
+            'can' => 'job_positions.index',
         ],
         [
             'text' => 'Niveles',
             'route' => 'levels.index',
             'icon' => 'fas fa-fw fa-chart-line',
             'active' => ['niveles/*'],
+            'can' => 'levels.index',
         ],
         [
             'text' => 'Empleados',
             'route' => 'employees.index',
             'icon' => 'fas fa-fw fa-user-tie',
             'active' => ['empleados/*'],
+            'can' => 'employees.index',
         ],
-        ['header' => 'PLANILLAS'],
+        ['header' => 'PLANILLAS', 'can' => ['funding_resources.index', 'payroll_types.index', 'payrolls.index']],
         [
             'text' => 'Fuentes de financiamiento',
             'route' => 'funding_resources.index',
             'icon' => 'fas fa-fw fa-dollar-sign',
             'active' => ['fuentes-de-financiamiento/*'],
+            'can' => 'funding_resources.index',
         ],
         [
             'text' => 'Tipos de planillas',
             'route' => 'payroll_types.index',
             'icon' => 'fas fa-fw fa-stream',
             'active' => ['tipos-de-planillas/*'],
+            'can' => 'payroll_types.index',
         ],
         [
             'text' => 'Planillas',
             'route' => 'payrolls.index',
             'icon' => 'fas fa-fw fa-folder-open',
             'active' => ['planillas/*'],
+            'can' => 'payrolls.index',
         ],
-        ['header' => 'SISTEMA'],
+        ['header' => 'SISTEMA', 'can' => ['settings.index', 'users.index', 'roles.index']],
         [
             'text' => 'Parámetros',
             'route' => 'settings.index',
             'icon' => 'fas fa-fw fa-cog',
             'active' => ['parametros/*'],
+            'can' => 'settings.index',
         ],
         [
             'text' => 'Usuarios',
             'route' => 'users.index',
             'icon' => 'fas fa-fw fa-user-cog',
             'active' => ['usuarios/*'],
+            'can' => 'users.index',
         ],
         [
             'text' => 'Roles',
             'route' => 'roles.index',
             'icon' => 'fas fa-fw fa-key',
             'active' => ['roles/*'],
+            'can' => 'roles.index',
         ],
     ],
 
