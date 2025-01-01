@@ -3,14 +3,20 @@
 namespace App\Livewire\Settings;
 
 use App\Models\Setting;
+use Illuminate\Support\Facades\Gate;
 use Livewire\Component;
 
 class Form extends Component
 {
-    public $institution_name, $ruc, $airhsp_code, $essalud_percent, 
-    $onp_percent, $working_hours, $uit,$max_amount_essalud_percent, $cuarta_percent;
+    public $institution_name, $ruc, $airhsp_code, $essalud_percent,
+        $onp_percent, $working_hours, $uit, $max_amount_essalud_percent, $cuarta_percent;
 
-    public function save(){
+    public function save()
+    {
+        if (!Gate::allows('settings.edit')) {
+            abort(403, 'No tienes permiso para realizar esta acción.');
+        }
+
         $this->validate([
             'institution_name' => 'required|string|max:255',
             'ruc' => 'required|numeric|digits:11',
@@ -38,7 +44,8 @@ class Form extends Component
         }
     }
 
-    public function mount(){
+    public function mount()
+    {
         $this->institution_name = Setting::where('key', 'institution_name')->first()->value;
         $this->ruc = Setting::where('key', 'ruc')->first()->value;
         $this->airhsp_code = Setting::where('key', 'airhsp_code')->first()->value;
