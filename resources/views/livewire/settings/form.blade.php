@@ -142,10 +142,11 @@
             </div>
 
             @can('settings.edit')
-                <button id="back-to-top" class="btn btn-primary back-to-top font-weight-bold" type="submit"
+                <button class="btn btn-primary back-to-top font-weight-bold" type="submit"
                     aria-label="Scroll to top">
                     <i class="fas fa-save"></i> GUARDAR
                 </button>
             @endcan
+        </div>
     </form>
 </div>
