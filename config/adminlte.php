@@ -338,7 +338,7 @@ return [
             'text' => 'Tipos Identificación',
             'route' => 'identity_types.index',
             'icon' => 'fas fa-fw fa-id-card',
-            'active' => ['metas-presupuestales/*'],
+            'active' => ['tipos-de-identificacion/*'],
             'can' => 'identity_types.index',
         ],
         [

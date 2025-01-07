@@ -15,7 +15,7 @@ class SettingController extends Controller implements HasMiddleware
     {
         return [
             'web',
-            new Middleware('can:roles.index', only: ['index']),
+            new Middleware('can:settings.index', only: ['index']),
         ];
     }
 
