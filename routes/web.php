@@ -22,12 +22,6 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['au
 Route::get('/dashboard/estadisticas-pagos', [DashboardController::class, 'get_statistics_payments'])->middleware(['auth', 'verified'])->name('dashboard.get_statistics_payments');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
-
-Route::middleware('auth')->group(function () {
     Route::get('/afps', [AfpController::class, 'index'])->name('afps.index');
     Route::get('/afps/data', [AfpController::class, 'data'])->name('afps.data');
     Route::get('/afps/crear', [AfpController::class, 'create'])->name('afps.create');
