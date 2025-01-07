@@ -34,7 +34,7 @@
                     </tr>
                     <tr>
                         <td class="text-bold">ESTABLECIMIENTO</td>
-                        <td>: UGEL - Asunción</td>
+                        <td>: UGEL - ASUNCIÓN</td>
                     </tr>
                 </table>
             </td>
