@@ -971,7 +971,7 @@
                         <div class="card mt-2">
                             <div class="card-body">
                                 <div class="row">
-                                    <div class="col-md-3">
+                                    <div class="col-md-4 col-xl-3 mb-2 text-nowrap">
                                         <button id="btnCalculate" wire:target="calculate"
                                             wire:loading.class='disabled' type="button"
                                             class="mt-1 font-weight-bold btn btn-info w-100 h-100" onclick='calculate()'>
@@ -982,54 +982,52 @@
                                             <i class="fas fa-calculator"></i> REALIZAR CALCULOS
                                         </button>
                                     </div>
-                                    <div class="col-md-3">
+                                    <div class="col-md-4 col-xl-3 mb-2 text-nowrap">
                                         <button type="button" data-toggle="modal" data-target="#modalMcpp"
                                             class="mt-1 font-weight-bold btn btn-secondary w-100 h-100"
                                             wire:click='prepare_mcpp'>
                                             <i class="fas fa-file-alt"></i> INTERFAZ MCPP
                                         </button>
                                     </div>
-                                    <div class="col-md-3">
+                                    <div class="col-md-4 col-xl-3 mb-2 text-nowrap">
                                         <a href="{{ route('payrolls.generate_payment_slips_period', $selected_period) }}"
                                             class="mt-1 font-weight-bold btn btn-secondary w-100 h-100" target="_blank">
                                             <i class="fas fa-file-pdf"></i> IMPRIMIR BOLETAS
                                         </a>
                                     </div>
-                                    <div class="col-md-3">
+                                    <div class="col-md-4 col-xl-3 mb-2 text-nowrap">
                                         <a href="{{ route('payrolls.general_report', $selected_period) }}"
                                             class="mt-1 font-weight-bold btn btn-secondary w-100 h-100" target="_blank">
                                             <i class="fas fa-file-pdf"></i> REPORTE GENERAL
                                         </a>
                                     </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-3">
+                                    <div class="col-md-4 col-xl-3 mb-2 text-nowrap">
                                         <a href="{{ route('payrolls.payroll_report', $selected_period) }}"
                                             class="mt-1 font-weight-bold btn btn-secondary w-100 h-100" target="_blank">
                                             <i class="fas fa-file-pdf"></i> IMPRIMIR PLANILLA
                                         </a>
                                     </div>
-                                    <div class="col-md-3">
+                                    <div class="col-md-4 col-xl-3 mb-2 text-nowrap">
                                         <a href="{{ route('payrolls.payroll_summary', $selected_period) }}"
                                             class="mt-1 font-weight-bold btn btn-secondary w-100 h-100" target="_blank">
                                             <i class="fas fa-file-pdf"></i> RESUMEN DE PLANILLA
                                         </a>
                                     </div>
-                                    <div class="col-md-3">
+                                    <div class="col-md-4 col-xl-3 mb-2 text-nowrap">
                                         <button type="button" data-toggle="modal" data-target="#modalAfpNet"
                                             class="mt-1 font-weight-bold btn btn-secondary w-100 h-100"
                                             wire:click='prepare_afp_net'>
                                             <i class="fas fa-file-excel"></i> AFP NET
                                         </button>
                                     </div>
-                                    <div class="col-md-3">
+                                    <div class="col-md-4 col-xl-3 mb-2 text-nowrap">
                                         <button type="button" data-toggle="modal" data-target="#modalJor"
                                             class="mt-1 font-weight-bold btn btn-secondary w-100 h-100"
                                             wire:click='prepare_jor'>
                                             <i class="fas fa-file-alt"></i> JOR
                                         </button>
                                     </div>
-                                    <div class="col-md-3">
+                                    <div class="col-md-4 col-xl-3 mb-2 text-nowrap">
                                         <button type="button" data-toggle="modal" data-target="#modalRem"
                                             class="mt-1 font-weight-bold btn btn-secondary w-100 h-100"
                                             wire:click='prepare_rem'>
