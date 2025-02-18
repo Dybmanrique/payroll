@@ -45,8 +45,8 @@
                         <div class="col-md-5">
                             <div wire:ignore class="form-group">
                                 <label for="modal_employee_id">Lista de empleados*:</label>
-                                <div class="d-flex flex-row">
-                                    <div class="w-100">
+                                <div class="row">
+                                    <div class="col-9 col-lg-10">
                                         <select id="modal_employee_id" class="form-control select2"
                                             data-placeholder="Seleccione un empleado" required>
                                             <option></option>
@@ -56,7 +56,7 @@
                                             @endforeach
                                         </select>
                                     </div>
-                                    <button class="btn btn-success ml-1" title="Volver a cargar"
+                                    <button class="btn btn-success col-3 col-lg-2" title="Volver a cargar"
                                         onclick="searchContracts()"><i class="fas fa-sync-alt"></i>
                                     </button>
                                 </div>
@@ -165,16 +165,17 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="modal_group_id">Lista de grupos*:</label>
-                                <div class="d-flex flex-row">
+                                <div class="row">
+                                    <div class="col-9 col-lg-10 mx-1">
+                                        <select name="modal_group_id" id="modal_group_id" class="form-control" required>
+                                            <option value="">--Seleccione--</option>
+                                            @foreach ($groups as $group)
+                                                <option value="{{ $group->id }}">{{ $group->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
 
-                                    <select name="modal_group_id" id="modal_group_id" class="form-control" required>
-                                        <option value="">--Seleccione--</option>
-                                        @foreach ($groups as $group)
-                                            <option value="{{ $group->id }}">{{ $group->name }}</option>
-                                        @endforeach
-                                    </select>
-
-                                    <button class="btn btn-success ml-1" title="Volver a cargar"
+                                    <button class="btn btn-success col-3 col-lg-2" title="Volver a cargar"
                                         onclick="searchContractsGroup()"><i class="fas fa-sync-alt"></i></button>
                                 </div>
                                 @error('modal_group_id')
