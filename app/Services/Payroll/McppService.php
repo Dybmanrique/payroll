@@ -51,9 +51,11 @@ class McppService
 
                     //AFP SEGURO
                     array_push($mcpp_item, [$identity_document_type, $employee->identity_number, $period->payroll->funding_resource->code, $concepts_types['DESCUENTOS'], $airhsp_concepts_codes['AFP SEGURO'], "SEGURO - AFP", $payment->life_insurance_afp, $airhsp_record_type, $employee->airhsp_code]);
-
+                    
                     //AFP COM VAR
-                    array_push($mcpp_item, [$identity_document_type, $employee->identity_number, $period->payroll->funding_resource->code, $concepts_types['DESCUENTOS'], $airhsp_concepts_codes['AFP COM VAR'], "COM.VARIABLE-AFP", $payment->variable_afp, $airhsp_record_type, $employee->airhsp_code]);
+                    if($payment->variable_afp){
+                        array_push($mcpp_item, [$identity_document_type, $employee->identity_number, $period->payroll->funding_resource->code, $concepts_types['DESCUENTOS'], $airhsp_concepts_codes['AFP COM VAR'], "COM.VARIABLE-AFP", $payment->variable_afp, $airhsp_record_type, $employee->airhsp_code]);
+                    }
                 }
 
                 //CUARTA CATEGORÍA
