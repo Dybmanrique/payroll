@@ -4,14 +4,14 @@ return [
     // LAS FUENTES DE FINANCIAMIENTO YA NO SE CONSIDERAN PORQUE EXISTE TABLA BD
     'TIPO_CONCEPTO' => [
         'BY_CODE' => [
-            '01' => 'INGRESOS',
-            '02' => 'DESCUENTOS',
-            '03' => 'APORTACIONES',
+            '1' => 'INGRESOS',
+            '2' => 'DESCUENTOS',
+            '3' => 'APORTACIONES',
         ],
         'BY_NAME' => [
-            'INGRESOS' => '01',
-            'DESCUENTOS' => '02',
-            'APORTACIONES' => '03',
+            'INGRESOS' => '1',
+            'DESCUENTOS' => '2',
+            'APORTACIONES' => '3',
         ],
     ],
     'CONCEPTOS' => [
