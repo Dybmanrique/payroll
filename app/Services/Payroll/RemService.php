@@ -64,7 +64,9 @@ class RemService
                     array_push($rem_item, [$identity_document_type, $employee->identity_number, '0606', $payment->total_remuneration, $payment->life_insurance_afp]);
 
                     //AFP COM VAR
-                    array_push($rem_item, [$identity_document_type, $employee->identity_number, '0601', $payment->total_remuneration, $payment->variable_afp]);
+                    if($payment->variable_afp){
+                        array_push($rem_item, [$identity_document_type, $employee->identity_number, '0601', $payment->total_remuneration, $payment->variable_afp]);
+                    }
                 }
 
                 //CUARTA CATEGORÍA
