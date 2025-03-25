@@ -108,7 +108,7 @@ class McppService
         }
     }
 
-    public static function generateFileName($period_id): string
+    public static function generateFileName($period_id, $correlative): string
     {
         $mcpp_concepts = config('mcpp_concepts');
         $period = Period::find($period_id);
@@ -117,7 +117,7 @@ class McppService
         $mounth_process = sprintf('%02d', $period->mounth);
         $payroll_type = $mcpp_concepts['CODIGOS_TIPO_PLANILLA']['BY_NAME']['ACTIVO'];
         $payroll_class = $mcpp_concepts['CODIGOS_CLASE_PLANILLA']['BY_NAME']['CAS'];
-        $correlative = $period->payroll->number;
+        // $correlative = $period->payroll->number;
         $extension = ".txt";
 
         return "PLL{$executing_unit}{$year_process}{$mounth_process}{$payroll_type}{$payroll_class}{$correlative}{$extension}";

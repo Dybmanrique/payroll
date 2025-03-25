@@ -668,12 +668,17 @@
                         </div>
                         <div class="text-nowrap" wire:loading.class='d-none' wire:target="prepare_mcpp">
                             @if (count($mcpp_list) > 0)
+                                <div class='d-flex flex-row align-items-center'>
+                                    <span class="font-weight-bold mr-2">N°:</span>
+                                    <input type="text" class='form-control' style='max-width: 200px;' wire:model='mcpp_correlative'>
+                                </div>
+                                <hr>
                                 <div class="table-responsive" style="max-height: 65vh">
                                     <div class="row mb-3">
-                                        <div class="col-md-3"><span class="font-weight-bold">N° FILAS:</span> {{ $mcpp_list['header'][6] }}</div>
-                                        <div class="col-md-3"><span class="font-weight-bold">TOTAL INGRESOS:</span> {{ $mcpp_list['header'][7] }}</div>
-                                        <div class="col-md-3"><span class="font-weight-bold">TOTAL DESCUENTOS:</span> {{ $mcpp_list['header'][8] }}</div>
-                                        <div class="col-md-3"><span class="font-weight-bold">TOTAL APORTES:</span> {{ $mcpp_list['header'][9] }}</div>
+                                        <div class="col-md-6 col-xl-3"><span class="font-weight-bold">N° FILAS:</span> {{ $mcpp_list['header'][6] }}</div>
+                                        <div class="col-md-6 col-xl-3"><span class="font-weight-bold">TOTAL INGRESOS:</span> {{ $mcpp_list['header'][7] }}</div>
+                                        <div class="col-md-6 col-xl-3"><span class="font-weight-bold">TOTAL DESCUENTOS:</span> {{ $mcpp_list['header'][8] }}</div>
+                                        <div class="col-md-6 col-xl-3"><span class="font-weight-bold">TOTAL APORTES:</span> {{ $mcpp_list['header'][9] }}</div>
                                     </div>
                                     <table class="table table-sm">
                                         <thead class="thead-dark">

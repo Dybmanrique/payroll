@@ -250,6 +250,7 @@ class FormEdit extends Component
     }
 
     public $mcpp_list = [];
+    public $mcpp_correlative;
     public $funding_resources_array = [];
     public $mcpp_concepts = [];
 
@@ -261,7 +262,8 @@ class FormEdit extends Component
     public function export_mcpp()
     {
         try {
-            $fileName = McppService::generateFileName($this->selected_period);
+            $fileName = McppService::generateFileName($this->selected_period, $this->mcpp_correlative);
+            $this->mcpp_list['header'][5] = $this->mcpp_correlative;
             $header = implode('|', $this->mcpp_list['header']);
             $body = McppService::onlyValuesMcpp($this->mcpp_list['mcpp_list']);
             $content = "{$header}\n{$body}";
@@ -273,6 +275,7 @@ class FormEdit extends Component
             $this->dispatch('message', code: '500', content: 'Algo salió mal');
         }
     }
+
 
     public function calculate()
     {
@@ -301,6 +304,7 @@ class FormEdit extends Component
 
         $this->funding_resources_array = FundingResource::pluck('name', 'code');
         $this->mcpp_concepts = config('mcpp_concepts');
+        $this->mcpp_correlative = $this->payroll->number;
     }
 
     protected $payment_service;
