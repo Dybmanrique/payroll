@@ -303,6 +303,7 @@ class FormEdit extends Component
         $this->year = $this->payroll->year;
         $this->payroll_type_id = $this->payroll->payroll_type_id;
         $this->funding_resource_id = $this->payroll->funding_resource_id;
+        $this->name = $this->payroll->name;
 
         $this->funding_resources_array = FundingResource::pluck('name', 'code');
         $this->mcpp_concepts = config('mcpp_concepts');
