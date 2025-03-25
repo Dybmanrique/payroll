@@ -47,6 +47,14 @@
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
                     </div>
+                    <div class="form-group col-md-12">
+                        <label for="name">Nombre*:</label>
+                        <input type="text" wire:model='name' id="name" class="form-control"
+                            placeholder="Ingrese el nombre de la planilla" required autocomplete="off">
+                        @error('name')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                    </div>
                 </div>
             </div>
             <div class="card-footer">

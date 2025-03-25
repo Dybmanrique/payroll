@@ -13,11 +13,12 @@ class FormCreate extends Component
 {
     public $payroll_types, $funding_resources, $employees, $groups;
 
-    public $number, $year, $payroll_type_id, $funding_resource_id;
+    public $number, $year, $payroll_type_id, $funding_resource_id, $name;
 
     public function save()
     {
         $this->validate([
+            'name' => 'required|string|max:255',
             'number' => 'required|numeric|digits:4',
             'year' => 'required|numeric|digits:4',
             'payroll_type_id' => 'required|numeric',
@@ -26,6 +27,7 @@ class FormCreate extends Component
 
         try {
             $payroll = Payroll::create([
+                'name' => $this->name,
                 'number' => $this->number,
                 'year' => $this->year,
                 'payroll_type_id' => $this->payroll_type_id,

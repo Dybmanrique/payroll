@@ -20,6 +20,7 @@
                     <thead class="thead-dark">
                         <tr>
                             <th scope="col">#</th>
+                            <th scope="col">NOMBRE</th>
                             <th scope="col">NÚMERO</th>
                             <th scope="col">AÑO</th>
                             <th scope="col">TIPO</th>
@@ -59,6 +60,12 @@
                     "data": "id",
                     "render": function(data, type, row, meta) {
                         return meta.row + 1;
+                    }
+                },
+                {
+                    "data": "name",
+                    "render": function(data, type, row, meta) {
+                        return data ?? 'No tiene';
                     }
                 },
                 {
