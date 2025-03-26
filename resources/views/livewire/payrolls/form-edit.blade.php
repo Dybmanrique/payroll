@@ -166,7 +166,7 @@
                             <div class="form-group">
                                 <label for="modal_group_id">Lista de grupos*:</label>
                                 <div class="row">
-                                    <div class="col-9 col-lg-10 mx-1">
+                                    <div class="col-9 col-lg-10">
                                         <select name="modal_group_id" id="modal_group_id" class="form-control" required>
                                             <option value="">--Seleccione--</option>
                                             @foreach ($groups as $group)
