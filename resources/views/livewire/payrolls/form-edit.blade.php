@@ -432,7 +432,7 @@
                                 </table>
                             @else
                                 <div class="font-weight-bold text-center rounded-sm border shadow-sm m-1 p-2">
-                                    NINGÚN REGISTRO AFP ENCONTRADO
+                                    NINGÚN REGISTRO ENCONTRADO
                                 </div>
                             @endif
                         </div>
@@ -534,7 +534,7 @@
                                 </div>
                             @else
                                 <div class="font-weight-bold text-center rounded-sm border shadow-sm m-1 p-2">
-                                    NINGÚN REGISTRO AFP ENCONTRADO
+                                    NINGÚN REGISTRO ENCONTRADO
                                 </div>
                             @endif
                         </div>
@@ -628,7 +628,7 @@
                                 </div>
                             @else
                                 <div class="font-weight-bold text-center rounded-sm border shadow-sm m-1 p-2">
-                                    NINGÚN REGISTRO AFP ENCONTRADO
+                                    NINGÚN REGISTRO ENCONTRADO
                                 </div>
                             @endif
                         </div>
@@ -736,7 +736,7 @@
                                 </div>
                             @else
                                 <div class="font-weight-bold text-center rounded-sm border shadow-sm m-1 p-2">
-                                    NINGÚN REGISTRO AFP ENCONTRADO
+                                    NINGÚN REGISTRO ENCONTRADO
                                 </div>
                             @endif
                         </div>
