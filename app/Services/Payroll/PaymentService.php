@@ -41,9 +41,9 @@ class PaymentService
                 }
 
                 if (($payment->basic + $payment->refound) < UIT * MAX_AMOUNT_ESSALUD) {
-                    $payment->essalud = ($payment->basic + $payment->refound) * ESSALUD;
+                    $payment->essalud = round(($payment->basic + $payment->refound) * ESSALUD);
                 } else {
-                    $payment->essalud = (UIT * MAX_AMOUNT_ESSALUD) * ESSALUD;
+                    $payment->essalud = round((UIT * MAX_AMOUNT_ESSALUD) * ESSALUD);
                 }
 
                 if ($employee->cuarta) {
