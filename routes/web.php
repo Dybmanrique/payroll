@@ -3,7 +3,6 @@
 use App\Http\Controllers\AfpController;
 use App\Http\Controllers\BudgetaryObjectiveController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\EmpleadoAuthController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\FundingResourceController;
 use App\Http\Controllers\GroupController;
@@ -16,13 +15,19 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\UserController;
-use Barryvdh\DomPDF\Facade\Pdf;
+use App\Http\Controllers\WorkerAuthController;
 use Illuminate\Support\Facades\Route;
 
 
-Route::get('/', function () {
-    return view('welcome'); // Vista para empleados
-})->name('welcome');
+// Route::get('/', function () {
+//     return view('welcome'); // Vista para empleados
+// })->middleware(['web'])->name('welcome');
+
+Route::middleware(['web'])->group(function () {
+    Route::get('/', function () {
+        return view('welcome');
+    })->name('welcome');
+});
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard.index');
 Route::get('/dashboard/estadisticas-pagos', [DashboardController::class, 'get_statistics_payments'])->middleware(['auth', 'verified'])->name('dashboard.get_statistics_payments');
@@ -120,15 +125,15 @@ Route::middleware('auth')->group(function () {
     Route::get('/tipos-de-identificacion/permisos', [IdentityTypeController::class, 'get_permissions'])->name('identity_types.get_permissions');
 });
 
-Route::prefix('empleado')->group(function () {
-    Route::get('login', [EmpleadoAuthController::class, 'showLoginForm'])->name('empleado.login');
-    Route::post('login', [EmpleadoAuthController::class, 'login']);
-    Route::post('logout', [EmpleadoAuthController::class, 'logout'])->name('empleado.logout');
+Route::prefix('trabajadores')->group(function () {
+    Route::get('login', [WorkerAuthController::class, 'showLoginForm'])->name('workers.login');
+    Route::post('login', [WorkerAuthController::class, 'login']);
+    Route::post('logout', [WorkerAuthController::class, 'logout'])->name('workers.logout');
 
-    Route::middleware('auth:employee')->group(function () {
+    Route::middleware('auth.worker')->group(function () {
         Route::get('dashboard', function () {
-            return view('employees.dashboard'); // Vista para empleados
-        })->name('empleado.dashboard');
+            return view('workers.dashboard'); // Vista para empleados
+        })->name('workers.dashboard');
     });
 });
 

@@ -6,7 +6,7 @@ use App\Models\IdentityType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class EmpleadoAuthController extends Controller
+class WorkerAuthController extends Controller
 {
     public function showLoginForm()
     {

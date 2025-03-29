@@ -6,23 +6,32 @@
     <div class="py-12 px-2">
         <div class="max-w-2xl mx-auto sm:px-6 lg:px-8">
             <div class="flex flex-row items-center p-6 py-2 mb-2 rounded-md bg-white shadow-sm">
-                <p><span class="font-semibold">Inicia sesión</span> como <span class="font-semibold">administrador.</span></p>
+                <p><span class="font-semibold">Inicia sesión</span> para consultar las <span class="font-semibold">boletas de tus pagos.</span></p>
             </div>
 
             <div class="bg-white overflow-hidden shadow-sm rounded-md mb-2">
                 <div class="p-6 text-gray-900">
-                    <!-- Session Status -->
-                    <x-auth-session-status class="mb-4" :status="session('status')" />
-
-                    <form method="POST" action="{{ route('login') }}">
+                    <form method="POST" action="{{ route('workers.login') }}">
                         @csrf
+                        <!-- Identity type -->
+                        <div>
+                            <x-input-label for="identity_type_id" :value="__('Tipo identificación')" />
+                            {{-- <x-text-input id="identity_type_id" class="block mt-1 w-full" type="text" name="identity_type_id"
+                                :value="old('identity_type_id')" required autofocus autocomplete="identity_type_id" /> --}}
+                            <select name="identity_type_id" id="identity_type_id" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
+                                @foreach ($identity_types as $identity_type)
+                                    <option value="{{$identity_type->id}}" {{old('identity_type_id') == $identity_type->id ? 'selected' : ''}}>{{$identity_type->name}}</option>
+                                @endforeach
+                            </select>
+                            <x-input-error :messages="$errors->get('identity_type_id')" class="mt-2" />
+                        </div>
 
                         <!-- Email Address -->
-                        <div>
-                            <x-input-label for="email" :value="__('Email')" />
-                            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email"
-                                :value="old('email')" required autofocus autocomplete="username" />
-                            <x-input-error :messages="$errors->get('email')" class="mt-2" />
+                        <div class="mt-4">
+                            <x-input-label for="identity_number" :value="__('N° identificación')" />
+                            <x-text-input id="identity_number" class="block mt-1 w-full" type="text" name="identity_number"
+                                :value="old('identity_number')" required autofocus autocomplete="identity_number" />
+                            <x-input-error :messages="$errors->get('identity_number')" class="mt-2" />
                         </div>
 
                         <!-- Password -->
@@ -59,6 +68,10 @@
                         </div>
                     </form>
                 </div>
+            </div>
+
+            <div class="flex flex-row items-center p-6 py-2 mb-2 rounded-md bg-white shadow-sm">
+                <p>Si tienes problemas para acceder, comunícate al siguiente correo <span class="font-semibold">planillas@ugelasuncion.gob.pe</span>, como también puede acercarce a las oficinas de UGEL Asunción.</p>
             </div>
 
         </div>
