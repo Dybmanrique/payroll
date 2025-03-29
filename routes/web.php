@@ -3,6 +3,7 @@
 use App\Http\Controllers\AfpController;
 use App\Http\Controllers\BudgetaryObjectiveController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\EmpleadoAuthController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\FundingResourceController;
 use App\Http\Controllers\GroupController;
@@ -17,6 +18,11 @@ use App\Http\Controllers\SettingController;
 use App\Http\Controllers\UserController;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Route;
+
+
+Route::get('/', function () {
+    return view('welcome'); // Vista para empleados
+})->name('welcome');
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard.index');
 Route::get('/dashboard/estadisticas-pagos', [DashboardController::class, 'get_statistics_payments'])->middleware(['auth', 'verified'])->name('dashboard.get_statistics_payments');
@@ -112,6 +118,18 @@ Route::middleware('auth')->group(function () {
     Route::get('/tipos-de-identificacion/{identity_type}/editar', [IdentityTypeController::class, 'edit'])->name('identity_types.edit');
     Route::post('/tipos-de-identificacion/eliminar', [IdentityTypeController::class, 'destroy'])->name('identity_types.destroy');
     Route::get('/tipos-de-identificacion/permisos', [IdentityTypeController::class, 'get_permissions'])->name('identity_types.get_permissions');
+});
+
+Route::prefix('empleado')->group(function () {
+    Route::get('login', [EmpleadoAuthController::class, 'showLoginForm'])->name('empleado.login');
+    Route::post('login', [EmpleadoAuthController::class, 'login']);
+    Route::post('logout', [EmpleadoAuthController::class, 'logout'])->name('empleado.logout');
+
+    Route::middleware('auth:employee')->group(function () {
+        Route::get('dashboard', function () {
+            return view('employees.dashboard'); // Vista para empleados
+        })->name('empleado.dashboard');
+    });
 });
 
 

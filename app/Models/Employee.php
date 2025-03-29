@@ -4,11 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class Employee extends Model
+class Employee extends Authenticatable
 {
     use HasFactory;
 
+    protected $table = 'employees';
     protected $fillable = [
         'identity_number',
         'birthdate',
@@ -22,6 +24,7 @@ class Employee extends Model
         'cuarta',
         'ruc',
         'gender',
+        'password',
         'afp_code',
         'afp_fing',
         'afp_id',
@@ -29,9 +32,16 @@ class Employee extends Model
         'identity_type_id',
     ];
 
+    protected $hidden = ['password', 'remember_token'];
+
     protected $casts = [
         'cuarta' => 'boolean',
     ];
+
+    public function getAuthIdentifierName()
+    {
+        return 'identity_number'; // Laravel autenticará usando el DNI
+    }
 
     public function afp(){
         return $this->belongsTo(Afp::class);
