@@ -126,12 +126,12 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::prefix('trabajadores')->group(function () {
-    Route::get('login', [WorkerAuthController::class, 'showLoginForm'])->name('workers.login');
-    Route::post('login', [WorkerAuthController::class, 'login']);
+    Route::get('iniciar-sesion', [WorkerAuthController::class, 'showLoginForm'])->name('workers.login');
+    Route::post('iniciar-sesion', [WorkerAuthController::class, 'login']);
     Route::post('logout', [WorkerAuthController::class, 'logout'])->name('workers.logout');
 
     Route::middleware('auth.worker')->group(function () {
-        Route::get('dashboard', function () {
+        Route::get('mis-boletas', function () {
             return view('workers.dashboard'); // Vista para empleados
         })->name('workers.dashboard');
     });
