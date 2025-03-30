@@ -12,6 +12,8 @@
         integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <!-- Livewire Styles -->
+    @livewireStyles
     @yield('css')
     @stack('css')
 </head>
@@ -216,6 +218,8 @@
             <label for="btn-mas" class="fa-solid fa-at bg-gray-600 text-white"></label>
         </div>
     </div>
+    <!-- Livewire Scripts -->
+    @livewireScripts
     <script src="{{ asset('js/welcome.js') }}"></script>
     @yield('js')
     @stack('scripts')
