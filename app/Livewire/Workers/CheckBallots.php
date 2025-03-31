@@ -12,13 +12,15 @@ class CheckBallots extends Component
     public $month_start, $year_start, $month_end, $year_end;
     public $payments = [];
 
-    public function mount(){
+    public function mount()
+    {
         $currentYear = date('Y');
         $this->years = range($currentYear, 2024);
         $this->months = config('periods_spanish');
     }
 
-    public function searchEspecificPayment(){
+    public function searchEspecificPayment()
+    {
         $this->validate([
             'month' => 'required|integer|min:1|max:12',
             'year' => 'required|integer|min:2000|max:' . date('Y'),
@@ -37,11 +39,12 @@ class CheckBallots extends Component
             ->where('employees.id', $employeeId)
             ->where('periods.mounth', $month)
             ->where('payrolls.year', $year)
-            ->select('payments.id','payments.total_remuneration', 'payments.net_pay', 'periods.mounth', 'payrolls.year')
+            ->select('payments.id', 'payments.total_remuneration', 'payments.net_pay', 'periods.mounth', 'payrolls.year')
             ->get();
     }
 
-    public function searchPaymentsByRange(){
+    public function searchPaymentsByRange()
+    {
         $this->validate([
             'month_start' => 'required|integer|min:1|max:12',
             'year_start' => 'required|integer|min:2000|max:' . date('Y'),
@@ -49,15 +52,17 @@ class CheckBallots extends Component
             'year_end' => 'required|integer|min:2000|max:' . date('Y'),
         ]);
 
-        $employeeId = auth('worker')->user()->id;
-        $startMonth = str_pad($this->month_start, 2, '0', STR_PAD_LEFT); // Asegura formato MM
-        $startYear = $this->year_start;
-        $endMonth = str_pad($this->month_end, 2, '0', STR_PAD_LEFT);
-        $endYear = $this->year_end;
-
         // Convertimos a formato YYYY-MM para comparar más fácil
-        $startDate = "{$startYear}-{$startMonth}";
-        $endDate = "{$endYear}-{$endMonth}";
+        $startDate = "{$this->year_start}-" . str_pad($this->month_start, 2, '0', STR_PAD_LEFT);
+        $endDate = "{$this->year_end}-" . str_pad($this->month_end, 2, '0', STR_PAD_LEFT);
+
+        // Validación manual: la fecha de fin debe ser mayor o igual a la fecha de inicio
+        if ($endDate < $startDate) {
+            $this->addError('error_extra', 'La fecha de fin debe ser mayor o igual a la fecha de inicio.');
+            return;
+        }
+
+        $employeeId = auth('worker')->user()->id;
 
         $this->payments = [];
         $this->payments = DB::table('payments')
@@ -67,7 +72,7 @@ class CheckBallots extends Component
             ->join('payrolls', 'payrolls.id', '=', 'periods.payroll_id')
             ->where('employees.id', $employeeId)
             ->whereRaw("CONCAT(payrolls.year, '-', LPAD(periods.mounth, 2, '0')) BETWEEN ? AND ?", [$startDate, $endDate])
-            ->select('payments.id','payments.total_remuneration', 'payments.net_pay', 'periods.mounth', 'payrolls.year')
+            ->select('payments.id', 'payments.total_remuneration', 'payments.net_pay', 'periods.mounth', 'payrolls.year')
             ->get();
     }
 

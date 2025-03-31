@@ -16,8 +16,6 @@
                         <!-- Identity type -->
                         <div>
                             <x-input-label for="identity_type_id" :value="__('Tipo identificación')" />
-                            {{-- <x-text-input id="identity_type_id" class="block mt-1 w-full" type="text" name="identity_type_id"
-                                :value="old('identity_type_id')" required autofocus autocomplete="identity_type_id" /> --}}
                             <select name="identity_type_id" id="identity_type_id" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
                                 @foreach ($identity_types as $identity_type)
                                     <option value="{{$identity_type->id}}" {{old('identity_type_id') == $identity_type->id ? 'selected' : ''}}>{{$identity_type->name}}</option>
