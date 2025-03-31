@@ -16,6 +16,7 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WorkerAuthController;
+use App\Http\Controllers\CheckBallotsController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -134,6 +135,7 @@ Route::prefix('trabajadores')->group(function () {
         Route::get('mis-boletas', function () {
             return view('workers.dashboard'); // Vista para empleados
         })->name('workers.dashboard');
+        Route::get('/{payment}/ver-boleta', [CheckBallotsController::class, 'generate_payment_slip'])->name('check_ballots.payment_slip');
     });
 });
 
