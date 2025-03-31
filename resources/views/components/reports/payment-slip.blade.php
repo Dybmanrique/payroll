@@ -54,7 +54,11 @@
                     </tr>
                     <tr>
                         <td class="text-bold">SIS. PENSIÓN</td>
-                        <td>: {{ $payment->onp_discount ? 'ONP' :  "AFP {$payment->afp->name}"  }}</td>
+                        @if ($payment->onp_discount)
+                            <td>: {{ 'ONP' }}</td>
+                        @elseif ($payment->afp_discount)
+                            <td>: {{ "AFP {$payment->afp->name}"  }}</td>
+                        @endif
                     </tr>
                 </table>
             </td>
