@@ -20,17 +20,18 @@
 
 <body class="bg-gray-100 flex flex-col h-screen justify-between">
     <header class="text-white bg-blue-950">
-
-        <div class="flex items-center py-4">
-            <div class="text-right w-1/3">
-                <img src="{{ asset('img/logo.png') }}" alt="Descripción" class="w-20 inline-block">
+        <a href="{{  route('welcome') }}">
+            <div class="flex items-center py-4">
+                <div class="text-right w-1/3">
+                    <img src="{{ asset('img/logo.png') }}" alt="Descripción" class="w-20 inline-block">
+                </div>
+                <div class="flex-grow ml-4 w-2/3">
+                    <h1 class="font-bold text-2xl md:text-4xl">SISTEMA DE PLANILLAS</h1>
+                    <p class="sm:block hidden text-xl">UNIDAD DE GESTIÓN EDUCATIVA LOCAL DE ASUNCIÓN</p>
+                    <p class="sm:hidden block text-xl">UGEL ASUNCIÓN</p>
+                </div>
             </div>
-            <div class="flex-grow ml-4 w-2/3">
-                <h1 class="font-bold text-2xl md:text-4xl">SISTEMA DE PLANILLAS</h1>
-                <p class="sm:block hidden text-xl">UNIDAD DE GESTIÓN EDUCATIVA LOCAL DE ASUNCIÓN</p>
-                <p class="sm:hidden block text-xl">UGEL ASUNCIÓN</p>
-            </div>
-        </div>
+        </a>
 
     </header>
     <nav class="sm:block hidden bg-gray-900 text-white text-right sticky top-0 z-10">
