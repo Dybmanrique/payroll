@@ -73,7 +73,7 @@ class FormCreate extends Component
                 'ruc' => $this->ruc,
                 'gender' => $this->gender,
                 'pension_system' => $this->pension_system,
-                'password' => bcrypt($this->identity_number),
+                'password' => bcrypt($this->identity_number), // Default password
             ]);
             
     
