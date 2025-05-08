@@ -73,7 +73,9 @@ class FormCreate extends Component
                 'ruc' => $this->ruc,
                 'gender' => $this->gender,
                 'pension_system' => $this->pension_system,
+                'password' => bcrypt($this->identity_number),
             ]);
+            
     
             if ($this->pension_system==='afp') {
                 $employee->update([
