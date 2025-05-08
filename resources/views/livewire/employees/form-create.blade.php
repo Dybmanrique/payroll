@@ -19,7 +19,7 @@
                                     </select>
                                 </div>
                                 <input type="number" wire:model='identity_number' id="identity_number"
-                                    class="form-control" placeholder="Ingrese el nombre del grupo" required
+                                    class="form-control" placeholder="Ingrese el número de identificacion" required
                                     autocomplete="off">
                                 @error('identity_number')
                                     <span class="text-danger">{{ $message }}</span>
@@ -31,7 +31,7 @@
                         <div class="form-group">
                             <label for="name">Nombres*:</label>
                             <input type="text" wire:model='name' id="name" class="form-control"
-                                placeholder="Ingrese el nombre del grupo" required autocomplete="off">
+                                placeholder="Ingrese los nombres" required autocomplete="off">
                             @error('name')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
@@ -41,7 +41,7 @@
                         <div class="form-group">
                             <label for="last_name">Apellido Paterno*:</label>
                             <input type="text" wire:model='last_name' id="last_name" class="form-control"
-                                placeholder="Ingrese el nombre del grupo" required autocomplete="off">
+                                placeholder="Ingrese el apellido paterno" required autocomplete="off">
                             @error('last_name')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
@@ -51,7 +51,7 @@
                         <div class="form-group">
                             <label for="second_last_name">Apellido Materno*:</label>
                             <input type="text" wire:model='second_last_name' id="second_last_name"
-                                class="form-control" placeholder="Ingrese el nombre del grupo" required
+                                class="form-control" placeholder="Ingrese el apellido materno" required
                                 autocomplete="off">
                             @error('second_last_name')
                                 <span class="text-danger">{{ $message }}</span>
@@ -92,7 +92,7 @@
                         <div class="form-group">
                             <label for="airhsp_code">Código AIRHSP:</label>
                             <input type="text" wire:model='airhsp_code' id="airhsp_code" class="form-control"
-                                placeholder="Ingrese el nombre del grupo" autocomplete="off">
+                                placeholder="Ingrese el código airhsp" autocomplete="off">
                             @error('airhsp_code')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
@@ -112,7 +112,7 @@
                         <div class="form-group">
                             <label for="bank_account">Cuenta bancaria*:</label>
                             <input type="text" wire:model='bank_account' id="bank_account" class="form-control"
-                                placeholder="Ingrese el nombre del grupo" required autocomplete="off">
+                                placeholder="Ingrese la cuenta bancaria" required autocomplete="off">
                             @error('bank_account')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
@@ -139,7 +139,7 @@
                         <div class="form-group">
                             <label for="ruc">RUC:</label>
                             <input type="number" wire:model='ruc' id="ruc" class="form-control"
-                                placeholder="Ingrese el nombre del grupo" autocomplete="off">
+                                placeholder="Ingrese el RUC" autocomplete="off">
                             @error('ruc')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
