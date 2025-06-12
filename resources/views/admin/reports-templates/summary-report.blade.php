@@ -253,6 +253,7 @@
                     $total_afp_inva = 0;
                     $total_judicial = 0;
                     $total_others = 0;
+                    $total_fines_discount = 0;
                     $total_discount = 0;
 
                     $total_essalud = 0;
@@ -272,6 +273,7 @@
                         $total_afp_c_v += $payment->variable_afp;
                         $total_afp_inva += $payment->life_insurance_afp;
                         $total_judicial += $payment->judicial;
+                        $total_fines_discount += $payment->fines_discount;
                         $total_others += $payment->others;
                         $total_discount += $payment->total_discount;
 
@@ -347,6 +349,12 @@
                                     <tr>
                                         <td>D. JUDICIAL</td>
                                         <td class="text-right">{{ number_format($payment->judicial, 2) }}</td>
+                                    </tr>
+                                @endif
+                                @if ($payment->fines_discount)
+                                    <tr>
+                                        <td>FALTAS Y/O TARDANZAS</td>
+                                        <td class="text-right">{{ number_format($payment->fines_discount, 2) }}</td>
                                     </tr>
                                 @endif
                                 @if ($payment->others)
@@ -442,6 +450,12 @@
                                 <tr>
                                     <td>OTROS</td>
                                     <td class="text-right">{{ number_format($total_others, 2) }}</td>
+                                </tr>
+                            @endif
+                            @if ($total_fines_discount > 0)
+                                <tr>
+                                    <td>FALTAS Y/O TARDANZAS</td>
+                                    <td class="text-right">{{ number_format($total_fines_discount, 2) }}</td>
                                 </tr>
                             @endif
                             <tr>

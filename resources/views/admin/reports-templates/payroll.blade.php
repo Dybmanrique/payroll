@@ -319,6 +319,12 @@
                                     <td class="text-right">{{ number_format($payment->judicial, 2) }}</td>
                                 </tr>
                             @endif
+                            @if ($payment->fines_discount)
+                                <tr>
+                                    <td>FALTAS Y/O TARDANZAS</td>
+                                    <td class="text-right">{{ number_format($payment->fines_discount, 2) }}</td>
+                                </tr>
+                            @endif
                             @if ($payment->others)
                                 <tr>
                                     <td>OTROS</td>
